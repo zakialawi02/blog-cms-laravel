@@ -1,3 +1,5 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <!-- App favicon -->
 <link rel="shortcut icon" href="assets/img/favicon.ico">
 

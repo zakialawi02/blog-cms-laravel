@@ -18,8 +18,8 @@
                         <a href="/" class="logo"><img src="assets/img/logo-dark.png" height="20" alt="logo"></a>
                     </div>
 
-                    <h4 class="font-size-18 mt-3">Welcome Back !</h4>
-                    <p class="text-muted">Sign in to continue.</p>
+                    <h4 class="font-size-18 mt-3">{{ __("Welcome Back") }} !</h4>
+                    <p class="text-muted">{{ __("Sign in to continue") }}.</p>
                 </div>
 
                 <div class="p-2 mt-4">

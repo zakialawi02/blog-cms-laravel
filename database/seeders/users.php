@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -15,40 +15,44 @@ class users extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'id' => Str::uuid(),
-            'name' => 'Admin User',
-            'username' => 'admin',
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('admin'),
-            'role' => 'admin',
-            'photo_profile' => 'admin.png',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $users = [
+            [
+                'id' => Str::uuid(),
+                'name' => 'Admin User',
+                'username' => 'admin',
+                'email' => 'admin@mail.com',
+                'password' => Hash::make('admin'),
+                'role' => 'admin',
+                'profile_photo_path' => '/assets/img/profile/admin.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Writer User',
+                'username' => 'writer',
+                'email' => 'writer@mail.com',
+                'password' => Hash::make('writer'),
+                'role' => 'writer',
+                'profile_photo_path' => '/assets/img/profile/writer.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => Str::uuid(),
+                'name' => 'Regular User',
+                'username' => 'user',
+                'email' => 'user@mail.com',
+                'password' => Hash::make('user'),
+                'role' => 'user',
+                'profile_photo_path' => '/assets/img/profile/user.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ];
 
-        DB::table('users')->insert([
-            'id' => Str::uuid(),
-            'name' => 'Writer User',
-            'username' => 'writer',
-            'email' => 'writer@mail.com',
-            'password' => Hash::make('writer'),
-            'role' => 'writer',
-            'photo_profile' => 'writer.png',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('users')->insert([
-            'id' => Str::uuid(),
-            'name' => 'Regular User',
-            'username' => 'user',
-            'email' => 'user@mail.com',
-            'password' => Hash::make('user'),
-            'role' => 'user',
-            'photo_profile' => 'user.png',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }

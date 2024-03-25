@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends("layouts.guest")
 
 @section("title", "Register | zakialawi")
 @section("meta_description", "isi disini")

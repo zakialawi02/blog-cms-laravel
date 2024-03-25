@@ -36,15 +36,30 @@
                         </div>
 
                         <div class="p-2 mt-4">
+                            @if (session("status") == "verification-link-sent")
+                                <div class="alert alert-success mb-4" role="alert">
+                                    {{ __("A new verification link has been sent to the email address you provided during registration.") }}
+                                </div>
+                            @endif
+
                             <div class="alert alert-info mb-4" role="alert">A verification link has been sent to your email. Please check your inbox and click on the link to verify your email address.</div>
 
-                            <form class="form-horizontal" method="post" action="">
-                                @csrf
+                            <div class="d-flex flex-row justify-content-center">
+                                <form class="form-horizontal m-1" method="post" action="{{ route("verification.send") }}">
+                                    @csrf
 
-                                <div class="mt-4 text-center">
-                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Resend Verification Email</button>
-                                </div>
-                            </form>
+                                    <div class="mt-4 text-center">
+                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Resend Verification Email</button>
+                                    </div>
+                                </form>
+                                <form class="form-horizontal m-1" method="post" action="{{ route("logout") }}">
+                                    @csrf
+
+                                    <div class="mt-4 text-center">
+                                        <button class="btn btn-secondary w-md waves-effect waves-light" type="submit">Log Out</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         <div class="mt-2 text-center">

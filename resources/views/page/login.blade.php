@@ -1,4 +1,4 @@
-@extends("page.APP")
+@extends("layouts.guest")
 
 @section("title", "Login | zakialawi")
 @section("meta_description", "isi disini")
@@ -23,24 +23,24 @@
                 </div>
 
                 <div class="p-2 mt-4">
-                    <form class="form-horizontal" method="post" action="">
+                    <form class="form-horizontal" method="post" action="{{ route("login") }}">
                         @csrf
 
                         <div class="form-group auth-form-group-custom mb-3">
                             <i class="ri-user-2-line auti-custom-input-icon"></i>
-                            <label for="username">Username/Email</label>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username/email" autofocus="on">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" id="email" value="{{ old("email") }}" placeholder="Enter email" autofocus>
                         </div>
 
                         <div class="form-group auth-form-group-custom mb-3">
                             <i class="ri-lock-2-line auti-custom-input-icon"></i>
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+                            <input type="password" class="form-control" name="password" id="password" value="{{ old("password") }}" placeholder="Enter password">
                         </div>
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customControlInline">
-                            <label class="custom-control-label" for="customControlInline">Remember me</label>
+                            <input type="checkbox" class="custom-control-input" id="remember_me" name="remember">
+                            <label class="custom-control-label" for="remember_me">Remember me</label>
                         </div>
 
                         <div class="mt-4 text-center">
@@ -48,13 +48,13 @@
                         </div>
 
                         <div class="mt-4 text-center">
-                            <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
+                            <a href="{{ route("password.request") }}" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot your password?</a>
                         </div>
                     </form>
                 </div>
 
                 <div class="mt-2 text-center">
-                    <p>Don't have an account ? <a href="auth-register.html" class="font-weight-medium text-primary"> Register </a> </p>
+                    <p>Don't have an account ? <a href="{{ route("register") }}" class="font-weight-medium text-primary"> Register </a> </p>
 
                     <p class="mt-5">
                         <script>

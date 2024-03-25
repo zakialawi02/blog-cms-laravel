@@ -38,13 +38,13 @@
                         <div class="p-2 mt-4">
                             <div class="alert alert-success mb-4" role="alert">Enter your Email and instructions will be sent to you!</div>
 
-                            <form class="form-horizontal" method="post" action="">
+                            <form class="form-horizontal" method="post" action="{{ route("password.email") }}">
                                 @csrf
 
                                 <div class="form-group auth-form-group-custom mb-4">
                                     <i class="ri-mail-line auti-custom-input-icon"></i>
                                     <label for="useremail">Email</label>
-                                    <input type="email" class="form-control" id="useremail" placeholder="Enter email" />
+                                    <input type="email" class="form-control" id="useremail" name="email" placeholder="Enter email" />
                                 </div>
 
                                 <div class="mt-4 text-center">
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="mt-2 text-center">
-                            <p>Already have an account ? <a href="/" class="font-weight-medium text-primary"> Login </a> </p>
+                            <p>Already have an account ? <a href="{{ route("login") }}" class="font-weight-medium text-primary"> Login </a> </p>
 
                             <p class="mt-5">
                                 <script>

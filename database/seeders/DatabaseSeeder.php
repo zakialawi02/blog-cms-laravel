@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(users::class);
-        $this->call(FakerUsers::class); // FAKER Buat beberapa data dummy untuk tabel users
+        // $this->call(FakerUsers::class); // FAKER Buat beberapa data dummy untuk tabel users
     }
 }

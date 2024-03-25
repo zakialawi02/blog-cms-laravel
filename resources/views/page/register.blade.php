@@ -1,4 +1,4 @@
-@extends("page.APP")
+@extends("page.AUTH")
 
 @section("title", "Register | zakialawi")
 @section("meta_description", "isi disini")
@@ -23,31 +23,31 @@
                 </div>
 
                 <div class="p-2 mt-4">
-                    <form class="form-horizontal" method="post" action="" autocomplete="off">
+                    <form class="form-horizontal" method="post" action="{{ route("register") }}" autocomplete="off">
                         @csrf
 
                         <div class="form-group auth-form-group-custom mb-3">
                             <i class="ri-user-2-line auti-custom-input-icon"></i>
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" required autofocus="on">
+                            <input type="text" class="form-control" name="name" id="name" value="{{ old("name") }}" placeholder="Enter your Name" required autofocus="on">
                         </div>
 
                         <div class="form-group auth-form-group-custom mb-3">
                             <i class="ri-mail-line auti-custom-input-icon"></i>
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" required>
-                        </div>
-
-                        <div class="form-group auth-form-group-custom mb-3">
-                            <i class="ri-user-2-line auti-custom-input-icon"></i>
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ old("email") }}"placeholder="Enter email" required>
                         </div>
 
                         <div class="form-group auth-form-group-custom mb-3">
                             <i class="ri-lock-2-line auti-custom-input-icon"></i>
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" d="password" placeholder="Enter password" required>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
+                        </div>
+
+                        <div class="form-group auth-form-group-custom mb-3">
+                            <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
                         </div>
 
 
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="mt-2 text-center">
-                    <p>Already have an account ? <a href="/" class="font-weight-medium text-primary"> Login </a> </p>
+                    <p>Already have an account ? <a href="{{ route("login") }}" class="font-weight-medium text-primary"> Login </a> </p>
 
                     <p class="mt-5">
                         <script>

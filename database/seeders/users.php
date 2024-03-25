@@ -25,6 +25,7 @@ class users extends Seeder
                 'role' => 'admin',
                 'profile_photo_path' => '/assets/img/profile/admin.png',
                 'created_at' => now(),
+                'email_verified_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -36,6 +37,7 @@ class users extends Seeder
                 'role' => 'writer',
                 'profile_photo_path' => '/assets/img/profile/writer.png',
                 'created_at' => now(),
+                'email_verified_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -46,6 +48,7 @@ class users extends Seeder
                 'password' => Hash::make('user'),
                 'role' => 'user',
                 'profile_photo_path' => '/assets/img/profile/user.png',
+                'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

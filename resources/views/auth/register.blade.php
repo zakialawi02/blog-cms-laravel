@@ -1,4 +1,4 @@
-@extends("page.AUTH")
+@extends("layouts.app")
 
 @section("title", "Register | zakialawi")
 @section("meta_description", "isi disini")

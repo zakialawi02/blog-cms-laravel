@@ -42,7 +42,7 @@
                         @method("patch")
 
                         <div class="form-group">
-                            <label for="name">E-Mail</label>
+                            <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" value="{{ old("name", $user->name) }}" required />
                             @error("name")
                                 <span class="text-danger" role="alert">
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Name</label>
+                            <label for="email">E-mail</label>
                             <input type="email" class="form-control" name="email" id="email" placeholder="Enter a valid e-mail" value="{{ old("email", $user->email) }}" required />
                             @error("email")
                                 <span class="text-danger" role="alert">

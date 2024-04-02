@@ -17,7 +17,7 @@ class FakerUsers extends Seeder
     {
         // FAKER Buat beberapa data dummy untuk tabel users
         $faker = Faker::create();
-        $totalRecords = 1000;
+        $totalRecords = 100;
         for ($i = 0; $i < $totalRecords; $i++) {
             try {
                 User::create([

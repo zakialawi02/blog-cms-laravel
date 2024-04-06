@@ -4,16 +4,16 @@
         <li class="menu-title">Menu</li>
 
         <li>
-            <a href="/" class="waves-effect">
+            <a href="{{ route("dashboard") }}" class="waves-effect">
                 <i class="ri-dashboard-line"></i><span class="badge badge-pill badge-success float-right">3</span>
                 <span>Dashboard</span>
             </a>
         </li>
 
         <li>
-            <a href="calendar.html" class=" waves-effect">
-                <i class="ri-calendar-2-line"></i>
-                <span>Calendar</span>
+            <a href="{{ route("notes") }}" class=" waves-effect">
+                <i class="ri-sticky-note-add-line"></i>
+                <span>Notes</span>
             </a>
         </li>
 

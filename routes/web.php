@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,36 +18,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/in', function () {
-    return view('page.login');
-});
-Route::get('/up', function () {
-    return view('page.register');
-});
-Route::get('/re', function () {
-    return view('page.recovery');
-});
-Route::get('/res', function () {
-    return view('page.reset');
-});
-Route::get('/ve', function () {
-    return view('page.verification');
-});
-Route::get('/admin', function () {
-    return view('page.dashboard');
+// route auth only admin
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/notes', [NoteController::class, 'index'])->name('notes');
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
 });
 
-Route::get('/writer', function () {
-    return view('wt');
-})->middleware('auth', 'role:admin,writer,user');
+// route auth all
+Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/writer', function () {
+        return view('wt');
+    });
+});
 
-// penggunaan middleware bisa pada controller
-Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 require __DIR__ . '/auth.php';

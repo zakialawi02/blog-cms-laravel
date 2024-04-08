@@ -10,7 +10,7 @@
 
         @include("components.admin._metaHead")
 
-        @yield("css")
+        @stack("css")
 
         <!-- Scripts -->
         @vite(["resources/css/app.css", "resources/js/app.js"])
@@ -34,7 +34,7 @@
         <!-- JAVASCRIPT -->
         @include("components.admin._metaScript")
 
-        @yield("javascript")
+        @stack("javascript")
     </body>
 
 </html>

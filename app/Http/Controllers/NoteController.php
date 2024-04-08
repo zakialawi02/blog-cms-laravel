@@ -30,6 +30,7 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             'title'     => 'required|min:5',
             'note'   => 'required|min:10',
@@ -57,9 +58,11 @@ class NoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Note $note)
+    public function show(String $note)
     {
-        //
+        $note = Note::where('id', $note)->orWhere('slug', $note)->firstOrFail();
+        return $note;
+        dd($note);
     }
 
     /**

@@ -3,9 +3,9 @@
 @section("title", "Notes | zakialawi")
 @section("meta_description", "isi disini")
 
-@section("css")
+@push("css")
     {{-- code here --}}
-@endsection
+@endpush
 
 @section("content")
     <div class="container-fluid">
@@ -39,7 +39,9 @@
         <div class="m-2 p-3">
             @foreach ($notes as $note)
                 <h4>{{ $note->title }}</h4>
-                <p>{{ $note->note }}, {{ $note->id }}, {{ $note->slug }}</p>
+                <p>{!! $note->note !!}, {{ $note->id }}, {{ $note->slug }}</p>
+                <a href="{{ route("notes.show", $note->id) }}">view {{ $note->slug }}</a>
+                <a href="{{ route("notes.show", $note->slug) }}">view {{ $note->id }}</a>
             @endforeach
         </div>
     </div>
@@ -49,9 +51,8 @@
 @endsection
 
 
-@section("javascript")
-
+@push("javascript")
     <script>
         // code here
     </script>
-@endsection
+@endpush

@@ -3,9 +3,9 @@
 @section("title", "Edit Profile | zakialawi")
 @section("meta_description", "isi disini")
 
-@section("css")
+@push("css")
     {{-- code here --}}
-@endsection
+@endpush
 
 @section("content")
 
@@ -192,9 +192,8 @@
 
 @endsection
 
-@section("javascript")
-
+@push("javascript")
     <script>
         // code here
     </script>
-@endsection
+@endpush

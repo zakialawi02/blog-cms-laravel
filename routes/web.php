@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/notes', [NoteController::class, 'index'])->name('notes');
     Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
     Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/notes/show/{Note}', [NoteController::class, 'show'])->name('notes.show');
 });
 
 // route auth all

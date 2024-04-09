@@ -22,7 +22,10 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/notes', [NoteController::class, 'index'])->name('notes');
     Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::get('/notes/edit/{Note}', [NoteController::class, 'edit'])->name('notes.edit');
+    Route::put('/notes/update/{Note}', [NoteController::class, 'update'])->name('notes.update');
     Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
+    Route::delete('/notes/destroy/{Note}', [NoteController::class, 'destroy'])->name('notes.destroy');
     Route::get('/notes/show/{Note}', [NoteController::class, 'show'])->name('notes.show');
 });
 
@@ -38,6 +41,12 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     Route::get('/writer', function () {
         return view('wt');
     });
+});
+
+
+Route::prefix('me')->name('me.')->group(function () {
+    Route::get('/notes', [NoteController::class, 'indexme'])->name('notes');
+    Route::get('/notes/show/{Note}', [NoteController::class, 'show'])->name('notes.show');
 });
 
 

@@ -38,8 +38,8 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/writer', function () {
-        return view('wt');
+    Route::get('/test', function () {
+        return view('test');
     });
 });
 

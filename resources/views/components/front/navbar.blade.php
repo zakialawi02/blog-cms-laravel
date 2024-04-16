@@ -23,10 +23,21 @@
             <div class="flex flex-col items-start gap-2 ml-2 md:items-center md:flex-row">
                 <a class="p-1 px-4 duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary bg-secondary"
                     href="#">Gallery</a>
-                <a class="p-1 px-4 text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary"
-                    href="#"><i class="ri-lock-2-fill"></i> Login</a>
-            </div>
-        </div>
-    </nav>
 
-</header>
+                    @auth
+                    <a class="p-1 px-4 bg-warning text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary" title="Dashboard" href="{{ route('dashboard') }}"><i class="ri-function-line"></i></a>
+                    <a class="p-1 px-4 text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary" title="Logout"
+                        href="javascript:void(0)"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ri-logout-box-r-line"></i></a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @else
+                    <a class="p-1 px-4 text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary" title="Login"
+                        href="{{ route('login') }}"><i class="ri-lock-2-fill"></i> Login</a>
+                    @endif
+                </div>
+            </div>
+        </nav>
+
+    </header>

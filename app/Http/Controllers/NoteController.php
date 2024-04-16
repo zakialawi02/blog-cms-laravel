@@ -129,4 +129,25 @@ class NoteController extends Controller
         }
         return view('pages.front.notes', compact('notes'));
     }
+
+    public function showme(String $note)
+    {
+        $note = Note::where('id', $note)->orWhere('slug', $note)->firstOrFail();
+        return view('pages.front.notes_show', compact('note'));
+    }
+
+    public function indexAjax()
+    {
+        $notes = Note::all();
+        foreach ($notes as $note) {
+            $note->clean_note = strip_tags($note->note);
+        }
+        return response()->json($notes);
+    }
+
+    public function showAjax(String $note)
+    {
+        $note = Note::where('id', $note)->orWhere('slug', $note)->firstOrFail();
+        return response()->json($note);
+    }
 }

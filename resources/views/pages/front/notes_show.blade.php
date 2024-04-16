@@ -119,6 +119,7 @@
             noteElement.addEventListener('click', handleNoteClick);
         });
 
+
         function getnote(noteId) {
             console.log(`fungsi getnote= ${noteId}`);
             if (!noteId || noteId == undefined || noteId == 'notes') {
@@ -176,6 +177,7 @@
                     });
             }
         }
+
 
         const searchInput = document.getElementById('search-notes');
         searchInput.addEventListener('keyup', function(e) {

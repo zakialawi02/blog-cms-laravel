@@ -23,6 +23,7 @@ export default {
                 error: "#D1495B",
                 light: "#f9fdfe",
                 dark: "#262626",
+                muted: "#727272",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

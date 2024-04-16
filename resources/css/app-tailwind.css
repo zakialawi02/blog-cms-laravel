@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        @apply bg-gray-100;
+    }
+    ::-webkit-scrollbar {
+        width: 0.7rem;
+        background-color: theme("colors.base-100");
+        width: 8px;
+        border-radius: 0.5rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: theme("colors.secondary");
+        border-radius: 0.5rem;
+    }
+}

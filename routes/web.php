@@ -45,8 +45,13 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
 
 
 Route::prefix('me')->name('me.')->group(function () {
+    Route::get('/', function () {
+        return view('me');
+    });
     Route::get('/notes', [NoteController::class, 'indexme'])->name('notes');
-    Route::get('/notes/show/{Note}', [NoteController::class, 'show'])->name('notes.show');
+    Route::get('/notes/show/{Note}', [NoteController::class, 'showme'])->name('notes.show');
+    Route::get('/getnotes', [NoteController::class, 'indexAjax'])->name('getnotes');
+    Route::get('/getnotes/{Note}', [NoteController::class, 'showAjax'])->name('getnotes.show');
 });
 
 

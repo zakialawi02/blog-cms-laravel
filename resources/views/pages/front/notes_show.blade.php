@@ -79,6 +79,7 @@
         window.addEventListener('popstate', function(event) {
             const noteId = location.pathname.split('/').pop();
             console.log(`Popstate ${noteId}`);
+            document.getElementById('notes-content').innerHTML = loadingSkeleton;
             getnote(noteId);
         });
 
@@ -88,6 +89,15 @@
             console.log(`Memuat pertama ${noteId}`);
             getnote(noteId);
         });
+        const loadingSkeleton = // html
+            `<div class="w-full animate-pulse">
+                    <h4 class="h-2 bg-gray-300 rounded-lg w-[52%] dark:bg-gray-600"></h4>
+                    <p class="h-2 mt-2 bg-gray-200 rounded-lg w-14 dark:bg-gray-700"></p>
+                    <p class="w-[82%] h-2 mt-6 bg-gray-200 rounded-lg  dark:bg-gray-700"></p>
+                    <p class="w-[92%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+                    <p class="w-[42%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+                    <p class="w-[62%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+                </div>`;
 
         // Fungsi untuk menangani klik catatan
         function handleNoteClick() {
@@ -98,16 +108,6 @@
 
             // Ubah URL
             history.pushState(null, null, `/me/notes/show/${noteId}`);
-
-            const loadingSkeleton = // html
-                `<div class="w-full animate-pulse">
-                    <h4 class="h-2 bg-gray-300 rounded-lg w-[52%] dark:bg-gray-600"></h4>
-                    <p class="h-2 mt-2 bg-gray-200 rounded-lg w-14 dark:bg-gray-700"></p>
-                    <p class="w-[82%] h-2 mt-6 bg-gray-200 rounded-lg  dark:bg-gray-700"></p>
-                    <p class="w-[92%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
-                    <p class="w-[42%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
-                    <p class="w-[62%] h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
-                </div>`;
 
             document.getElementById('notes-content').innerHTML = loadingSkeleton;
 
@@ -135,7 +135,7 @@
                             document.getElementById('notes-list').innerHTML += //html
                                 `<a href="javascript:void(0)" data-note="${note.id}" class="block w-full p-2 my-2 border-2 rounded-lg border-slate-500 hover:bg-base-100 bg-light group note">
                                     <h4 class="text-lg font-medium line-clamp-2 group-hover:underline">${note.title}</h4>
-                                    <p class="text-sm text-muted">${note.created_at}</p>
+                                    <p class="text-sm text-muted">${formatDateTime(note.created_at)}</p>
                                     <p class="line-clamp-2">
                                     ${note.clean_note}
                                     </p>
@@ -164,7 +164,7 @@
                             `<article>
                                 <div class="">
                                 <h4 class="mt-0.5 text-lg font-medium ">${data.title}</h4>
-                                <time datetime="2022-10-10" class="block text-xs text-muted"> ${data.created_at} </time>
+                                <time datetime="2022-10-10" class="block text-xs text-muted"> ${formatDateTime(data.created_at)} </time>
                                 <div class="mt-2" id="note-note">${data.note}</div>
                                 </div>
                              </article>`;

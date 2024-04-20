@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,13 +19,6 @@ Route::get('/', function () {
 });
 // route auth only admin
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('/notes', [NoteController::class, 'index'])->name('notes');
-    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
-    Route::get('/notes/edit/{Note}', [NoteController::class, 'edit'])->name('notes.edit');
-    Route::put('/notes/update/{Note}', [NoteController::class, 'update'])->name('notes.update');
-    Route::post('/notes/store', [NoteController::class, 'store'])->name('notes.store');
-    Route::delete('/notes/destroy/{Note}', [NoteController::class, 'destroy'])->name('notes.destroy');
-    Route::get('/notes/show/{Note}', [NoteController::class, 'show'])->name('notes.show');
 });
 
 // route auth all
@@ -44,14 +36,10 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
 });
 
 
-Route::prefix('me')->name('me.')->group(function () {
+Route::prefix('me')->as('me')->group(function () {
     Route::get('/', function () {
         return view('me');
     });
-    Route::get('/notes', [NoteController::class, 'indexme'])->name('notes');
-    Route::get('/notes/show/{Note}', [NoteController::class, 'showme'])->name('notes.show');
-    Route::get('/getnotes', [NoteController::class, 'indexAjax'])->name('getnotes');
-    Route::get('/getnotes/{Note}', [NoteController::class, 'showAjax'])->name('getnotes.show');
 });
 
 

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(Categories::class);
         $this->call(Articles::class);
         $this->call(ArticleViews::class);
+        $this->call(Notes::class);
     }
 }

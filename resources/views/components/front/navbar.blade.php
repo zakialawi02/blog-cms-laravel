@@ -15,8 +15,8 @@
         </div>
 
 
-        <div :class="[isOpen ? 'block' : 'hidden']" id="nav-menu"
-            class="duration-300 transition-all absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-medium md:relative bg-primary top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-light ">
+        <div :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu"
+            class="absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-medium md:relative bg-primary top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-light ">
             <a class="p-2 duration-300 hover:text-secondary" href="/">Home</a>
             <a class="p-2 duration-300 hover:text-secondary" href="#">About</a>
             <a class="p-2 duration-300 hover:text-secondary" href="#">Contact</a>
@@ -25,7 +25,7 @@
                     href="#">Gallery</a>
 
                 @auth
-                    <a class="p-1 px-4 bg-warning text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary"
+                    <a class="p-1 px-4 text-white duration-300 border-2 bg-warning border-secondary rounded-xl hover:bg-light hover:text-secondary"
                         title="Dashboard" href="{{ route('dashboard') }}"><i class="ri-function-line"></i></a>
                     <a class="p-1 px-4 text-white duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary"
                         title="Logout" href="javascript:void(0)"

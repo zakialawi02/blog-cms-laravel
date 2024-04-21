@@ -4,7 +4,7 @@
 
 @layer base {
     html {
-        @apply bg-gray-100;
+        @apply bg-base-100;
     }
     ::-webkit-scrollbar {
         width: 0.7rem;

@@ -35,6 +35,10 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     });
 });
 
+Route::get('/postview', function () {
+    return view('test_post_view');
+});
+
 
 Route::prefix('me')->as('me')->group(function () {
     Route::get('/', function () {

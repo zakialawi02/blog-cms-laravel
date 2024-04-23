@@ -23,7 +23,7 @@ class ArticleViews extends Seeder
                 'article_id' =>  $faker->randomElement($articles),
                 'viewed_at' => $faker->dateTimeBetween('-1 month', 'now'),
                 'ip_address' => $faker->ipv4,
-                'location' => $faker->city,
+                'location' => $faker->country,
             ]);
         }
     }

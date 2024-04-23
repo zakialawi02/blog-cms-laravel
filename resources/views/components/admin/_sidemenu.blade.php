@@ -4,16 +4,16 @@
         <li class="menu-title">Menu</li>
 
         <li>
-            <a href="{{ route('dashboard') }}" class="waves-effect">
+            <a href="{{ route("dashboard") }}" class="waves-effect">
                 <i class="ri-dashboard-line"></i><span class="float-right badge badge-pill badge-success">3</span>
                 <span>Dashboard</span>
             </a>
         </li>
 
         <li>
-            <a href="{{ route('me') }}" class=" waves-effect">
+            <a href="{{ route("admin.posts.index") }}" class=" waves-effect">
                 <i class="ri-booklet-line"></i>
-                <span>Post</span>
+                <span>Posts</span>
             </a>
         </li>
 

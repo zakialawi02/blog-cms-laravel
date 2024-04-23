@@ -25,4 +25,19 @@ class Article extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function articleViews()
+    {
+        return $this->hasMany(ArticleView::class, 'article_id');
+    }
 }

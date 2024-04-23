@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Article;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ArticleView extends Model
 {
@@ -16,4 +17,9 @@ class ArticleView extends Model
         'ip_address',
         'location',
     ];
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

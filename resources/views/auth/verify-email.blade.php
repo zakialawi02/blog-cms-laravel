@@ -1,7 +1,11 @@
 @extends("layouts.guest")
 
 @section("title", "Verify your email | zakialawi")
-@section("meta_description", "isi disini")
+@section("meta_description", "Verify email to the zakialawi.my.id website")
+@section("meta_author", "zakialawi")
+
+@section("og_title", "Verify Email Page | zakialawi.my.id")
+@section("og_description", "Verify email to the zakialawi.my.id website")
 
 @section("css")
     {{-- code here --}}
@@ -10,7 +14,7 @@
 @section("content")
     <div class="row no-gutters justify-content-center">
 
-        <div class="col-lg-4 authentication-page-content p-4 d-flex align-items-center min-vh-100">
+        <div class="p-4 col-lg-4 authentication-page-content d-flex align-items-center min-vh-100">
 
             <div class="col bg-light">
                 <div class="text-center">
@@ -18,28 +22,28 @@
                         <a href="/" class="logo"><img src="assets/img/logo-dark.png" height="20" alt="logo"></a>
                     </div>
 
-                    <h4 class="font-size-18 mt-3">Verify Email</h4>
+                    <h4 class="mt-3 font-size-18">Verify Email</h4>
                     <p class="text-muted">Verify your email address.</p>
                 </div>
 
                 <div class="p-2 mt-4">
                     @if (session("status") == "verification-link-sent")
-                        <div class="alert alert-success mb-4" role="alert">
+                        <div class="mb-4 alert alert-success" role="alert">
                             {{ __("A new verification link has been sent to the email address you provided during registration.") }}
                         </div>
                     @endif
 
-                    <div class="alert alert-info mb-4" role="alert">A verification link has been sent to your email. Please check your inbox and click on the link to verify your email address.</div>
+                    <div class="mb-4 alert alert-info" role="alert">A verification link has been sent to your email. Please check your inbox and click on the link to verify your email address.</div>
 
-                    <div class="d-flex flex-row justify-content-center">
-                        <form class="form-horizontal m-1" method="post" action="{{ route("verification.send") }}">
+                    <div class="flex-row d-flex justify-content-center">
+                        <form class="m-1 form-horizontal" method="post" action="{{ route("verification.send") }}">
                             @csrf
 
                             <div class="mt-4 text-center">
                                 <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Resend Verification Email</button>
                             </div>
                         </form>
-                        <form class="form-horizontal m-1" method="post" action="{{ route("logout") }}">
+                        <form class="m-1 form-horizontal" method="post" action="{{ route("logout") }}">
                             @csrf
 
                             <div class="mt-4 text-center">

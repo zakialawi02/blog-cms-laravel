@@ -1,7 +1,11 @@
 @extends("layouts.guest")
 
 @section("title", "Forgot Password | zakialawi")
-@section("meta_description", "isi disini")
+@section("meta_description", "Forgot password to the zakialawi.my.id website")
+@section("meta_author", "zakialawi")
+
+@section("og_title", "Forgot Password Page | zakialawi.my.id")
+@section("og_description", "Forgot Password to the zakialawi.my.id website")
 
 @section("css")
     {{-- code here --}}
@@ -10,31 +14,31 @@
 @section("content")
     <div class="row no-gutters justify-content-center">
 
-        <div class="col-lg-4 authentication-page-content p-4 d-flex align-items-center min-vh-100">
+        <div class="p-4 col-lg-4 authentication-page-content d-flex align-items-center min-vh-100">
 
-            <div class="col bg-light rounded-lg">
+            <div class="rounded-lg col bg-light">
                 <div class="text-center">
                     <div>
                         <a href="/" class="logo"><img src="assets/img/logo-dark.png" height="20" alt="logo"></a>
                     </div>
 
-                    <h4 class="font-size-18 mt-3">Forgot Password</h4>
+                    <h4 class="mt-3 font-size-18">Forgot Password</h4>
                     <p class="text-muted">Reset your password.</p>
                 </div>
 
                 <div class="p-2 mt-4">
                     @if (session("status"))
-                        <div class="alert alert-success mb-4" role="alert">
+                        <div class="mb-4 alert alert-success" role="alert">
                             {{ session("status") }}
                         </div>
                     @endif
 
-                    <div class="alert alert-success mb-4" role="alert">Enter your Email and instructions will be sent to you!</div>
+                    <div class="mb-4 alert alert-success" role="alert">Enter your Email and instructions will be sent to you!</div>
 
                     <form class="form-horizontal" method="post" action="{{ route("password.email") }}">
                         @csrf
 
-                        <div class="form-group auth-form-group-custom mb-4">
+                        <div class="mb-4 form-group auth-form-group-custom">
                             <i class="ri-mail-line auti-custom-input-icon"></i>
                             <label for="useremail">Email</label>
                             <input type="email" class="form-control" id="useremail" name="email" placeholder="Enter email" />

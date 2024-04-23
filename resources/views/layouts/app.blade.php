@@ -5,8 +5,16 @@
         <meta charset="utf-8" />
         <title>@yield("title", config("app.name"))</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="@yield("meta_description", "") name="description" ">
-        <meta content="" name="author" />
+        <meta content="@yield("meta_description", "") name="description">
+        <meta content="@yield("meta_author", "")" name="author">
+
+        <meta property="og:title" content="@yield("og_title", config("app.name"))" />
+        <meta property="og:type" content="@yield("og_type", "website")" />
+        <meta property="og:url" content="@yield("og_url", url()->current())" />
+        <meta property="og:description" content="@yield("og_description", config("app.name"))" />
+        <meta property="og:image" content="@yield("og_image", asset("assets/img/favicon.png"))" />
+
+        <meta name="robots" content="@yield("meta_robots", "index,follow")">
 
         @include("components.admin._metaHead")
 
@@ -42,14 +50,14 @@
 
                 <div class="page-content">
 
-                        <!-- Content -->
-                        <!-- start page title -->
-                        @yield("content")
+                    <!-- Content -->
+                    <!-- start page title -->
+                    @yield("content")
 
-                        <!-- Content Here -->
+                    <!-- Content Here -->
 
 
-                        <!-- end page title -->
+                    <!-- end page title -->
 
                 </div>
                 <!-- End Page-content -->
@@ -63,10 +71,10 @@
         <!-- END layout-wrapper -->
 
 
-      <!-- JAVASCRIPT -->
-      @include("components.admin._metaScript")
+        <!-- JAVASCRIPT -->
+        @include("components.admin._metaScript")
 
-      @stack("javascript")
+        @stack("javascript")
     </body>
 
 </html>

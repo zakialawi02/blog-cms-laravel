@@ -34,30 +34,46 @@
     <div class="p-3 card">
 
         <div class="px-2 mb-3 d-flex justify-content-between align-items-center">
-            <h3>{{ __("Posts") }}</h3>
-            <a href="{{ route("admin.posts.create") }}" class="btn btn-primary"><i class="ri-add-line"></i> Add Posts</a>
+            <h3>{{ __("Categories") }}</h3>
+            <a href="{{ route("admin.categories.create") }}" class="btn btn-primary"><i class="ri-add-line"></i> Add Categories</a>
         </div>
+
+        @if (session("success"))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session("success") }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if (session("error"))
+            <div class="alert alert-error alert-dismissible fade show" role="alert">
+                {{ session("error") }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div class="">
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Author</th>
+                        <th scope="col">Slug</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($posts as $post)
+                    @foreach ($categories as $category)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->category->category }}</td>
-                            <td>{{ $post->user->username }}</td>
+                            <td>{{ $category->category }}</td>
+                            <td><i class="ri-news-line text-primary"></i> <a href="{{ route("article.category", $category->slug) }}">{{ $category->slug }}</a><i class="ri-external-link-line"></i></td>
                             <td>
-                                <a href="{{ route("admin.posts.edit", $post->slug) }}" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
-                                <form action="{{ route("admin.posts.destroy", $post->slug) }}" method="POST" class="d-inline">
+                                <a href="{{ route("admin.categories.edit", $category->slug) }}" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
+                                <form action="{{ route("admin.categories.destroy", $category->slug) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></button>

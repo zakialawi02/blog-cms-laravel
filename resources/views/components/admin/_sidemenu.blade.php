@@ -17,6 +17,13 @@
             </a>
         </li>
 
+        <li>
+            <a href="{{ route("admin.categories.index") }}" class=" waves-effect">
+                <i class="ri-folder-reduce-line"></i>
+                <span>Categories</span>
+            </a>
+        </li>
+
         <li class="">
             <a href="javascript: void(0);" class="has-arrow waves-effect">
                 <i class="ri-layout-3-line"></i>

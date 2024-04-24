@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ArticleViewController;
 
 /*
@@ -24,10 +25,19 @@ Route::get('/', function () {
 // route auth only admin
 Route::prefix('admin')->as('admin.')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 })->middleware(['auth', 'verified', 'role:admin']);
 
 // route auth all
@@ -73,4 +83,4 @@ Route::prefix('me')->as('me')->group(function () {
 });
 
 
-require __DIR__ . '/auth.php';
+require_once __DIR__ . '/auth.php';

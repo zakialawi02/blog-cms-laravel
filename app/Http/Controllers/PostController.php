@@ -20,7 +20,7 @@ class PostController extends Controller
         $posts = Article::with('user', 'category')
             ->latest()
             ->get();
-        return view('pages.back.posts.posts', compact('posts', 'data'));
+        return view('pages.back.posts.index', compact('posts', 'data'));
     }
 
     /**

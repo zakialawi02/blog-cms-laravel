@@ -41,7 +41,21 @@
                 <div class="form-group">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title" value="{{ old("title") ?? $post->title }}" placeholder="Title">
-
+                    @error("title")
+                        <p class="text-sm text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="category_id">Categoy</label>
+                    <select class="form-control" id="category_id" name="category_id">
+                        <option value="">Select Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ $category->id == $post->category_id ? "selected" : "" }}>{{ $category->category }}</option>
+                        @endforeach
+                    </select>
+                    @error("category_id")
+                        <p class="text-sm text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save</button>

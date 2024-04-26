@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -20,6 +21,7 @@ class PostController extends Controller
         $posts = Article::with('user', 'category')
             ->latest()
             ->get();
+
         return view('pages.back.posts.index', compact('posts', 'data'));
     }
 
@@ -33,7 +35,9 @@ class PostController extends Controller
         $data = [
             'title' => 'Create Post',
         ];
-        return view('pages.back.posts.create', compact('data'));
+        $categories = Category::all();
+
+        return view('pages.back.posts.create', compact('categories', 'data'));
     }
 
     /**
@@ -67,7 +71,9 @@ class PostController extends Controller
         $data = [
             'title' => 'Edit Post',
         ];
-        return view('pages.back.posts.edit', compact('post', 'data'));
+        $categories = Category::all();
+
+        return view('pages.back.posts.edit', compact('post', 'categories', 'data'));
     }
 
     /**

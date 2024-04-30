@@ -5,8 +5,8 @@ console.log("AA");
 tinymce.init({
     selector: "textarea#content",
     placeholder: "Type here...",
-    skin: "jam",
-    icons: "jam",
+    // skin: "jam",
+    // icons: "jam",
     toolbar_sticky: true,
     toolbar_sticky_offset: 70,
     width: "100%",
@@ -38,5 +38,10 @@ tinymce.init({
         "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
     mobile: {
         menubar: false,
+    },
+    setup: function (editor) {
+        editor.on("change", function () {
+            editor.save(); // Save content to textarea
+        });
     },
 });

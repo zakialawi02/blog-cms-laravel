@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PostController extends Controller
             'title' => 'All Posts',
         ];
         $posts = Article::with('user', 'category')
-            ->latest()
+            ->orderBy('published_at', 'desc')
             ->get();
 
         return view('pages.back.posts.index', compact('posts', 'data'));
@@ -48,6 +49,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->slug);
+
+        Article::create($data);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
+    }
+
+    public function generateSlug(Request $request)
+    {
+        $slug = Str::slug($request->data);
+
+        return response()->json(['slug' => $slug]);
     }
 
     /**
@@ -100,6 +114,6 @@ class PostController extends Controller
     public function destroy(Article $post)
     {
         Article::where('slug', $post->slug)->delete();
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
     }
 }

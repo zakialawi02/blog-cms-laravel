@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->string('slug')->unique();
-            $table->string('excerpt', 2048);
+            $table->string('excerpt', 2048)->nullable();
+            $table->string('cover')->nullable();
             $table->enum('status', ['published', 'draft']);
             $table->timestamp('published_at')->nullable();
             $table->bigInteger('views')->default(0);

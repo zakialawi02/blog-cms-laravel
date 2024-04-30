@@ -15,20 +15,32 @@ class Categories extends Seeder
     {
         $categories = [
             [
-                'category' => "Category 1",
-                'slug' => "category-1",
+                'category' => "Technology",
+                'slug' => "technology",
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'category' => "Category 2",
-                'slug' => "category-2",
+                'category' => "Book",
+                'slug' => "book",
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'category' => "Category 3",
-                'slug' => "category-3",
+                'category' => "Diary",
+                'slug' => "diary",
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'category' => "Geo",
+                'slug' => "geography-geodesy",
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'category' => "Tutorial",
+                'slug' => "tutorial",
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

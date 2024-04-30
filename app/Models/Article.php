@@ -17,6 +17,7 @@ class Article extends Model
         'content',
         'slug',
         'excerpt',
+        'cover',
         'status',
         'published_at',
         'views',

@@ -33,7 +33,7 @@
 
     <div class="p-3 card">
 
-        <form action="{{ route("admin.categories.update", $category->slug) }}" method="post">
+        <form action="{{ route("admin.categories.update", $category->slug) }}" id="form-category" method="post">
             @csrf
             @method("put")
 
@@ -94,6 +94,26 @@
                 error: function(error) {
 
                 }
+            });
+        });
+
+        $(document).ready(function() {
+            let formChanged = false;
+            document.getElementById('form-category').addEventListener('change', () => {
+                formChanged = true;
+            });
+            window.addEventListener('beforeunload', function(e) {
+                if (!formChanged) return undefined;
+
+                // Cancel the event as per the standard.
+                e.preventDefault();
+                // Chrome requires returnValue to be set.
+                e.returnValue = '';
+                return 'Are you sure you want to leave? Changes you made may not be saved.';
+            });
+
+            document.getElementById('form-category').addEventListener('submit', function(event) {
+                formChanged = false;
             });
         });
     </script>

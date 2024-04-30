@@ -24,21 +24,27 @@ Route::get('/', function () {
 });
 // route auth only admin
 Route::prefix('admin')->as('admin.')->group(function () {
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+        Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
+        Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+        Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+        Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+        Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+    });
 
-    Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-})->middleware(['auth', 'verified', 'role:admin']);
+    Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
+        Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+        Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    });
+});
+
 
 // route auth all
 Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {

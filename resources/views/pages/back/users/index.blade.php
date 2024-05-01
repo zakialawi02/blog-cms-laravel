@@ -1,11 +1,9 @@
 @extends("layouts.app")
 
 @section("title", ($data["title"] ?? "") . " • Dashboard | zakialawi")
-@section("meta_description", "List of all posts on the zakialawi.my.id website")
+@section("meta_description", "isi disini")
 @section("meta_author", "zakialawi")
 
-@section("og_title", "All Posts • Dashboard | zakialawi.my.id")
-@section("og_description", "List of all posts on the zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}
@@ -33,14 +31,8 @@
 
     <div class="p-3 card">
 
-        <div class="px-2 mb-3 d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <h3>{{ __("Posts") }}</h3>
-                <a href="{{ route("article.index") }}" class="ml-2" target="_blank"><i class="ri-external-link-line"></i></a>
-            </div>
-            <div class="">
-                <a href="{{ route("admin.posts.create") }}" class="btn btn-primary"><i class="ri-add-line"></i> Add Posts</a>
-            </div>
+        <div class="px-2 mb-3 d-flex justify-content-end align-items-center">
+            <a href="#" class="btn btn-primary"><i class="ri-add-line"></i> Add User</a>
         </div>
 
 
@@ -66,24 +58,30 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Author</th>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Registered</th>
+                        <th scope="col">Verified</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($posts as $post)
+                    @foreach ($users as $user)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->category->category }}</td>
-                            <td><span class="badge badge-{{ $post->status === "published" ? "info" : "warning" }}">{{ $post->status }}</span></td>
-                            <td>{{ $post->user->username }}</td>
+                            <td><img src="{{ asset($user->profile_photo_path) }}" width="30"></td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td><span class="badge badge-{{ $user->role === "admin" ? "primary" : ($user->role === "writer" ? "info" : "secondary") }}">{{ $user->role }}</span></td>
+                            <td>{{ $user->created_at->format("d M Y") }}</td>
+                            <td>{{ $user->email_verified_at->format("d M Y") }}</td>
                             <td>
-                                <a href="{{ route("admin.posts.edit", $post->slug) }}" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
-                                <form action="{{ route("admin.posts.destroy", $post->slug) }}" method="POST" class="d-inline">
+                                <a href="#" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
+                                <form action="#" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></button>

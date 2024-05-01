@@ -4,8 +4,6 @@
 @section("meta_description", "isi disini")
 @section("meta_author", "zakialawi")
 
-@section("og_title", "Edit Posts • Dashboard | zakialawi.my.id")
-@section("og_description", "Edit posts on the zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}

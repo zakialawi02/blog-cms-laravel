@@ -17,6 +17,7 @@
 
         <nav :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu" class="absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-dark uppercase bg-base-100 md:bg-transparent">
             <a class="p-2 duration-300 hover:text-accent" href="/">Home</a>
+            <a class="p-2 duration-300 hover:text-accent" href="{{ route("article.index") }}">Blog</a>
             <a class="p-2 duration-300 hover:text-accent" href="#">About</a>
             <a class="p-2 duration-300 hover:text-accent" href="#">Contact</a>
             <div class="flex flex-col items-start gap-2 ml-2 md:items-center md:flex-row">

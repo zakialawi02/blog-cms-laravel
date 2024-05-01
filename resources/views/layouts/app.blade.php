@@ -16,6 +16,10 @@
 
         <meta name="robots" content="@yield("meta_robots", "index,follow")">
 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <link rel="shortcut icon" href="{{ asset("assets/img/favicon.png") }}" type="image/png">
+
         @include("components.admin._metaHead")
 
         @stack("css")

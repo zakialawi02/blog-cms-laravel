@@ -8,6 +8,8 @@
         <meta content="@yield("meta_description", "") name="description" ">
         <meta content="" name="author" />
 
+        <link rel="shortcut icon" href="{{ asset("assets/img/favicon.png") }}" type="image/png">
+
         @include("components.admin._metaHead")
 
         @stack("css")
@@ -18,10 +20,10 @@
 
     <body class="auth-body-bg">
         <div class="home-btn d-none d-sm-block">
-            <a href="/"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+            <a href="/"><i class="text-white mdi mdi-home-variant h2"></i></a>
         </div>
 
-        <div class="container-fluid p-0 bg-secondary">
+        <div class="p-0 container-fluid bg-secondary">
 
 
             @yield("content")

@@ -24,6 +24,13 @@
             </a>
         </li>
 
+        <li>
+            <a href="{{ route("admin.users.index") }}" class=" waves-effect">
+                <i class="ri-folder-user-line"></i>
+                <span>Users Management</span>
+            </a>
+        </li>
+
         <li class="">
             <a href="javascript: void(0);" class="has-arrow waves-effect">
                 <i class="ri-layout-3-line"></i>

@@ -20,7 +20,7 @@ class PostController extends Controller
             'title' => 'All Posts',
         ];
         $posts = Article::with('user', 'category')
-            ->orderBy('published_at', 'desc')
+            ->latest()
             ->get();
 
         return view('pages.back.posts.index', compact('posts', 'data'));
@@ -62,16 +62,6 @@ class PostController extends Controller
         $slug = Str::slug($request->data);
 
         return response()->json(['slug' => $slug]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  Article $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Article $post)
-    {
     }
 
     /**

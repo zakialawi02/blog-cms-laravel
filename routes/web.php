@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 // route auth only admin
 Route::prefix('admin')->as('admin.')->group(function () {
-    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -32,9 +32,11 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
         Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+        Route::resource('users', UserController::class);
     });
 
-    Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
+    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -51,17 +53,19 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     Route::get('/dashboard', function () {
         return view('pages.back.dashboard');
     })->name('dashboard');
+    Route::get('/admin', function () {
+        return redirect('/dashboard');
+    });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 
-Route::resource('users', UserController::class);
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/blog/categories/{slug}', [ArticleController::class, 'getArticlesByCategory'])->name('article.category');
-Route::get('/blog/users/{uuid}', [ArticleController::class, 'getArticlesByUser'])->name('article.user');
+Route::get('/blog/users/{username}', [ArticleController::class, 'getArticlesByUser'])->name('article.user');
 Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear'])->name('article.year');
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
@@ -78,7 +82,7 @@ Route::get('/postview', function () {
     return view('test_post_view');
 });
 Route::get('/blogview', function () {
-    return view('test_blog_view2');
+    return view('test_blog_view3');
 });
 
 

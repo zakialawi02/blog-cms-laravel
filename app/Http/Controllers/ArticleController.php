@@ -17,10 +17,21 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::with('user', 'category')
-            ->where('status', 'published')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
-        return response()->json($articles);
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (empty($article->cover)) {
+                $article->cover = "image-placeholder.png";
+            }
+            return $article;
+        });
+        $featured = (empty($articles) ? $articles->random(5) : null);
+
+        return view('pages.front.posts.posts', compact('articles'));
     }
 
     /**
@@ -34,26 +45,46 @@ class ArticleController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
         $articles = $category->articles()
             ->with('user', 'category')
-            ->where('status', 'published')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (empty($article->cover)) {
+                $article->cover = "image-placeholder.png";
+            }
+            return $article;
+        });
+
         return response()->json($articles);
     }
 
     /**
      * Retrieves articles written by a specific user.
      *
-     * @param string $uuid The UUID of the user.
+     * @param string $username The username of the user.
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the user is not found.
      */
-    public function getArticlesByUser($uuid)
+    public function getArticlesByUser($username)
     {
-        $user = User::where('id', $uuid)->firstOrFail();
+        $user = User::where('username', $username)->firstOrFail();
         $articles = $user->articles()
             ->with('user', 'category')
-            ->where('status', 'published')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (empty($article->cover)) {
+                $article->cover = "image-placeholder.png";
+            }
+            return $article;
+        });
+
         return response()->json($articles);
     }
 
@@ -65,11 +96,23 @@ class ArticleController extends Controller
      */
     public function getArticlesByYear($year)
     {
+        (!is_numeric($year)) ? abort(404) : $year;
+        (strlen($year) != 4) ? abort(404) : $year;
         $articles = Article::with('user', 'category')
             ->whereYear('published_at', $year)
-            ->where('status', 'published')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (empty($article->cover)) {
+                $article->cover = "image-placeholder.png";
+            }
+            return $article;
+        });
+
         return response()->json($articles);
     }
 
@@ -81,12 +124,26 @@ class ArticleController extends Controller
      */
     public function getArticlesByMonth($year, $month)
     {
+        (!is_numeric($year)) ? abort(404) : $year;
+        (strlen($year) != 4) ? abort(404) : $year;
+        (!is_numeric($month)) ? abort(404) : $month;
+        (strlen($month) != 2) ? abort(404) : $month;
         $articles = Article::with('user', 'category')
             ->whereYear('published_at', $year)
             ->whereMonth('published_at', $month)
-            ->where('status', 'published')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (empty($article->cover)) {
+                $article->cover = "image-placeholder.png";
+            }
+            return $article;
+        });
+
         return response()->json($articles);
     }
 
@@ -115,6 +172,9 @@ class ArticleController extends Controller
             ->where('slug', $slug)
             ->whereYear('published_at', $year)
             ->firstOrFail();
+        $article['cover'] = "image-placeholder.png";
+        $categories = Category::all();
+        return view('pages.front.posts.single_post', compact('article', 'categories'));
         return response()->json($article);
     }
 

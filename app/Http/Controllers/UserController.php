@@ -13,7 +13,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json($users);
+        $data = [
+            'title' => 'List User',
+        ];
+        return view('pages.back.users.index', compact('users', 'data'));
     }
 
     /**

@@ -8,6 +8,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/css/app-tailwind.css",
                 "resources/js/app.js",
+                "resources/js/wyswyg.js",
             ],
             refresh: true,
         }),

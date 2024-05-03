@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -38,20 +38,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-
-        $data = $request->all();
-        $data['category'] = ucwords($request->category);
-        $data['slug'] = Str::slug($request->slug);
-
-        $validator = Validator::make($data, [
-            'category' => 'required|min:3|unique:categories,category',
-            'slug' => 'required|unique:categories,slug',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        $data = $request->validated();
 
         Category::create($data);
 
@@ -80,19 +69,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $data = $request->all();
-        $data['category'] = ucwords($request->category);
-        $data['slug'] = Str::slug($request->slug);
-
-        $validator = Validator::make($data, [
-            'category' => 'required|min:3|unique:categories,category,' . $category->id,
-            'slug' => 'required|unique:categories,slug,' . $category->id,
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        };
+        $data = $request->validated();
 
         Category::where('slug', $category->slug)->update($data);
 

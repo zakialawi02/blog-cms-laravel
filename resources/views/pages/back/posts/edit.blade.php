@@ -38,7 +38,7 @@
 
                 <div class="form-group">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ old("title") ?? $post->title }}" placeholder="Title">
+                    <input type="text" class="form-control" id="title" name="title" value="{{ old("title", $post->title) }}" placeholder="Title">
                     @error("title")
                         <p class="text-sm text-danger">{{ $message }}</p>
                     @enderror

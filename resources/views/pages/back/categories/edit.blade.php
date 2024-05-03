@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 <label for="category">Category Name</label>
-                <input type="text" name="category" id="category" class="form-control" value="{{ $category->category, old("category") }}" autofocus required>
+                <input type="text" name="category" id="category" class="form-control" value="{{ old("category", $category->category) }}" autofocus required>
                 @error("category")
                     <p class="text-sm text-danger">{{ $message }}</p>
                 @enderror
@@ -45,7 +45,7 @@
             <div class="form-group">
                 <label for="slug">Category Slug / url</label>
                 <div class="input-group">
-                    <input type="text" name="slug" id="slug" class="form-control" value="{{ $category->slug, old("slug") }}" readonly required>
+                    <input type="text" name="slug" id="slug" class="form-control" value="{{ old("slug", $category->slug) }}" readonly required>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-outline-secondary ri-pencil-fill" id="edit-slug">
                         </button>

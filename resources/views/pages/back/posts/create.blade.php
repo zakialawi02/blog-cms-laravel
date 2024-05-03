@@ -50,7 +50,7 @@
                             <select class="form-control" id="category_id" name="category_id" required>
                                 <option value="">-- Select Category --</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                    <option value="{{ $category->id }}" {{ old("category_id") == $category->id ? "selected" : "" }}>{{ $category->category }}</option>
                                 @endforeach
                             </select>
                             @error("category_id")
@@ -60,7 +60,7 @@
 
                         <div class="form-group">
                             <label for="excerpt" class="form-label">Excerpt/Summary/Intro</label>
-                            <textarea class="form-control" id="excerpt" name="excerpt">{{ old("excerpt") }}</textarea>
+                            <textarea class="form-control" id="excerpt" name="excerpt" rows="5">{{ old("excerpt") }}</textarea>
                             @error("excerpt")
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
@@ -86,7 +86,7 @@
 
                         <div class="form-group">
                             <label for="published_at" class="form-label">Publish At <span class="text-muted">*by default immediately</span></label>
-                            <input type="datetime-local" class="form-control" id="published_at" name="published_at" value="{{ old("published_at") }}">
+                            <input type="datetime-local" class="form-control" id="published_at" name="published_at" value="{{ old("published_at", now()->format("Y-m-d\TH:i")) }}">
                             @error("published_at")
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
@@ -95,8 +95,8 @@
                         <div class="form-group">
                             <label for="status_published">Status</label>
                             <select class="form-control" id="status_published" name="status">
-                                <option value="published" selected>Published</option>
-                                <option value="draft">draft</option>
+                                <option value="published" {{ old("status") == "published" ? "selected" : "" }}>Published</option>
+                                <option value="draft" {{ old("status") == "draft" ? "selected" : "" }}>draft</option>
                             </select>
                             @error("status")
                                 <p class="text-sm text-danger">{{ $message }}</p>
@@ -106,7 +106,7 @@
                         <div class="form-group">
                             <label for="user_id">Author</label>
                             <select class="form-control" id="user_id" name="user_id">
-                                <option value="{{ Auth::user()->id }}" selected>{{ Auth::user()->username }}</option>
+                                <option value="{{ Auth::user()->id }}" {{ old("user_id") == Auth::user()->id ? "selected" : "" }}>{{ Auth::user()->username }}</option>
                             </select>
                             @error("status")
                                 <p class="text-sm text-danger">{{ $message }}</p>
@@ -139,8 +139,11 @@
                         <textarea class="form-control" id="content" name="content" required>{{ old("content") }}</textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
+            </div>
+
+            <div class="py-3">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
 

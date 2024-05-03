@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -41,7 +41,6 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $data = $request->validated();
-
         Category::create($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully');
@@ -72,7 +71,6 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $data = $request->validated();
-
         Category::where('slug', $category->slug)->update($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully');

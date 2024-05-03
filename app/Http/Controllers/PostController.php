@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
+use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -47,11 +49,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->slug);
-
+        $data = $request->validated();
         Article::create($data);
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
@@ -87,12 +87,12 @@ class PostController extends Controller
      * @param  Article $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $post)
+    public function update(ArticleRequest $request, Article $post)
     {
-        Article::where('slug', $post->slug)->update([
-            'title' => $request->title,
-        ]);
-        return redirect()->route('admin.posts.index');
+        $data = $request->validated();
+        Article::where('slug', $post->slug)->update($data);
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
 
     /**

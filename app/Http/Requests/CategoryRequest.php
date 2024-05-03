@@ -19,7 +19,7 @@ class CategoryRequest extends FormRequest
     {
         $this->merge([
             'category' => ucwords($this->category),
-            'slug' => Str::slug($this->slug)
+            'slug' => (empty($this->slug)) ? Str::slug($this->category) : Str::slug($this->slug)
         ]);
     }
 
@@ -30,9 +30,10 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $category = $this->route('category');
         return [
-            'category' => 'required|min:3|unique:categories,category,' . $this->user?->id,
-            'slug' => 'required|unique:categories,slug,' . $this->user?->id,
+            'category' => 'required|min:3|unique:categories,category,' . $category?->id,
+            'slug' => 'required|unique:categories,slug,' . $category?->id,
         ];
     }
 }

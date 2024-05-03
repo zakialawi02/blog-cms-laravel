@@ -5,6 +5,7 @@
 @section("meta_author", "zakialawi")
 
 @section("og_title", "{$article->title} | zakialawi.my.id")
+@section("og_description", "$article->excerpt")
 @section("og_image", asset("assets/img/{$article->cover}"))
 
 @push("css")
@@ -45,14 +46,14 @@
                             <h1 class="mb-2 text-3xl font-bold">{{ $article->title }}</h1>
                             <div class="inline-flex items-center">
                                 <a href="{{ route("article.user", $article->user->username) }}" class="inline-flex items-center after:content-['.'] after:mx-2 after:top-[-3px] after:relative after:px-1 after:font-black after:text-secondary  hover:text-primary gap-1" target="_blank">
-                                    <img class="w-6" src="{{ $article->user->profile_photo_path }}" alt="author">Author
+                                    <img class="w-6" src="{{ $article->user->profile_photo_path }}" alt="author {{ $article->user->username }}">Author
                                 </a>
                                 <a href="{{ route("article.month", ["year" => $article->published_at->format("Y"), "month" => $article->published_at->format("m")]) }}" class="hover:text-primary" target="_blank">{{ $article->published_at->format("d M Y") }}</a>
                             </div>
                         </div>
                     </div>
                     <div id="feature-image" class="mb-3">
-                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ asset("assets/img/{$article->cover}") }}" alt="feature image">
+                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ asset("assets/img/{$article->cover}") }}" alt="{{ $article->title }}" loading="lazy">
                     </div>
                     <div id="post-content" class="text-lg">
 

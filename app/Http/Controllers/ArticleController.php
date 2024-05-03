@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use function Pest\Laravel\json;
 
@@ -29,9 +30,12 @@ class ArticleController extends Controller
             }
             return $article;
         });
+        $articles->map(function ($article) {
+            $article->excerpt = Str::limit($article->excerpt, 300);
+        });
         $featured = (empty($articles) ? $articles->random(5) : null);
 
-        return view('pages.front.posts.posts', compact('articles'));
+        return view('pages.front.posts.posts', compact('articles', 'featured'));
     }
 
     /**

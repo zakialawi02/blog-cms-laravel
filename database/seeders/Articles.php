@@ -31,7 +31,6 @@ class Articles extends Seeder
                 'excerpt' => $faker->paragraph(4),
                 'status' => $faker->randomElement(['published', 'draft']),
                 'published_at' => $faker->dateTimeBetween('-1 year', 'now'),
-                'views' => $faker->numberBetween(0, 1000),
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
                 'updated_at' => $faker->dateTimeBetween('-1 year', 'now'),
             ]);

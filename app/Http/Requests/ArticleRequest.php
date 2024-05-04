@@ -40,7 +40,7 @@ class ArticleRequest extends FormRequest
             'user_id' => 'required',
             'content' => '',
             'excerpt' => 'max:300',
-            'cover' => '',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
     }
 }

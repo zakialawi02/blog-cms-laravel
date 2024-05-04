@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->enum('status', ['published', 'draft']);
             $table->timestamp('published_at')->nullable();
-            $table->bigInteger('views')->default(0);
             $table->timestamps();
         });
     }

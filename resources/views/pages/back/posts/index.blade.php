@@ -78,7 +78,7 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $post->title }}</td>
-                            <td>{{ $post->category->category }}</td>
+                            <td>{{ $post->category->category ?? $post->category_id }}</td>
                             <td><span class="badge badge-{{ $post->status === "published" ? "info" : "warning" }}">{{ $post->status }}</span></td>
                             <td>{{ $post->user->username }}</td>
                             <td>

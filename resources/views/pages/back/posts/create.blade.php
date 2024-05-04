@@ -30,7 +30,7 @@
     </div>
 
     <div class="">
-        <form action="{{ route("admin.posts.store") }}" id="post-form" method="post">
+        <form action="{{ route("admin.posts.store") }}" id="post-form" method="post" enctype="multipart/form-data">
             @csrf
             @method("post")
 

@@ -30,7 +30,7 @@
     </div>
 
     <div class="">
-        <form action="{{ route("admin.posts.update", $post->slug) }}" id="post-form" method="post">
+        <form action="{{ route("admin.posts.update", $post->slug) }}" id="post-form" method="post" enctype="multipart/form-data">
             @csrf
             @method("PUT")
 
@@ -119,6 +119,11 @@
                                 <input type="file" class="custom-file-input" id="cover" name="cover">
                                 <label class="custom-file-label" for="cover">Choose file</label>
                             </div>
+                            @if ($post->cover)
+                                <div class="mt-2 preview-cover">
+                                    <img src="{{ asset("storage/drive/" . $post->user->username . "/img/" . $post->cover) }}" alt="Featured Image" style="width: 300px; height: 200px; object-fit: cover">
+                                </div>
+                            @endif
                             <div class="mt-2 preview-cover"></div>
                             @error("cover")
                                 <p class="text-sm text-danger">{{ $message }}</p>

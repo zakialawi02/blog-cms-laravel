@@ -12,6 +12,28 @@ use function Pest\Laravel\json;
 
 class ArticleController extends Controller
 {
+    protected function articlesMappingArray($articles)
+    {
+        $articles = $articles->map(function ($article) {
+            if (empty($article->excerpt)) {
+                $article->excerpt = strip_tags($article->content);
+            }
+            if (!empty($article->cover)) {
+                $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover);
+            }
+            if (empty($article->cover)) {
+                $article->cover = asset("assets/img/image-placeholder.png");
+            }
+            if (empty($article->category_id)) {
+                $article->category_id = "Uncategorized";
+            }
+            return $article;
+        });
+        $articles->map(function ($article) {
+            $article->excerpt = Str::limit($article->excerpt, 300);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -21,18 +43,7 @@ class ArticleController extends Controller
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
-        $articles = $articles->map(function ($article) {
-            if (empty($article->excerpt)) {
-                $article->excerpt = strip_tags($article->content);
-            }
-            if (empty($article->cover)) {
-                $article->cover = "image-placeholder.png";
-            }
-            return $article;
-        });
-        $articles->map(function ($article) {
-            $article->excerpt = Str::limit($article->excerpt, 300);
-        });
+        $this->articlesMappingArray($articles);
         $featured = (empty($articles) ? $articles->random(5) : null);
 
         return view('pages.front.posts.posts', compact('articles', 'featured'));
@@ -46,21 +57,21 @@ class ArticleController extends Controller
      */
     public function getArticlesByCategory($slug)
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        $articles = $category->articles()
-            ->with('user', 'category')
-            ->where(['status' => 'published', ['published_at', '<', now()]])
-            ->orderBy('published_at', 'desc')
-            ->get();
-        $articles = $articles->map(function ($article) {
-            if (empty($article->excerpt)) {
-                $article->excerpt = strip_tags($article->content);
-            }
-            if (empty($article->cover)) {
-                $article->cover = "image-placeholder.png";
-            }
-            return $article;
-        });
+        if ($slug == 'uncategorized') {
+            $articles = Article::with('user', 'category')
+                ->where(['status' => 'published', ['published_at', '<', now()]])
+                ->whereNull('category_id')
+                ->orderBy('published_at', 'desc')
+                ->get();
+        } else {
+            $category = Category::where('slug', $slug)->firstOrFail();
+            $articles = $category->articles()
+                ->with('user', 'category')
+                ->where(['status' => 'published', ['published_at', '<', now()]])
+                ->orderBy('published_at', 'desc')
+                ->get();
+        }
+        $this->articlesMappingArray($articles);
 
         return response()->json($articles);
     }
@@ -79,15 +90,7 @@ class ArticleController extends Controller
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
-        $articles = $articles->map(function ($article) {
-            if (empty($article->excerpt)) {
-                $article->excerpt = strip_tags($article->content);
-            }
-            if (empty($article->cover)) {
-                $article->cover = "image-placeholder.png";
-            }
-            return $article;
-        });
+        $this->articlesMappingArray($articles);
 
         return response()->json($articles);
     }
@@ -107,15 +110,7 @@ class ArticleController extends Controller
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
-        $articles = $articles->map(function ($article) {
-            if (empty($article->excerpt)) {
-                $article->excerpt = strip_tags($article->content);
-            }
-            if (empty($article->cover)) {
-                $article->cover = "image-placeholder.png";
-            }
-            return $article;
-        });
+        $this->articlesMappingArray($articles);
 
         return response()->json($articles);
     }
@@ -138,15 +133,7 @@ class ArticleController extends Controller
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
             ->get();
-        $articles = $articles->map(function ($article) {
-            if (empty($article->excerpt)) {
-                $article->excerpt = strip_tags($article->content);
-            }
-            if (empty($article->cover)) {
-                $article->cover = "image-placeholder.png";
-            }
-            return $article;
-        });
+        $this->articlesMappingArray($articles);
 
         return response()->json($articles);
     }
@@ -176,10 +163,11 @@ class ArticleController extends Controller
             ->where('slug', $slug)
             ->whereYear('published_at', $year)
             ->firstOrFail();
-        $article['cover'] = "image-placeholder.png";
+        $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
+        // dd($article->cover);
         $categories = Category::all();
+
         return view('pages.front.posts.single_post', compact('article', 'categories'));
-        return response()->json($article);
     }
 
     /**

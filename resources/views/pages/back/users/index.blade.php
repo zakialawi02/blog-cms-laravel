@@ -78,7 +78,7 @@
                             <td>{{ $user->email }}</td>
                             <td><span class="badge badge-{{ $user->role === "admin" ? "primary" : ($user->role === "writer" ? "info" : "secondary") }}">{{ $user->role }}</span></td>
                             <td>{{ $user->created_at->format("d M Y") }}</td>
-                            <td>{{ $user->email_verified_at->format("d M Y") }}</td>
+                            <td>{{ $user->email_verified_at?->format("d M Y") }}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
                                 <form action="#" method="POST" class="d-inline">

@@ -53,11 +53,11 @@
                         </div>
                     </div>
                     <div id="feature-image" class="mb-3">
-                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ asset("assets/img/{$article->cover}") }}" alt="{{ $article->title }}" loading="lazy">
+                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ asset($article->cover) }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
                     </div>
                     <div id="post-content" class="text-lg">
 
-                        {{ $article->content }}
+                        {!! $article->content !!}
 
                     </div>
 

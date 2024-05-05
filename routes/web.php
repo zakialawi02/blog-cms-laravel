@@ -33,7 +33,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-        Route::resource('users', UserController::class);
+        Route::resource('users', UserController::class)->except('create', 'edit');
     });
 
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {

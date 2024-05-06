@@ -21,26 +21,30 @@ class UserController extends Controller
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . asset($data->profile_photo_path) . '" width="30">';
                 })
-                ->addColumn('created_at', function ($user) {
-                    return $user->created_at->format("d M Y");
+                ->addColumn('created_at', function ($data) {
+                    return $data->created_at->format("d M Y");
                 })
-                ->addColumn('email_verified_at', function ($user) {
-                    return ($user->email_verified_at) ? $user->email_verified_at->format("d M Y") : '-';
+                ->addColumn('email_verified_at', function ($data) {
+                    return ($data->email_verified_at) ? $data->email_verified_at->format("d M Y") : '-';
+                })
+                ->addColumn('role', function ($data) {
+                    return '<span class="badge badge-' .
+                        ($data->role === 'admin' ? 'primary' : ($data->role === 'writer' ? 'info' : 'secondary'))
+                        . '">' . $data->role . '</span>';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a href="#" class="btn btn-sm btn-success editUser" data-id="' . $data->id . ' "><i class="ri-pencil-line"></i></a>
                     <button type="submit" class="btn btn-sm btn-danger deleteUser" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
                 })
-                ->rawColumns(['photo', 'action'])
+                ->rawColumns(['role', 'photo', 'action'])
                 ->make(true);
         }
 
-        $users = User::all();
         $data = [
             'title' => 'List User',
         ];
 
-        return view('pages.back.users.index', compact('users', 'data'));
+        return view('pages.back.users.index', compact('data'));
     }
 
     /**
@@ -59,8 +63,9 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'username' => 'required|min:4|max:25|unique:users,username',
+            'role' => 'required|in:admin,writer,user',
             'email' => 'required|email|unique:users,email',
-            'password' => 'nullable|min:6',
+            'password' => 'required|min:6',
         ]);
         $user = User::create($validated);
         $data = User::where('id', $user->id)->first();
@@ -93,6 +98,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'username' => 'required|min:4|max:25|unique:users,username,' . $user?->id,
+            'role' => 'required|in:admin,writer,user',
             'email' => 'required|email|unique:users,email,' . $user?->id,
             'password' => 'nullable|min:6',
         ]);

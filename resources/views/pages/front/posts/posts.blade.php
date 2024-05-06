@@ -22,13 +22,15 @@
             <p class="capitalize w-[80%] md:w-[50%] px-3 mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam cum magni, ipsum facilis fugiat voluptatibus.</p>
         </div>
         <div class="w-full max-w-lg m-3 mx-auto">
-            <form id="search-blog" method="get" class="" x-data="{ search: '' }">
+            <form action="{{ route("article.index") }}" id="search-blog" class="" x-data="{ search: '' }">
                 <div class="flex items-center px-1 overflow-hidden bg-white rounded-md shadow ">
-                    <input type="search" placeholder="Search" class="px-3 py-3.5 text-dark w-full text-base border-0 ring-0 bg-light outline-none focus:ring-0" x-model="search">
+                    <input type="search" placeholder="Search" class="px-3 py-3.5 text-dark w-full text-base border-0 ring-0 bg-light outline-none focus:ring-0" x-model="search" id="search" name="search">
                     <button type="submit" class="px-3 py-2 font-semibold transition-all duration-500 rounded text-light " :class="(search) ? 'bg-secondary hover:bg-primary' : 'bg-muted cursor-not-allowed'" :disabled="!search"><i class="ri-search-line"></i></button>
                 </div>
             </form>
-            <p class="my-2 text-light">You Serch: keyword</p>
+            @if (request()->has("search") && request()->get("search") != "")
+                <p class="my-2 text-light">You Serch: {{ request()->get("search") }}</p>
+            @endif
         </div>
     </section>
 
@@ -145,6 +147,12 @@
 
 @push("javascript")
     <script>
-        // code here
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search');
+            if (searchParam) {
+                document.querySelector('#search').value = searchParam;
+            }
+        });
     </script>
 @endpush

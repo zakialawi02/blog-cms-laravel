@@ -57,7 +57,7 @@
             <table id="myTable" class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">No.</th>
                         <th scope="col">Photo</th>
                         <th scope="col">Name</th>
                         <th scope="col">Username</th>
@@ -88,6 +88,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="error-messages"></div>
+
                     <form id="userForm" class="form-horizontal" method="post" action="">
                         @csrf
                         <input type="hidden" name="_method" id="_method">
@@ -96,44 +98,38 @@
                             <i class="ri-user-2-line auti-custom-input-icon"></i>
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{ old("name") }}" placeholder="Enter your Name" required autofocus="on">
-                            @error("name")
-                                <span class="text-danger" role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
                         </div>
 
-                        <div class="mb-3 form-group auth-form-group-custom">
-                            <i class="ri-user-2-line auti-custom-input-icon"></i>
-                            <label for="username">Username</label>
-                            <input type="username" class="form-control" name="username" id="username" value="{{ old("username") }}"placeholder="Enter your username" required>
-                            @error("username")
-                                <span class="text-danger" role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
+                        <div class="row">
+                            <div class="mb-3 col-md-6 form-group auth-form-group-custom">
+                                <i class="ri-user-2-line auti-custom-input-icon"></i>
+                                <label for="username">Username</label>
+                                <input type="username" class="form-control" name="username" id="username" value="{{ old("username") }}"placeholder="Enter your username" required>
+                            </div>
+
+
+                            <div class="mb-3 col-md-6 form-group auth-form-group-custom">
+                                <i class="ri-user-2-line auti-custom-input-icon"></i>
+                                <label for="role">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    <option value="admin">Admin</option>
+                                    <option value="writer">Writer</option>
+                                    <option value="user" selected>User</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mb-3 form-group auth-form-group-custom">
                             <i class="ri-mail-line auti-custom-input-icon"></i>
                             <label for="email">Email</label>
                             <input type="email" class="form-control" name="email" id="email" value="{{ old("email") }}"placeholder="Enter email" required>
-                            @error("email")
-                                <span class="text-danger" role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
                         </div>
 
                         <div class="mb-3 form-group auth-form-group-custom">
                             <i class="ri-lock-2-line auti-custom-input-icon"></i>
                             <label for="password">Password</label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
-                            @error("password")
-                                <span class="text-danger" role="alert">
-                                    {{ $message }}
-                                </span>
-                            @enderror
+                            <span id="passwordHelpBlock" class="text-muted"></span>
                         </div>
 
                 </div>
@@ -221,6 +217,8 @@
                 }
             });
 
+            const cardErrorMessages = `<div id="body-messages" class="alert alert-danger" role="alert"></div>`;
+
             // Open modal for creating new user
             $('#createNewUser').click(function() {
                 $('#userModal').find('.modal-title').text('Add User');
@@ -229,6 +227,8 @@
                 $('#userForm').trigger("reset");
                 $('#userForm').attr('action', '{{ route("admin.users.store") }}');
                 $('#saveBtn').text('Create');
+                $("#error-messages").html("");
+                $("#passwordHelpBlock").html("");
             });
 
             // Save new or updated user
@@ -242,18 +242,29 @@
                     type: method,
                     url: formAction,
                     data: formData,
+                    beforeSend: function() {
+                        $("#body-messages").html("");
+                    },
                     success: function(response) {
                         $('#userModal').modal('hide');
                         $('#myTable').DataTable().ajax.reload();
                     },
                     error: function(error) {
-                        console.log(error);
+                        $("#error-messages").html(cardErrorMessages);
+                        const messages = error.responseJSON.errors;
+                        console.log(messages);
+                        $.each(messages, function(indexInArray, message) {
+                            console.log(message[0]);
+                            $("#body-messages").append('<span>' + message[0] + '</span> <br>');
+                        });
                     }
                 });
             });
 
             // Edit user
             $('body').on('click', '.editUser', function() {
+                $("#error-messages").html("");
+                $("#passwordHelpBlock").html("blank if you don't want to change");
                 const userId = $(this).data('id');
                 $.get(`{{ route("admin.users.show", ":userId") }}`.replace(':userId', userId), function(data) {
                     $('#userModal').modal('show');
@@ -263,6 +274,7 @@
                     $('#_method').val('PUT');
                     $('#name').val(data.name);
                     $('#username').val(data.username);
+                    $('#role').val(data.role);
                     $('#email').val(data.email);
                 });
             });

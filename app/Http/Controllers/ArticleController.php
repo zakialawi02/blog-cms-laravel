@@ -34,17 +34,46 @@ class ArticleController extends Controller
         });
     }
 
+    private function fetchArticles($search = null, $categories = null, $year = null, $month = null)
+    {
+
+        if ($categories) {
+            $query = Category::where('slug', $categories)->firstOrFail();
+            $query = $query->articles()
+                ->with('user', 'category')
+                ->where(['status' => 'published', ['published_at', '<', now()]])
+                ->orderBy('published_at', 'desc');
+            if ($categories == 'uncategorized') {
+                $query->whereNull('category_id');
+            }
+        } else {
+            $query = Article::with('user', 'category')
+                ->where(['status' => 'published', ['published_at', '<', now()]])
+                ->orderBy('published_at', 'desc');
+        }
+
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%')
+                    ->orWhere('excerpt', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query->paginate(11)->withQueryString();
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $articles = Article::with('user', 'category')
-            ->where(['status' => 'published', ['published_at', '<', now()]])
-            ->orderBy('published_at', 'desc')
-            ->get();
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search);
+
         $this->articlesMappingArray($articles);
-        $featured = (empty($articles) ? $articles->random(5) : null);
+        $featured = (!empty($articles) && $articles->count() >= 5 ? $articles->random(5) : null);
 
         return view('pages.front.posts.posts', compact('articles', 'featured'));
     }
@@ -52,28 +81,17 @@ class ArticleController extends Controller
     /**
      * Retrieves articles by category.
      *
-     * @param string $slug The slug of the category.
+     * @param string $cat The slug of the category.
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the category is not found.
      */
-    public function getArticlesByCategory($slug)
+    public function getArticlesByCategory($cat)
     {
-        if ($slug == 'uncategorized') {
-            $articles = Article::with('user', 'category')
-                ->where(['status' => 'published', ['published_at', '<', now()]])
-                ->whereNull('category_id')
-                ->orderBy('published_at', 'desc')
-                ->get();
-        } else {
-            $category = Category::where('slug', $slug)->firstOrFail();
-            $articles = $category->articles()
-                ->with('user', 'category')
-                ->where(['status' => 'published', ['published_at', '<', now()]])
-                ->orderBy('published_at', 'desc')
-                ->get();
-        }
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, $cat);
+
         $this->articlesMappingArray($articles);
 
-        return response()->json($articles);
+        return view('pages.front.posts.byCategories', compact('articles'));
     }
 
     /**
@@ -109,10 +127,10 @@ class ArticleController extends Controller
             ->whereYear('published_at', $year)
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
-            ->get();
+            ->paginate(12)->withQueryString();
         $this->articlesMappingArray($articles);
 
-        return response()->json($articles);
+        return view('pages.front.posts.byYear', compact('articles'));
     }
 
     /**
@@ -127,15 +145,16 @@ class ArticleController extends Controller
         (strlen($year) != 4) ? abort(404) : $year;
         (!is_numeric($month)) ? abort(404) : $month;
         (strlen($month) != 2) ? abort(404) : $month;
+        ($month > 12 || $month < 1) ? abort(404) : $month;
         $articles = Article::with('user', 'category')
             ->whereYear('published_at', $year)
             ->whereMonth('published_at', $month)
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
-            ->get();
+            ->paginate(12)->withQueryString();
         $this->articlesMappingArray($articles);
 
-        return response()->json($articles);
+        return view('pages.front.posts.byMonth', compact('articles'));
     }
 
     /**

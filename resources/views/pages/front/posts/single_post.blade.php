@@ -16,9 +16,9 @@
     <!-- NAVBAR -->
     @include("components.front.navbar")
 
-    <main class="container w-full p-4 mx-auto ">
+    <main class="container w-full">
 
-        <div class="mt-16">
+        <div class="mt-14">
 
             <div id="breadcrumb" class="">
                 <nav aria-label="breadcrumb">

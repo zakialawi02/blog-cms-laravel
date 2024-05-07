@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,22 +18,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [
             'title' => 'All Posts',
         ];
-        $posts = Article::with('user', 'category')
-            ->latest()
-            ->get();
-        $posts = $posts->map(function ($post) {
-            if (empty($post->category_id)) {
-                $post->category_id = "Uncategorized";
-            }
-            return $post;
-        });
+        // get data posts via server side/API
 
-        return view('pages.back.posts.index', compact('posts', 'data'));
+        $users = User::orderBy('username', 'asc')->get();
+
+        return view('pages.back.posts.index', compact('data', 'users'));
     }
 
     /**

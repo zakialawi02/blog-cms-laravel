@@ -62,10 +62,40 @@
         @endif
 
         <div class="">
-            <table class="table table-hover table-striped">
+
+            <div class="px-2 ">
+                <label>Filter</label>
+            </div>
+            <div class="px-2 mb-3 d-flex justify-content-start align-items-center">
+                <div class="mr-2 form-group">
+                    <label for="status">Status</label>
+                    <select name="status" id="publish" class="form-control">
+                        <option value="all">All</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+                <div class="mr-2 form-group">
+                    <label for="category">Category</label>
+                    <select name="category" id="category" class="form-control">
+                        <option value="all">All</option>
+                        <option value="">Cat A</option>
+                    </select>
+                </div>
+                <div class="mr-2 form-group">
+                    <label for="user">Author</label>
+                    <select name="user" id="user" class="form-control">
+                        <option value="all">All</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->username }}">{{ $user->username }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <table id="myTable" class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">No.</th>
                         <th scope="col">Title</th>
                         <th scope="col">Category</th>
                         <th scope="col">Status</th>
@@ -74,25 +104,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($posts as $post)
-                        <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->category->category ?? $post->category_id }}</td>
-                            <td><span class="badge badge-{{ $post->status === "published" ? "info" : "warning" }}">{{ $post->status }}</span></td>
-                            <td>{{ $post->user->username }}</td>
-                            <td>
-                                <a href="{{ route("admin.posts.edit", $post->slug) }}" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
-                                <form action="{{ route("admin.posts.destroy", $post->slug) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+
                 </tbody>
             </table>
+            <div id="pagination"></div>
         </div>
 
     </div>
@@ -103,6 +118,104 @@
 
 @push("javascript")
     <script>
-        // code here
+        $(document).ready(function() {
+            fetchData(window.location.search);
+
+            $("[name^=status], [name^=category], [name^=user]").change(function(e) {
+                e.preventDefault();
+                const newUrl = getparams(1);
+                history.pushState(null, '', newUrl);
+                fetchData(newUrl);
+            });
+
+            $(document).on('click', '.btn-paginate', function(event) {
+                event.preventDefault();
+                const page = $(this).attr('href').split('=')[1];
+                const newUrl = getparams(page);
+                history.pushState(null, '', newUrl);
+                fetchData(newUrl);
+            });
+
+            window.onpopstate = function(event) {
+                fetchData(window.location.search);
+                setInputValuesFromParams();
+            };
+        });
+
+        function fetchData(fullUrl) {
+            const apiUrl = "{{ route("posts.data") }}";
+            const urlAjax = apiUrl + fullUrl;
+            console.log(urlAjax);
+            $.ajax({
+                url: urlAjax,
+                type: "GET",
+                beforeSend: function() {
+                    $("#myTable tbody").html('<tr><td colspan="5" class="text-center"><i class="spinner-border text-primary"></i></td></tr>');
+                },
+                success: function(response) {
+                    const data = response.data;
+                    if (data.length === 0) {
+                        $("#myTable tbody").html('<tr><td colspan="5" class="text-center">No Data</td></tr>');
+                        return;
+                    }
+                    $('tbody').empty();
+                    $.each(data, function(key, data) {
+                        $('tbody').append(`
+                                <tr>
+                                    <td>${data.title}</td>
+                                    <td>${data.category?.category ?? "Uncategorized"}</td>
+                                    <td>${data.status}</td>
+                                    <td>${data.user.username}</td>
+                                    <td>
+                                        <a href="{{ route("admin.posts.edit", ":slug") }}" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
+                                        <form action="{{ route("admin.posts.destroy", ":slug") }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="ri-delete-bin-6-line"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                `);
+                    });
+                    const links = response.links;
+                    const pagination = $('#pagination');
+                    pagination.empty();
+                    if (links.length > 0) {
+                        $.each(links, function(key, link) {
+                            const activeClass = link.active || link.url === null ? "disabled" : "";
+                            pagination.append(`
+                                        <a href="${link.url}" class="btn-paginate btn btn-sm btn-outline-secondary ${activeClass}" ${activeClass}>${link.label}</a>
+                                        `);
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
+        function getparams(page = null) {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (page !== null) {
+                urlParams.set('page', page);
+            }
+            urlParams.set('status', $("[name^=status]").val() || urlParams.get('status') || '');
+            urlParams.set('category', $("[name^=category]").val() || urlParams.get('category') || '');
+            urlParams.set('user', $("[name^=user]").val() || urlParams.get('user') || '');
+            return '?' + urlParams.toString();
+        }
+
+        function setInputValuesFromParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status') || 'all';
+            const category = urlParams.get('category') || 'all';
+            const user = urlParams.get('user') || 'all';
+
+            $("[name^=status]").val(status);
+            $("[name^=category]").val(category);
+            $("[name^=user]").val(user);
+        }
     </script>
 @endpush

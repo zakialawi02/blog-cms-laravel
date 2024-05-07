@@ -22,7 +22,7 @@
         <!-- Sticky/Featured/Popular Blog Post -->
         @unless ((request()->has("search") && request()->get("search") != "") || (request()->has("page") && request()->get("page") != 1))
             <div class="pt-4 pb-0">
-                <div class="px-3 mx-auto xl:container sm:px-4 xl:px-2">
+                <div class="px-3 mx-auto 2xl:container sm:px-4 xl:px-2">
                     <!-- big grid 1 -->
                     <div class="flex flex-row flex-wrap">
                         <!--Start left cover-->
@@ -81,7 +81,7 @@
 
 
         <!-- Recent Blog Post -->
-        <section class="container px-6 py-10 mx-auto md:px-4">
+        <section class="container px-6 py-10 fluid md:px-4">
             <div class="mb-6 text-3xl font-semibold">
                 <h2>{{ request()->has("search") && request()->get("search") != "" ? "Search Result" : "Recent Post" }}</h2>
                 <div class="w-[50%] md:w-[84%] -translate-y-4 float-end h-[4px] bg-gradient-to-r from-transparent to-secondary -z-1"></div>
@@ -111,7 +111,7 @@
                                 <div class="flex items-center justify-between mt-4">
                                     <div>
                                         <a href="{{ route("article.user", $article->user->username) }}" class="text-lg font-medium text-accent hover:text-info">
-                                            {{ $article->user->username }}
+                                            {{ $article?->user?->username }}
                                         </a>
 
                                         <p class="text-sm text-muted">{{ $article->published_at->format("F j, Y") }}</p>

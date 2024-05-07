@@ -14,29 +14,30 @@ class UserController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $users = User::latest()->get();
+            $query = User::query();
 
-            return DataTables::of($users)
+            return DataTables::of($query)
                 ->addIndexColumn()
-                ->addColumn('photo', function ($data) {
-                    return '<img src="' . asset($data->profile_photo_path) . '" width="30">';
-                })
-                ->addColumn('created_at', function ($data) {
-                    return $data->created_at->format("d M Y");
-                })
-                ->addColumn('email_verified_at', function ($data) {
-                    return ($data->email_verified_at) ? $data->email_verified_at->format("d M Y") : '-';
-                })
-                ->addColumn('role', function ($data) {
-                    return '<span class="badge badge-' .
-                        ($data->role === 'admin' ? 'primary' : ($data->role === 'writer' ? 'info' : 'secondary'))
-                        . '">' . $data->role . '</span>';
-                })
                 ->addColumn('action', function ($data) {
                     return '<a href="#" class="btn btn-sm btn-success editUser" data-id="' . $data->id . ' "><i class="ri-pencil-line"></i></a>
                     <button type="submit" class="btn btn-sm btn-danger deleteUser" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
                 })
+                ->addColumn('photo', function ($data) {
+                    return '<img src="' . asset($data->profile_photo_path) . '" width="30">';
+                })
+                ->editColumn('created_at', function ($data) {
+                    return $data->created_at ? $data->created_at->format("d M Y") : '-';
+                })
+                ->editColumn('email_verified_at', function ($data) {
+                    return $data->email_verified_at ? $data->email_verified_at->format("d M Y") : '-';
+                })
+                ->editColumn('role', function ($data) {
+                    return '<span class="badge badge-' .
+                        ($data->role === 'admin' ? 'primary' : ($data->role === 'writer' ? 'info' : 'secondary'))
+                        . '">' . $data->role . '</span>';
+                })
                 ->rawColumns(['role', 'photo', 'action'])
+                ->removeColumn(['profile_photo_path', 'updated_at'])
                 ->make(true);
         }
 

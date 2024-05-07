@@ -1,7 +1,7 @@
 <!-- HERO BLOG SEARCH -->
-<section class="w-full p-3 bg-gradient-to-tr from-primary to-secondary min-h-[40vh]">
-    <div class="container py-8 mx-auto text-center uppercase pt-18 text-light">
-        <h1 class="px-3 mb-3 text-3xl font-bold">Blog{{ !request()->segment(2) ? ": All Posts" : ": by Category " . request()->segment(3) }}</h1>
+<section class="w-full p-3 bg-gradient-to-tr from-primary to-secondary">
+    <div class="container py-8 text-center uppercase pt-18 text-light">
+        <h1 class="px-3 mb-3 text-3xl font-bold">Blog{{ !request()->segment(2) ? ": All Posts" : ": by " . request()->segment(2) . " " . request()->segment(3) }}</h1>
         <p class="capitalize w-[80%] md:w-[50%] px-3 mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam cum magni, ipsum facilis fugiat voluptatibus.</p>
     </div>
     <div class="w-full max-w-lg m-3 mx-auto">

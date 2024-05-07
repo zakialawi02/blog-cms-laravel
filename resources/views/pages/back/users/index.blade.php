@@ -164,7 +164,7 @@
                     }
                 },
                 order: [
-                    [2, 'desc']
+                    [2, 'asc']
                 ],
                 columns: [{
                         data: 'DT_RowIndex',
@@ -174,37 +174,37 @@
                     },
                     {
                         data: 'photo',
-                        name: 'Photo',
+                        name: 'photo',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'name',
-                        name: 'Name'
+                        name: 'name'
                     },
                     {
                         data: 'username',
-                        name: 'Username'
+                        name: 'username'
                     },
                     {
                         data: 'email',
-                        name: 'Email'
+                        name: 'email'
                     },
                     {
                         data: 'role',
-                        name: 'Role'
+                        name: 'role'
                     },
                     {
                         data: 'created_at',
-                        name: 'Registered'
+                        name: 'created_at'
                     },
                     {
                         data: 'email_verified_at',
-                        name: 'Verified'
+                        name: 'email_verified_at'
                     },
                     {
                         data: 'action',
-                        name: 'Action',
+                        name: 'action',
                         orderable: false,
                         searchable: false
                     },

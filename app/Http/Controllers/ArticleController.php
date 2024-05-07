@@ -107,10 +107,10 @@ class ArticleController extends Controller
             ->with('user', 'category')
             ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('published_at', 'desc')
-            ->get();
+            ->paginate(12)->withQueryString();
         $this->articlesMappingArray($articles);
 
-        return response()->json($articles);
+        return view('pages.front.posts.byUsers', compact('articles'));
     }
 
     /**

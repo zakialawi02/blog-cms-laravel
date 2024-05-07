@@ -18,7 +18,7 @@
 
     <main class="w-full">
         <!-- Recent Blog Post -->
-        <section class="container px-6 py-10 mx-auto md:px-4">
+        <section class="container px-6 py-10  md:px-4">
             <div class="mb-6 text-3xl font-semibold">
                 <h2>
                     {{ request()->has("search") && request()->get("search") != "" ? "Search Result" : "Archive: " . request()->segment(3) }}

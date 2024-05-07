@@ -1,5 +1,5 @@
 <header>
-    <div x-data="{ isOpen: false }" class="z-10 flex items-center justify-between w-full h-20 px-12 md:px-16 bg-base-100">
+    <div x-data="{ isOpen: false }" class="z-10 flex items-center justify-between w-full h-20 px-6 md:px-14 bg-base-100">
         <div id="logo-nav" class="max-w-[15rem] text-dark font-semibold uppercase">
             <a href="#" class="inline-flex items-center text-xl ">
                 <img src="{{ asset("assets/img/thumbs.png") }}" alt="Logo" class="w-8 h-8">
@@ -15,7 +15,7 @@
         </div>
 
 
-        <nav :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu" class="absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-dark uppercase bg-base-100 md:bg-transparent">
+        <nav :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu" class="absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-dark uppercase bg-base-100 md:bg-transparent z-10">
             <a class="p-2 duration-300 hover:text-accent" href="/">Home</a>
             <a class="p-2 duration-300 hover:text-accent" href="{{ route("article.index") }}">Blog</a>
             <a class="p-2 duration-300 hover:text-accent" href="#">About</a>
@@ -31,7 +31,7 @@
                         @csrf
                     </form>
                 @else
-                    <a class="p-1 px-4 duration-300 border-2 text-primary border-primary rounded-xl hover:bg-info hover:border-info hover:text-light" title="Login" href="{{ route("login") }}"><i class="ri-lock-2-fill"></i> Login</a>
+                    <a class="inline-flex p-1 px-4 duration-300 border-2 text-primary border-primary rounded-xl hover:bg-info hover:border-info hover:text-light" title="Login" href="{{ route("login") }}"><i class="ri-lock-2-fill"></i> Login</a>
                     @endif
                 </div>
             </nav>

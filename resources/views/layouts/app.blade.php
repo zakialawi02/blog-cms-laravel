@@ -22,6 +22,16 @@
 
         @include("components.admin._metaHead")
 
+        <style>
+            @media (max-width: 768px) {
+                #myTable {
+                    display: block;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                }
+            }
+        </style>
+
         @stack("css")
 
         <!-- Scripts -->

@@ -38,24 +38,39 @@ class ArticlesController extends Controller
     {
         $query = Article::select('title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')->with('user', 'category');
 
+        if ($request->has("search") && $request->get("search") != "") {
+            $query = $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->get("search") . '%')
+                    ->orWhere('content', 'like', '%' . $request->get("search") . '%')
+                    ->orWhere('excerpt', 'like', '%' . $request->get("search") . '%');
+            });
+        }
+
         if ($request->has("status") && $request->get("status") != "" && $request->get("status") != "all") {
             $query = $query->where('status', $request->get("status"));
         }
 
-        if ($request->has("category") && $request->get("category") != "" && $request->get("category") != "all") {
-            $query = $query->where('category_id', $request->get("category"));
+        if ($request->has("category") && $request->get("category") != "" && $request->get("category") == "uncategorized") {
+            $query = $query->whereNull('category_id');
+        } elseif ($request->has("category") && $request->get("category") != "" && $request->get("category") != "all") {
+            $query = $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->get("category"));
+            });
         }
+
         if ($request->has("user") && $request->get("user") != "" && $request->get("user") != "all") {
             $query = $query->whereHas('user', function ($q) use ($request) {
                 $q->where('username', $request->get("user"));
             });
         }
+
         $posts = $query->paginate(10);
 
         $this->articlesMappingArray($posts);
 
         return response()->json($posts);
     }
+
 
 
     /**

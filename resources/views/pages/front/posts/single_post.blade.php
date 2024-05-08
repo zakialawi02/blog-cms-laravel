@@ -24,16 +24,19 @@
                 <nav aria-label="breadcrumb">
                     <ol class="flex items-center">
                         <li class="">
-                            <a class="text-dark hover:text-accent breadcrumb-next" href="#">Home</a>
+                            <a class="text-dark hover:text-accent breadcrumb-next" href="/">Home</a>
                         </li>
                         <li class="">
-                            <a class="text-dark hover:text-accent breadcrumb-next" href="#">Blog</a>
+                            <a class="text-dark hover:text-accent breadcrumb-next" href="{{ route("article.index") }}">Blog</a>
                         </li>
                         <li class="">
-                            <a class="text-dark hover:text-accent breadcrumb-next" href="#">Categories</a>
+                            <a class="text-dark hover:text-accent breadcrumb-next" href="{{ route("article.year", request()->segment(2)) }}">{{ request()->segment(2) }}</a>
                         </li>
                         <li class="">
-                            <a class="text-dark hover:text-accent" aria-current="page" href="#">Title of Post</a>
+                            <a class="text-dark hover:text-accent breadcrumb-next" href="{{ route("article.category", $article->category->slug) }}">{{ $article->category->category }}</a>
+                        </li>
+                        <li class="">
+                            <a class="text-dark hover:text-accent" aria-current="page" href="{{ route("article.show", ["year" => request()->segment(2), "slug" => $article->slug]) }}">{{ $article->title }}</a>
                         </li>
                     </ol>
                 </nav>
@@ -46,7 +49,7 @@
                             <h1 class="mb-2 text-3xl font-bold">{{ $article->title }}</h1>
                             <div class="inline-flex items-center">
                                 <a href="{{ route("article.user", $article->user->username) }}" class="inline-flex items-center after:content-['.'] after:mx-2 after:top-[-3px] after:relative after:px-1 after:font-black after:text-secondary  hover:text-primary gap-1" target="_blank">
-                                    <img class="w-6" src="{{ $article->user->profile_photo_path }}" alt="author {{ $article->user->username }}">Author
+                                    <img class="w-6" src="{{ $article->user->profile_photo_path }}" alt="author {{ $article->user->username }}">{{ $article->user->username }}
                                 </a>
                                 <a href="{{ route("article.month", ["year" => $article->published_at->format("Y"), "month" => $article->published_at->format("m")]) }}" class="hover:text-primary" target="_blank">{{ $article->published_at->format("d M Y") }}</a>
                             </div>

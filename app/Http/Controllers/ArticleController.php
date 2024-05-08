@@ -52,12 +52,15 @@ class ArticleController extends Controller
                 ->orderBy('published_at', 'desc');
         }
 
-
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('content', 'like', '%' . $search . '%')
-                    ->orWhere('excerpt', 'like', '%' . $search . '%');
+                    ->orWhere('excerpt', 'like', '%' . $search . '%')
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('username', 'like', '%' . $search . '%');
+                    });
             });
         }
 

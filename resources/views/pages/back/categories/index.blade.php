@@ -54,7 +54,7 @@
         @endif
 
         <div class="">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

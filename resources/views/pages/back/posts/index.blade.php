@@ -66,34 +66,49 @@
             <div class="px-2 ">
                 <label>Filter</label>
             </div>
-            <div class="px-2 mb-3 d-flex justify-content-start align-items-center">
-                <div class="mr-2 form-group">
-                    <label for="status">Status</label>
-                    <select name="status" id="publish" class="form-control">
-                        <option value="all">All</option>
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                    </select>
+            <div class="px-2 mb-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="mr-2 form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="publish" class="form-control">
+                            <option value="all">All</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                    <div class="mr-2 form-group">
+                        <label for="category">Category</label>
+                        <select name="category" id="category" class="form-control">
+                            <option value="all">All</option>
+                            <option value="uncategorized">Uncategorized</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->slug }}">{{ $category->category }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mr-2 form-group">
+                        <label for="user">Author</label>
+                        <select name="user" id="user" class="form-control">
+                            <option value="all">All</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->username }}">{{ $user->username }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+
                 <div class="mr-2 form-group">
-                    <label for="category">Category</label>
-                    <select name="category" id="category" class="form-control">
-                        <option value="all">All</option>
-                        <option value="">Cat A</option>
-                    </select>
-                </div>
-                <div class="mr-2 form-group">
-                    <label for="user">Author</label>
-                    <select name="user" id="user" class="form-control">
-                        <option value="all">All</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->username }}">{{ $user->username }}</option>
-                        @endforeach
-                    </select>
+                    <div class="">
+                        <label for="search">Search</label>
+                    </div>
+                    <div class="d-inline-flex">
+                        <input type="search" name="search" id="search" class="form-control" placeholder="Enter search">
+                        <button class="btn btn-primary" id="btn-search" type="button"><i class="ri-search-line"></i></button>
+                    </div>
                 </div>
             </div>
 
-            <table id="myTable" class="table table-hover table-striped">
+            <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">Title</th>
@@ -128,6 +143,13 @@
                 fetchData(newUrl);
             });
 
+            $("#btn-search").click(function(e) {
+                e.preventDefault();
+                const newUrl = getparams(1);
+                history.pushState(null, '', newUrl);
+                fetchData(newUrl);
+            });
+
             $(document).on('click', '.btn-paginate', function(event) {
                 event.preventDefault();
                 const page = $(this).attr('href').split('=')[1];
@@ -138,11 +160,11 @@
 
             window.onpopstate = function(event) {
                 fetchData(window.location.search);
-                setInputValuesFromParams();
             };
         });
 
         function fetchData(fullUrl) {
+            setInputValuesFromParams();
             const apiUrl = "{{ route("posts.data") }}";
             const urlAjax = apiUrl + fullUrl;
             console.log(urlAjax);
@@ -182,9 +204,10 @@
                     pagination.empty();
                     if (links.length > 0) {
                         $.each(links, function(key, link) {
+                            const href = link.url?.split('?')[1] || null;
                             const activeClass = link.active || link.url === null ? "disabled" : "";
                             pagination.append(`
-                                        <a href="${link.url}" class="btn-paginate btn btn-sm btn-outline-secondary ${activeClass}" ${activeClass}>${link.label}</a>
+                                        <a href="${href}" class="btn-paginate btn btn-sm btn-outline-secondary ${activeClass}" ${activeClass}>${link.label}</a>
                                         `);
                         });
                     }
@@ -204,6 +227,7 @@
             urlParams.set('status', $("[name^=status]").val() || urlParams.get('status') || '');
             urlParams.set('category', $("[name^=category]").val() || urlParams.get('category') || '');
             urlParams.set('user', $("[name^=user]").val() || urlParams.get('user') || '');
+            urlParams.set('search', $("[name^=search]").val());
             return '?' + urlParams.toString();
         }
 
@@ -212,10 +236,12 @@
             const status = urlParams.get('status') || 'all';
             const category = urlParams.get('category') || 'all';
             const user = urlParams.get('user') || 'all';
+            const search = urlParams.get('search');
 
             $("[name^=status]").val(status);
             $("[name^=category]").val(category);
             $("[name^=user]").val(user);
+            $("[name^=search]").val(search);
         }
     </script>
 @endpush

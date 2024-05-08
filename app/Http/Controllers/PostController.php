@@ -26,8 +26,9 @@ class PostController extends Controller
         // get data posts via server side/API
 
         $users = User::orderBy('username', 'asc')->get();
+        $categories = Category::orderBy('category', 'asc')->get();
 
-        return view('pages.back.posts.index', compact('data', 'users'));
+        return view('pages.back.posts.index', compact('data', 'users', 'categories'));
     }
 
     /**

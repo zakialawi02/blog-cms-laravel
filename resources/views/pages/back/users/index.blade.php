@@ -6,7 +6,7 @@
 
 
 @push("css")
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    {{--  --}}
 @endpush
 
 @section("content")
@@ -145,8 +145,6 @@
 @endsection
 
 @push("javascript")
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-
     <script>
         $(document).ready(function() {
             let table = new DataTable('#myTable', {

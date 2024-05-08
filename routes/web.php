@@ -44,6 +44,11 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        Route::get('/posts/stats/6months', [ArticleViewController::class, 'getViewsLast6Months'])->name('posts.statslast6months');
+        Route::get('/posts/stats', [ArticleViewController::class, 'getArticleStats'])->name('posts.statsview');
+        Route::get('/stats/posts/{slug}', [ArticleViewController::class, 'statsPerArticle'])->name('posts.statsdetail');
+        Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
     });
 });
 
@@ -70,9 +75,6 @@ Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
-Route::get('/stats/posts', [ArticleViewController::class, 'statsPerArticle']);
-Route::get('/stats/posts/{slug}', [ArticleViewController::class, 'getArticleStats']);
-Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation']);
 
 Route::get('/test', function () {
     return view('test');

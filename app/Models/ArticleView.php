@@ -10,12 +10,17 @@ class ArticleView extends Model
 {
     use HasFactory;
 
+    protected $table = 'article_views';
     public $timestamps = false;
     protected $fillable = [
         'article_id',
         'viewed_at',
         'ip_address',
         'location',
+        'code',
+    ];
+    protected $casts = [
+        'viewed_at' => 'datetime',
     ];
 
     public function article()

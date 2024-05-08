@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Models\ArticleView;
 use App\Models\Category;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use function Pest\Laravel\json;
 
 class ArticleController extends Controller
 {

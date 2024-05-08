@@ -189,8 +189,8 @@
                                     <td>${data.status}</td>
                                     <td>${data.user.username}</td>
                                     <td>
-                                        <a href="{{ route("admin.posts.edit", ":slug") }}" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
-                                        <form action="{{ route("admin.posts.destroy", ":slug") }}" method="POST" class="d-inline">
+                                        <a href="/admin/posts/${data.slug}/edit" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
+                                        <form action="/admin/posts/${data.slug}", ":slug") }}" method="POST" class="d-inline">
                                             @csrf
                                             @method("DELETE")
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="ri-delete-bin-6-line"></i></button>

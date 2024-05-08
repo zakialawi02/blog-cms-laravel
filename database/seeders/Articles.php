@@ -21,7 +21,7 @@ class Articles extends Seeder
         $users = User::all()->pluck('id')->toArray();
         $categories = Category::all()->pluck('id')->toArray();
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 200) as $index) {
             Article::create([
                 'category_id' => $faker->randomElement($categories),
                 'user_id' => $faker->randomElement($users),

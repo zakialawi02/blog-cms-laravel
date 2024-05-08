@@ -24,24 +24,24 @@
             </a>
         </li>
 
+        <li class="">
+            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                <i class="ri-bar-chart-box-line"></i>
+                <span>Statistics Views</span>
+            </a>
+            <ul class="sub-menu" aria-expanded="false">
+                <li><a href="{{ route("admin.posts.statsview") }}">Articles Posts</a></li>
+                <li><a href="{{ route("admin.posts.statslocation") }}">By Country</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-title">Users</li>
+
         <li>
             <a href="{{ route("admin.users.index") }}" class=" waves-effect">
                 <i class="ri-folder-user-line"></i>
                 <span>Users Management</span>
             </a>
-        </li>
-
-        <li class="">
-            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                <i class="ri-layout-3-line"></i>
-                <span>Layouts</span>
-            </a>
-            <ul class="sub-menu" aria-expanded="false">
-                <li><a href="layouts-horizontal.html">Horizontal</a></li>
-                <li><a href="layouts-light-sidebar.html">Light Sidebar</a></li>
-                <li><a href="layouts-compact-sidebar.html">Compact Sidebar</a></li>
-                <li><a href="layouts-icon-sidebar.html">Icon Sidebar</a></li>
-            </ul>
         </li>
 
         <li class="menu-title">Pages</li>

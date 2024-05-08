@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamp('viewed_at')->useCurrent();
             $table->string('ip_address')->nullable();
             $table->string('location')->nullable();
+            $table->string('code')->nullable();
         });
     }
 

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\ArticleView;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\FakerUsers;
 
@@ -15,9 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(Users::class);
-        $this->call(FakerUsers::class); // FAKER Buat beberapa data dummy untuk tabel users
+        User::factory(200)->create();
         $this->call(Categories::class);
         $this->call(Articles::class);
-        $this->call(ArticleViews::class);
+        ArticleView::factory(500)->create();
     }
 }

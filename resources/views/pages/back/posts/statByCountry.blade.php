@@ -32,7 +32,7 @@
 
     <div class="p-2 card">
         <div class="d-flex">
-            <h3>{{ __("Total Views: " . $totalViews) }}</h3>
+            <h3>{{ __("Total Visitors: " . $totalViews) }}</h3>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
                     <tr>
                         <th>Country</th>
                         <th>Country Code</th>
-                        <th>Views</th>
+                        <th>Visitors</th>
                     </tr>
                 </thead>
                 <tbody>

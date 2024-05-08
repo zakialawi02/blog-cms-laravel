@@ -72,7 +72,7 @@
                         <th scope="col">Article</th>
                         <th scope="col">Status</th>
                         <th scope="col">Published</th>
-                        <th scope="col">View</th>
+                        <th scope="col">Visitors</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>

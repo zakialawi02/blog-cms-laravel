@@ -71,7 +71,7 @@
                         <td>{{ $article?->created_at->diffForHumans() ?? "-" }}</td>
                     </tr>
                     <tr>
-                        <td>{{ __("Views") }}</td>
+                        <td>{{ __("Visitors") }}</td>
                         <td width:3px>:</td>
                         <td>{{ $article->total_views }}</td>
                 </table>
@@ -89,13 +89,13 @@
 
                 <div class="col-md-12">
                     <div class="p-2 card">
-                        <h4>{{ __("Views") }}</h4>
+                        <h4>{{ __("Visitors") }}</h4>
                         <table id="myTable" class="table table-hover table-striped">
                             <thead>
                                 <tr>
                                     <th>Country</th>
                                     <th>Country Code</th>
-                                    <th>Views</th>
+                                    <th>Visitors</th>
                                 </tr>
                             </thead>
                             <tbody>

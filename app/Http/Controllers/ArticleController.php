@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\ArticleView;
 use App\Models\Category;
-
+use ipinfo\ipinfo\IPinfo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -32,6 +32,16 @@ class ArticleController extends Controller
         $articles->map(function ($article) {
             $article->excerpt = Str::limit($article->excerpt, 300);
         });
+    }
+
+    protected function getIpVisitor($ip)
+    {
+        $access_token = 'cdd7aa7e08e80d';
+        $client = new IPinfo($access_token);
+        $ip_address = $ip;
+        $details = $client->getDetails($ip_address);
+        $dataV = $details->all;
+        return $dataV;
     }
 
     private function fetchArticles($search = null, $categories = null, $year = null, $month = null)
@@ -176,10 +186,24 @@ class ArticleController extends Controller
         //
     }
 
+    protected function saveVisitor($article_id, $dataV)
+    {
+        try {
+            ArticleView::create([
+                'article_id' => $article_id,
+                'ip_address' => $dataV['ip'],
+                'code' => array_key_exists('country', $dataV) ? $dataV['country'] : NULL,
+                'location' => array_key_exists('country_name', $dataV) ? $dataV['country_name'] : NULL,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show($year, $slug)
+    public function show(Request $request, $year, $slug)
     {
         $article = Article::with('user', 'category')
             ->where('slug', $slug)
@@ -188,6 +212,8 @@ class ArticleController extends Controller
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
         // dd($article->cover);
         $categories = Category::all();
+
+        $this->saveVisitor($article->id, $this->getIpVisitor(request()->ip()));
 
         return view('pages.front.posts.single_post', compact('article', 'categories'));
     }

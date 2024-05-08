@@ -113,6 +113,11 @@ class ArticleViewController extends Controller
             ->selectRaw('COUNT(*) as views, location, code')
             ->groupBy(['location', 'code'])
             ->get();
+        $views = $views->map(function ($item) {
+            $item->location = $item->location ? $item->location : 'Unknown';
+            $item->code = $item->code ? $item->code : 'Unknown';
+            return $item;
+        });
         $total_views = $views->sum('views');
         $article['total_views'] = $total_views;
 

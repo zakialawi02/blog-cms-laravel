@@ -62,20 +62,41 @@ class ArticleViewController extends Controller
     public function getArticleStats()
     {
         if (request()->ajax()) {
-            $articles = Article::has('articleViews')->withCount(['articleViews as total_views'])->get();
+            if (request()->has('type') && request()->get('type') == "popular") {
+                $articles = Article::has('articleViews')->withCount(['articleViews as total_views'])->get();
 
-            return DataTables::of($articles)
-                ->editColumn('published_at', function ($data) {
-                    return $data->published_at ? $data->published_at->format("d M Y") : '-';
-                })
-                ->addColumn('action', function ($article) {
-                    return '<a href="' . route('admin.posts.statsdetail', $article->slug) . '" class="btn btn-sm btn-primary"><i class="ri-search-eye-line"></i></a>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                return DataTables::of($articles)
+                    ->editColumn('published_at', function ($data) {
+                        return $data->published_at ? $data->published_at->format("d M Y") : '-';
+                    })
+                    ->addColumn('action', function ($article) {
+                        return '<a href="' . route('admin.posts.statsdetail', $article->slug) . '" class="btn btn-sm btn-primary"><i class="ri-search-eye-line"></i></a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->removeColumn(['category_id', 'id', 'user_id', 'updated_at', 'created_at'])
+                    ->make(true);
+            }
+
+            if (request()->has('type') && request()->get('type') == "recent") {
+                $articles = ArticleView::with('article')
+                    ->orderBy('viewed_at', 'desc')
+                    ->take(100)->get();
+
+                return Datatables::of($articles)
+                    ->editColumn('viewed_at', function ($data) {
+                        return $data->viewed_at ? $data->viewed_at->format("d M Y H:i") : 'unknown';
+                    })
+                    ->addColumn('title', function ($data) {
+                        return '<a href="' . route('admin.posts.statsdetail', $data->article->slug) . '">' . $data->article->title . '</a>';
+                    })
+                    ->addColumn('location', function ($data) {
+                        return $data->code ? $data->code : 'unknown';
+                    })
+                    ->rawColumns(['title'])
+                    ->removeColumn(['article_id', 'article', 'id'])
+                    ->make(true);
+            }
         }
-
-
 
         $data = [
             'title' => 'Post Statistics',

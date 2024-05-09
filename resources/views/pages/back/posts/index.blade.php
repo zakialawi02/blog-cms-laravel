@@ -167,7 +167,7 @@
             setInputValuesFromParams();
             const apiUrl = "{{ route("posts.data") }}";
             const urlAjax = apiUrl + fullUrl;
-            console.log(urlAjax);
+
             $.ajax({
                 url: urlAjax,
                 type: "GET",

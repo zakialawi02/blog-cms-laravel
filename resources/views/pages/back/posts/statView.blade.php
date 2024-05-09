@@ -60,12 +60,40 @@
             </div>
         @endif
 
-        <div class="">
+        <div class="mb-3">
             <div id="coloum-chart" class="mb-3 text-center"><i class="spinner-border text-primary"></i></div>
             <hr class="mb-3">
         </div>
 
-        <div class="">
+        <div class="mb-3">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="type" id="recent" checked> Recent
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="type" id="popular"> Popular
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-3 recent-table" style="display:block">
+            <table id="myTable2" class="table table-hover table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">Date Time</th>
+                        <th scope="col">Article</th>
+                        <th scope="col">Ip</th>
+                        <th scope="col">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- server side --}}
+                </tbody>
+            </table>
+            <div id="pagination"></div>
+        </div>
+
+        <div class="mb-3 popular-table" style="display:none">
             <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -137,10 +165,21 @@
             });
         })();
 
+        $("[name^=type]").change(function(e) {
+            if (this.id == "popular") {
+                $(".popular-table").toggle(true);
+                $(".recent-table").toggle(false);
+            }
+            if (this.id == "recent") {
+                $(".recent-table").toggle(true);
+                $(".popular-table").toggle(false);
+            }
+        });
+
         let table = new DataTable('#myTable', {
             processing: true,
             serverSide: true,
-            ajax: "{{ url()->current() }}",
+            ajax: "{{ url()->current() }}?type=popular",
             lengthMenu: [
                 [10, 15, 25, 50, -1],
                 [10, 15, 25, 50, "All"]
@@ -175,6 +214,42 @@
                     name: 'action',
                     orderable: false,
                     searchable: false
+                },
+            ],
+        })
+
+        let table2 = new DataTable('#myTable2', {
+            processing: true,
+            serverSide: true,
+            ajax: "{{ url()->current() }}?type=recent",
+            lengthMenu: [
+                [10, 15, 25, 50, -1],
+                [10, 15, 25, 50, "All"]
+            ],
+            language: {
+                paginate: {
+                    previous: '<i class="mdi mdi-chevron-left">',
+                    next: '<i class="mdi mdi-chevron-right">'
+                }
+            },
+            order: [
+                [1, 'desc']
+            ],
+            columns: [{
+                    data: 'viewed_at',
+                    name: 'viewed_at'
+                },
+                {
+                    data: 'title',
+                    name: 'title'
+                },
+                {
+                    data: 'ip_address',
+                    name: 'ip_address'
+                },
+                {
+                    data: 'location',
+                    name: 'location'
                 },
             ],
         })

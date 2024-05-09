@@ -16,13 +16,13 @@
     <!-- NAVBAR -->
     @include("components.front.navbar")
 
-    <main class="container w-full">
+    <main class="container w-full p-6 md:p-10">
 
         <div class="mt-14">
 
             <div id="breadcrumb" class="">
                 <nav aria-label="breadcrumb">
-                    <ol class="flex items-center">
+                    <ol class="flex flex-row flex-wrap items-center">
                         <li class="">
                             <a class="text-dark hover:text-accent breadcrumb-next" href="/">Home</a>
                         </li>

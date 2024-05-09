@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Article;
-use App\Models\ArticleView;
 use App\Models\Category;
 use ipinfo\ipinfo\IPinfo;
+use App\Models\ArticleView;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
@@ -186,17 +187,24 @@ class ArticleController extends Controller
         //
     }
 
-    protected function saveVisitor($article_id, $dataV)
+    protected function saveVisitor($article_id, $ip)
     {
-        try {
-            ArticleView::create([
-                'article_id' => $article_id,
-                'ip_address' => $dataV['ip'],
-                'code' => array_key_exists('country', $dataV) ? $dataV['country'] : NULL,
-                'location' => array_key_exists('country_name', $dataV) ? $dataV['country_name'] : NULL,
-            ]);
-        } catch (\Throwable $th) {
-            //throw $th;
+        $cacheKey = 'article-view:' . $article_id . ':' . $ip;
+        $cacheDuration = 60 * 1; // Cache for 1 minutes
+        if (!Cache::has($cacheKey)) {
+            $dataIpVisitor = $this->getIpVisitor($ip);
+            try {
+                ArticleView::create([
+                    'article_id' => $article_id,
+                    'ip_address' => $ip,
+                    'code' => array_key_exists('country', $dataIpVisitor) ? $dataIpVisitor['country'] : NULL,
+                    'location' => array_key_exists('country_name', $dataIpVisitor) ? $dataIpVisitor['country_name'] : NULL,
+                ]);
+
+                Cache::put($cacheKey, true, $cacheDuration);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
     }
 
@@ -213,7 +221,7 @@ class ArticleController extends Controller
         // dd($article->cover);
         $categories = Category::all();
 
-        $this->saveVisitor($article->id, $this->getIpVisitor(request()->ip()));
+        $this->saveVisitor($article->id, request()->ip());
 
         return view('pages.front.posts.single_post', compact('article', 'categories'));
     }

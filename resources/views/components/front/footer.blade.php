@@ -1,6 +1,6 @@
 <footer id="footer" class="flex items-end justify-center">
     <div class="w-full">
-        <div class="px-6 py-16">
+        <div class="px-1 py-16">
             <div class="container mx-auto">
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-6 md:grid-cols-4">
                     <div class="md:col-span-2">

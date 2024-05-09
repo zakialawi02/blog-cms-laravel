@@ -37,7 +37,7 @@ class UserController extends Controller
                         . '">' . $data->role . '</span>';
                 })
                 ->rawColumns(['role', 'photo', 'action'])
-                ->removeColumn(['profile_photo_path', 'updated_at'])
+                ->removeColumn(['profile_photo_path', 'updated_at', 'id'])
                 ->make(true);
         }
 

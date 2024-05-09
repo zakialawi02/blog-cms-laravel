@@ -63,7 +63,13 @@ class ArticleViewController extends Controller
     {
         if (request()->ajax()) {
             if (request()->has('type') && request()->get('type') == "popular") {
-                $articles = Article::has('articleViews')->withCount(['articleViews as total_views'])->get();
+                $articles = Article::has('articleViews')->withCount(['articleViews as total_views']);
+
+                if (auth()->user()->role !== 'admin') {
+                    $articles->where('user_id', auth()->id());
+                }
+
+                $articles = $articles->orderBy('total_views', 'desc')->take(25)->get();
 
                 return DataTables::of($articles)
                     ->editColumn('published_at', function ($data) {
@@ -79,8 +85,14 @@ class ArticleViewController extends Controller
 
             if (request()->has('type') && request()->get('type') == "recent") {
                 $articles = ArticleView::with('article')
-                    ->orderBy('viewed_at', 'desc')
-                    ->take(100)->get();
+                    ->orderBy('viewed_at', 'desc');
+
+                if (auth()->user()->role !== 'admin') {
+                    $articles->whereHas('article', function ($q) {
+                        $q->where('user_id', auth()->id());
+                    });
+                }
+                $articles = $articles->take(100)->get();
 
                 return Datatables::of($articles)
                     ->editColumn('viewed_at', function ($data) {

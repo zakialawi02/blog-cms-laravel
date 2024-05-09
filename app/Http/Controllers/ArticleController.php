@@ -10,6 +10,7 @@ use App\Models\ArticleView;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 
 class ArticleController extends Controller
 {
@@ -216,6 +217,7 @@ class ArticleController extends Controller
         $article = Article::with('user', 'category')
             ->where('slug', $slug)
             ->whereYear('published_at', $year)
+            ->where('published_at', '<=', Carbon::now())
             ->firstOrFail();
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
         // dd($article->cover);

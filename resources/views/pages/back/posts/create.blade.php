@@ -85,20 +85,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="published_at" class="form-label">Publish At <span class="text-muted">*by default immediately</span></label>
+                            <label for="published_at" class="form-label">Sheduled Publish <span class="text-muted">*by default immediately</span></label>
                             <input type="datetime-local" class="form-control" id="published_at" name="published_at" value="{{ old("published_at", now()->format("Y-m-d\TH:i")) }}">
                             @error("published_at")
-                                <p class="text-sm text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="status_published">Status</label>
-                            <select class="form-control" id="status_published" name="status">
-                                <option value="published" {{ old("status") == "published" ? "selected" : "" }}>Published</option>
-                                <option value="draft" {{ old("status") == "draft" ? "selected" : "" }}>draft</option>
-                            </select>
-                            @error("status")
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
                         </div>
@@ -136,14 +125,15 @@
                         @error("content")
                             <p class="text-sm text-danger">{{ $message }}</p>
                         @enderror
-                        <textarea class="form-control" id="content" name="content" required>{{ old("content") }}</textarea>
+                        <textarea class="form-control" id="content" name="content">{{ old("content") }}</textarea>
                     </div>
 
                 </div>
             </div>
 
             <div class="py-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" name="publish" class="btn btn-primary">Save and Publish</button>
+                <button type="submit" name="unpublish" class="btn btn-secondary">Save Draft</button>
             </div>
         </form>
 

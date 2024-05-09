@@ -17,12 +17,14 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ route("admin.categories.index") }}" class=" waves-effect">
-                <i class="ri-folder-reduce-line"></i>
-                <span>Categories</span>
-            </a>
-        </li>
+        @if (Auth::user()->role == "admin")
+            <li>
+                <a href="{{ route("admin.categories.index") }}" class=" waves-effect">
+                    <i class="ri-folder-reduce-line"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+        @endif
 
         <li class="">
             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -35,14 +37,17 @@
             </ul>
         </li>
 
-        <li class="menu-title">Users</li>
+        @if (Auth::user()->role == "admin")
+            <li class="menu-title">Users</li>
 
-        <li>
-            <a href="{{ route("admin.users.index") }}" class=" waves-effect">
-                <i class="ri-folder-user-line"></i>
-                <span>Users Management</span>
-            </a>
-        </li>
+            <li>
+                <a href="{{ route("admin.users.index") }}" class=" waves-effect">
+                    <i class="ri-folder-user-line"></i>
+                    <span>Users Management</span>
+                </a>
+            </li>
+        @endif
+
 
         <li class="menu-title">Pages</li>
 

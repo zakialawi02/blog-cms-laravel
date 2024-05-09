@@ -6,6 +6,7 @@ use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -38,6 +39,10 @@ class ArticlesController extends Controller
     {
         $query = Article::select('title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')->with('user', 'category');
 
+        if (auth()->user()->role !== 'admin') {
+            $query->where('user_id', auth()->id());
+        }
+
         if ($request->has("search") && $request->get("search") != "") {
             $query = $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->get("search") . '%')
@@ -64,7 +69,7 @@ class ArticlesController extends Controller
             });
         }
 
-        $posts = $query->paginate(10);
+        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
 
         $this->articlesMappingArray($posts);
 

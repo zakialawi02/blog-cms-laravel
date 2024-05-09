@@ -115,6 +115,7 @@
                         <th scope="col">Category</th>
                         <th scope="col">Status</th>
                         <th scope="col">Author</th>
+                        <th scope="col">Created</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -168,6 +169,8 @@
             const apiUrl = "{{ route("posts.data") }}";
             const urlAjax = apiUrl + fullUrl;
 
+            const articleShowUrlTemplate = "{{ route("article.show", ["year" => "__year__", "slug" => "__slug__"]) }}";
+            const articleEditUrlTemplate = "{{ route("admin.posts.edit", "__slug__") }}";
             $.ajax({
                 url: urlAjax,
                 type: "GET",
@@ -182,14 +185,20 @@
                     }
                     $('tbody').empty();
                     $.each(data, function(key, data) {
+                        const publishedDate = new Date(data.published_at);
+                        const publishedYear = publishedDate.getFullYear();
+                        const articleUrlShow = articleShowUrlTemplate.replace('__year__', encodeURIComponent(publishedYear)).replace('__slug__', encodeURIComponent(data.slug));
+                        const articleUrlEdit = articleEditUrlTemplate.replace('__slug__', encodeURIComponent(data.slug));
                         $('tbody').append(`
                                 <tr>
                                     <td>${data.title}</td>
                                     <td>${data.category?.category ?? "Uncategorized"}</td>
-                                    <td>${data.status}</td>
+                                    <td>${data.status === 'published' ? (new Date(data.published_at) < new Date() ? "Published<br>" : "Scheduled<br>") + Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.published_at)) : data.status}</td>
                                     <td>${data.user.username}</td>
+                                    <td>${Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.created_at))}</td>
                                     <td>
-                                        <a href="/admin/posts/${data.slug}/edit" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
+                                        <a href="${articleUrlShow}" class="btn btn-secondary btn-sm" target="_blank"><i class="ri-computer-fill"></i></a>
+                                        <a href="${articleUrlEdit}" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
                                         <form action="/admin/posts/${data.slug}", ":slug") }}" method="POST" class="d-inline">
                                             @csrf
                                             @method("DELETE")

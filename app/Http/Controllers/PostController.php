@@ -47,7 +47,7 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store and publish a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -55,14 +55,26 @@ class PostController extends Controller
     public function store(ArticleRequest $request)
     {
         $data = $request->validated();
-        $user = auth()->user()->username ?? "shared";
+
+        if ($request->has('publish')) {
+            $data['status'] = 'published';
+            if (empty($request->published_at)) {
+                $data['published_at'] = now();
+            }
+        } elseif ($request->has('unpublish')) {
+            $data['status'] = 'draft';
+            $data['published_at'] = null;
+        }
+
         if ($request->hasFile('cover')) {
+            $user = auth()->user()->username ?? "shared";
             $file = $request->file('cover');
             $filename = time() . '_' . Str::random(20) . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/drive/' . $user . '/img', $filename);
             $path = asset('storage/drive/' . $user . '/img/' . $filename);
             $data['cover'] = $filename;
         }
+
         Article::create($data);
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
@@ -101,8 +113,19 @@ class PostController extends Controller
     public function update(ArticleRequest $request, Article $post)
     {
         $data = $request->validated();
-        $user = $post->user->username ?? "shared";
+
+        if ($request->has('publish')) {
+            $data['status'] = 'published';
+            if (empty($request->published_at)) {
+                $data['published_at'] = now();
+            }
+        } elseif ($request->has('unpublish')) {
+            $data['status'] = 'draft';
+            $data['published_at'] = null;
+        }
+
         if ($request->hasFile('cover')) {
+            $user = $post->user->username ?? "shared";
             if ($post->cover) {
                 Storage::delete('public/drive/' . $user . '/img/' . $post->cover);
             }

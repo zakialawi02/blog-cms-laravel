@@ -34,12 +34,11 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|min:5',
             'slug' => 'required|unique:articles,slug,' . $post?->id,
-            'category_id' => 'required',
-            'published_at' => '',
-            'status' => 'required',
-            'user_id' => 'required',
-            'content' => '',
-            'excerpt' => 'max:300',
+            'category_id' => 'required|exists:categories,id',
+            'published_at' => 'nullable|date',
+            'user_id' => 'required|exists:users,id',
+            'content' => 'nullable',
+            'excerpt' => 'nullable|max:300',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
     }

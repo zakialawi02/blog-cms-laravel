@@ -93,17 +93,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="status_published">Status</label>
-                            <select class="form-control" id="status_published" name="status">
-                                <option value="published" {{ old("status", $post->status) == "published" ? "selected" : "" }}>Published</option>
-                                <option value="draft" {{ old("status", $post->status) == "draft" ? "selected" : "" }}>draft</option>
-                            </select>
-                            @error("status")
-                                <p class="text-sm text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
                             <label for="user_id">Author</label>
                             <select class="form-control" id="user_id" name="user_id">
                                 <option value="{{ Auth::user()->id }}" {{ old("user_id", $post->user_id) == Auth::user()->id ? "selected" : "" }}>{{ Auth::user()->username }}</option>
@@ -141,14 +130,15 @@
                         @error("content")
                             <p class="text-sm text-danger">{{ $message }}</p>
                         @enderror
-                        <textarea class="form-control" id="content" name="content" required>{{ old("content", $post->content) }}</textarea>
+                        <textarea class="form-control" id="content" name="content">{{ old("content", $post->content) }}</textarea>
                     </div>
 
                 </div>
             </div>
 
             <div class="py-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" name="publish" class="btn btn-primary">Save and Publish</button>
+                <button type="submit" name="unpublish" class="btn btn-secondary">Save Draft</button>
             </div>
         </form>
 

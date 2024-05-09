@@ -17,11 +17,11 @@ return new class extends Migration
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->nullOnDelete();
             $table->string('title');
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->string('slug')->unique();
             $table->string('excerpt', 2048)->nullable();
             $table->string('cover')->nullable();
-            $table->enum('status', ['published', 'draft']);
+            $table->enum('status', ['published', 'draft'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

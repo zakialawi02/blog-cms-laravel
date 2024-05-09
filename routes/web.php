@@ -6,7 +6,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleViewController;
+use App\Http\Controllers\CommentsController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +27,7 @@ Route::get('/', function () {
 });
 // route auth only admin
 Route::prefix('admin')->as('admin.')->group(function () {
+    // route auth admin and writer
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
@@ -41,6 +45,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
     });
 
+    // route auth only admin
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -50,15 +55,19 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
+
+    // route auth all
+    Route::group(['middleware' => ['auth', 'verified', 'role:admin,writer,user']], function () {
+        Route::get('/my-comments', [CommentsController::class, 'myindex'])->name('mycomments.index');
+        Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
+    });
 });
 
 Route::get('/posts', [\App\Http\Controllers\Api\ArticlesController::class, 'index'])->middleware('auth')->name('posts.data');
 
 // route auth all
 Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.back.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin', function () {
         return redirect('/dashboard');
     });

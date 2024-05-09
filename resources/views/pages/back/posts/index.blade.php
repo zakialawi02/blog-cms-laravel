@@ -86,15 +86,17 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mr-2 form-group">
-                        <label for="user">Author</label>
-                        <select name="user" id="user" class="form-control">
-                            <option value="all">All</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->username }}">{{ $user->username }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if (Auth::user()->role == "admin")
+                        <div class="mr-2 form-group">
+                            <label for="user">Author</label>
+                            <select name="user" id="user" class="form-control">
+                                <option value="all">All</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->username }}">{{ $user->username }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="mr-2 form-group">

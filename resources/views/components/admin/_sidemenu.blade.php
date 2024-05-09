@@ -10,12 +10,14 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ route("admin.posts.index") }}" class=" waves-effect">
-                <i class="ri-booklet-line"></i>
-                <span>Posts</span>
-            </a>
-        </li>
+        @if (Auth::user()->role == "admin" || Auth::user()->role == "writer")
+            <li>
+                <a href="{{ route("admin.posts.index") }}" class=" waves-effect">
+                    <i class="ri-booklet-line"></i>
+                    <span>Posts</span>
+                </a>
+            </li>
+        @endif
 
         @if (Auth::user()->role == "admin")
             <li>
@@ -26,19 +28,35 @@
             </li>
         @endif
 
-        <li class="">
-            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                <i class="ri-bar-chart-box-line"></i>
-                <span>Statistics Views</span>
+        <li>
+            <a href="{{ route("admin.mycomments.index") }}" class="waves-effect">
+                <i class="ri-message-2-line"></i>
+                <span>My Comments</span>
             </a>
-            <ul class="sub-menu" aria-expanded="false">
-                <li><a href="{{ route("admin.posts.statsview") }}">Articles Posts</a></li>
-                <li><a href="{{ route("admin.posts.statslocation") }}">By Country</a></li>
-            </ul>
         </li>
 
+        @if (Auth::user()->role == "admin" || Auth::user()->role == "writer")
+            <li>
+                <a href="{{ route("admin.comments.index") }}" class="waves-effect">
+                    <i class="ri-discuss-line"></i>
+                    <span>Comments</span>
+                </a>
+            </li>
+
+            <li class="">
+                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                    <i class="ri-bar-chart-box-line"></i>
+                    <span>Statistics Views</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="{{ route("admin.posts.statsview") }}">Articles Posts</a></li>
+                    <li><a href="{{ route("admin.posts.statslocation") }}">By Country</a></li>
+                </ul>
+            </li>
+        @endif
+
         @if (Auth::user()->role == "admin")
-            <li class="menu-title">Users</li>
+            <li class="menu-title">Management</li>
 
             <li>
                 <a href="{{ route("admin.users.index") }}" class=" waves-effect">

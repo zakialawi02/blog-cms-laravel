@@ -31,41 +31,27 @@
         <!-- end page title -->
     </div>
 
-    <div class="p-3 card">
-        <div class="">
-            <h3>{{ __("Dashboard") }}</h3>
-        </div>
-
-        <p>
-            {{ __("You're logged in!") }}
-        </p>
-        <p>
+    <div class="mb-3">
+        <h2>
             Welcome {{ Auth::user()->name }}, {{ "@" . Auth::user()->username }}
-        </p>
+        </h2>
     </div>
 
-    @if (Auth::user()->role == "admin")
-        <div class="p-3 card">
-            <div class="">
-                <h4>Menu Admin</h4>
-            </div>
-            <p>Menu ini akan tampil jika rolenya 'admin'</p>
+    <div class="p-3 card">
+        <div class="">
+            <h4>My Comments</h4>
         </div>
-    @elseif (Auth::user()->role == "writer")
-        <div class="p-3 card">
-            <div class="">
-                <h4>Menu Writer</h4>
-            </div>
-            <p>Menu ini akan tampil jika rolenya 'writer'</p>
+    </div>
+
+    <div class="p-3 card">
+        <div class="">
+            <h4>Become a Contributor</h4>
         </div>
-    @elseif (Auth::user()->role == "user")
-        <div class="p-3 card">
-            <div class="">
-                <h4>Menu User</h4>
-            </div>
-            <p>Menu ini akan tampil jika rolenya 'user'</p>
+        <p>Want to be a part of our community and contribute as a writer? Click the button below to join our team!</p>
+        <div class="d-flex justify-content-center">
+            <a href="#" class="btn btn-primary">Join as Author</a>
         </div>
-    @endif
+    </div>
 
 @endsection
 

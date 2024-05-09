@@ -95,6 +95,10 @@ class PostController extends Controller
      */
     public function edit(Article $post)
     {
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
         $data = [
             'title' => 'Edit Post',
         ];
@@ -112,6 +116,10 @@ class PostController extends Controller
      */
     public function update(ArticleRequest $request, Article $post)
     {
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
         $data = $request->validated();
 
         if ($request->has('publish')) {
@@ -150,6 +158,10 @@ class PostController extends Controller
      */
     public function destroy(Article $post)
     {
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
         $user = $post->user->username ?? "shared";
         if ($post->cover) {
             Storage::delete('public/drive/' . $user . '/img/' . $post->cover);

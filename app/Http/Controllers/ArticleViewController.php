@@ -142,6 +142,10 @@ class ArticleViewController extends Controller
     {
         $article = Article::where('slug', $slug)->firstOrFail();
 
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $article->user_id) {
+            abort(403);
+        }
+
         $views = ArticleView::where('article_id', $article->id)
             ->selectRaw('COUNT(*) as views, location, code')
             ->groupBy(['location', 'code'])

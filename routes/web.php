@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleViewController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\TagController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -43,6 +44,9 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::get('/posts/stats', [ArticleViewController::class, 'getArticleStats'])->name('posts.statsview');
         Route::get('/stats/posts/{slug}', [ArticleViewController::class, 'statsPerArticle'])->name('posts.statsdetail');
         Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
+
+        Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug']);
+        Route::post('/tags/generateSlug', [TagController::class, 'generateSlug'])->name('tags.generateSlug');
     });
 
     // route auth only admin

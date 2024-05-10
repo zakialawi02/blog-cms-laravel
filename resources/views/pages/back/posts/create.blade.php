@@ -6,7 +6,7 @@
 
 
 @push("css")
-    {{-- code here --}}
+    <link rel="stylesheet" href="{{ asset("assets/css/magicsuggest.css") }}">
 @endpush
 
 @section("content")
@@ -66,6 +66,14 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="tags" class="form-label">Tags</label>
+                            <input type="text" class="form-control" id="tags" name="tags[]" value="{{ json_encode(old("tags", [])) }}" placeholder="Type or click here or Type then press enter to create new tag">
+                            @error("tags")
+                                <p class="text-sm text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -78,10 +86,10 @@
                                     <button type="button" class="btn btn-outline-secondary ri-pencil-fill" id="edit-slug">
                                     </button>
                                 </div>
-                                @error("slug")
-                                    <p class="text-sm text-danger">{{ $message }}</p>
-                                @enderror
                             </div>
+                            @error("slug")
+                                <p class="text-sm text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -97,7 +105,7 @@
                             <select class="form-control" id="user_id" name="user_id">
                                 <option value="{{ Auth::user()->id }}" {{ old("user_id") == Auth::user()->id ? "selected" : "" }}>{{ Auth::user()->username }}</option>
                             </select>
-                            @error("status")
+                            @error("user_id")
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
                         </div>
@@ -145,6 +153,8 @@
 
 @push("javascript")
     @vite(["resources/js/wyswyg.js"])
+    <script src="{{ asset("assets/js/magicsuggest.js") }}"></script>
+
     <script>
         $(document).ready(function() {
             let isSlugEdited = false;
@@ -157,8 +167,8 @@
             })
 
             $("#title").change(function(e) {
-                const title = $("#title").val();
                 if (!isSlugEdited) {
+                    const title = $("#title").val();
                     generateSlug(title);
                 }
             });
@@ -234,6 +244,30 @@
 
             document.getElementById('post-form').addEventListener('submit', function(event) {
                 formChanged = false;
+            });
+        });
+
+        const listTags = [
+            @foreach ($tags as $tag)
+                {
+                    id: "{{ $tag->id }}",
+                    name: "{{ $tag->tag_name }}"
+                },
+            @endforeach
+        ];
+
+        $(function() {
+            const instance = $('#tags').magicSuggest({
+                data: listTags,
+                displayField: 'name',
+                tooltipField: 'title',
+                autoSelect: false,
+                valueField: 'name',
+                allowFreeEntries: true,
+                maxSelection: 8,
+                allowDuplicates: false,
+                noSuggestionText: 'No suggestions, or enter for create new tag',
+                placeholder: 'Type or click here or Type then press enter to create new tag',
             });
         });
     </script>

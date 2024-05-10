@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
+use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
-use App\Models\User;
+use App\Models\ArticlesTag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,8 +44,9 @@ class PostController extends Controller
             'title' => 'Create Post',
         ];
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('pages.back.posts.create', compact('categories', 'data'));
+        return view('pages.back.posts.create', compact('data', 'categories', 'tags'));
     }
 
     /**
@@ -75,7 +78,32 @@ class PostController extends Controller
             $data['cover'] = $filename;
         }
 
-        Article::create($data);
+        $article = Article::create($data);
+
+        if (request()->has('tags')) {
+            $tags = [];
+            foreach ($data['tags'] as $tagName) {
+                $tag = Tag::where('tag_name', $tagName)->first();
+                if (!$tag) {
+                    echo "Tag not found";
+                    $createTag = Tag::create([
+                        'tag_name' => ucwords($tagName),
+                        'slug' => Str::slug($tagName),
+                    ]);
+                    $tags[] = $createTag->id;
+                } else {
+                    $tags[] = $tag->id;
+                }
+            }
+            $data['tags'] = $tags;
+
+            foreach ($data['tags'] as $key => $tagId) {
+                ArticlesTag::create([
+                    'article_id' => $article->id,
+                    'tag_id' => $tagId
+                ]);
+            }
+        }
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
     }
@@ -103,9 +131,12 @@ class PostController extends Controller
             'title' => 'Edit Post',
         ];
         $categories = Category::all();
+        $articleTags = $post->tags->pluck('tag_name')->toArray();
+        $tags = Tag::all();
 
-        return view('pages.back.posts.edit', compact('post', 'categories', 'data'));
+        return view('pages.back.posts.edit', compact('data', 'post', 'categories', 'tags', 'articleTags'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -145,7 +176,34 @@ class PostController extends Controller
         } else {
             $data['cover'] = $post->cover;
         }
-        Article::where('slug', $post->slug)->update($data);
+
+        $post->update($data);
+
+        ArticlesTag::where('article_id', $post->id)->delete();
+        if (request()->has('tags')) {
+            $tags = [];
+            foreach ($data['tags'] as $tagName) {
+                $tag = Tag::where('tag_name', $tagName)->first();
+                if (!$tag) {
+                    echo "Tag not found";
+                    $createTag = Tag::create([
+                        'tag_name' => ucwords($tagName),
+                        'slug' => Str::slug($tagName),
+                    ]);
+                    $tags[] = $createTag->id;
+                } else {
+                    $tags[] = $tag->id;
+                }
+            }
+            $data['tags'] = $tags;
+
+            foreach ($data['tags'] as $key => $tagId) {
+                ArticlesTag::create([
+                    'article_id' => $post->id,
+                    'tag_id' => $tagId
+                ]);
+            }
+        }
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }

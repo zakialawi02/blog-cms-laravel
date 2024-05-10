@@ -6,7 +6,7 @@
 
 
 @push("css")
-    {{-- code here --}}
+    <link rel="stylesheet" href="{{ asset("assets/css/magicsuggest.css") }}">
 @endpush
 
 @section("content")
@@ -62,6 +62,14 @@
                             <label for="excerpt" class="form-label">Excerpt/Summary/Intro</label>
                             <textarea class="form-control" id="excerpt" name="excerpt" rows="5">{{ old("excerpt", $post->excerpt) }}</textarea>
                             @error("excerpt")
+                                <p class="text-sm text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags" class="form-label">Tags</label>
+                            <input type="text" class="form-control" id="tags" name="tags[]" value="{{ json_encode(old("tags", $articleTags)) }}" placeholder="Type or click here or Type then press enter to create new tag">
+                            @error("tags")
                                 <p class="text-sm text-danger">{{ $message }}</p>
                             @enderror
                         </div>
@@ -150,6 +158,8 @@
 
 @push("javascript")
     @vite(["resources/js/wyswyg.js"])
+    <script src="{{ asset("assets/js/magicsuggest.js") }}"></script>
+
     <script>
         $(document).ready(function() {
             let isSlugEdited = false;
@@ -239,6 +249,31 @@
 
             document.getElementById('post-form').addEventListener('submit', function(event) {
                 formChanged = false;
+            });
+        });
+
+
+        const listTags = [
+            @foreach ($tags as $tag)
+                {
+                    id: "{{ $tag->id }}",
+                    name: "{{ $tag->tag_name }}"
+                },
+            @endforeach
+        ];
+
+        $(function() {
+            const instance = $('#tags').magicSuggest({
+                data: listTags,
+                displayField: 'name',
+                tooltipField: 'title',
+                autoSelect: false,
+                valueField: 'name',
+                allowFreeEntries: true,
+                maxSelection: 8,
+                allowDuplicates: false,
+                noSuggestionText: 'No suggestions, or enter for create new tag',
+                placeholder: 'Type or click here or Type then press enter to create new tag',
             });
         });
     </script>

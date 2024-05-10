@@ -1,9 +1,11 @@
 @extends("layouts.app")
 
 @section("title", ($data["title"] ?? "") . " • Dashboard | zakialawi")
-@section("meta_description", "isi disini")
+@section("meta_description", "List of all posts on the zakialawi.my.id website")
 @section("meta_author", "zakialawi")
 
+@section("og_title", "All Posts • Dashboard | zakialawi.my.id")
+@section("og_description", "List of all posts on the zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}
@@ -31,19 +33,20 @@
 
     <div class="p-3 card">
 
-        <form action="{{ route("admin.categories.store") }}" id="form-category" method="post">
+        <form action="{{ route("admin.tags.store") }}" id="form-tag" method="post">
             @csrf
             @method("post")
 
             <div class="form-group">
-                <label for="category">Category Name</label>
-                <input type="text" name="category" id="category" class="form-control" value="{{ old("category") }}" autofocus required>
-                @error("category")
+                <label for="tag_name">Tag Name</label>
+                <input type="text" name="tag_name" id="tag_name" class="form-control" value="{{ old("tag_name") }}" autofocus required>
+                @error("tag_name")
                     <p class="text-sm text-danger">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
-                <label for="slug">Category Slug / url</label>
+                <label for="slug">Tag Slug / url</label>
                 <div class="input-group">
                     <input type="text" name="slug" id="slug" class="form-control" value="{{ old("slug") }}" readonly required>
                     <div class="input-group-append">
@@ -55,7 +58,6 @@
                     <p class="text-sm text-danger">{{ $message }}</p>
                 @enderror
             </div>
-
 
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
@@ -75,7 +77,6 @@
             $("#edit-slug").toggleClass("ri-close-fill");
         })
 
-
         const debounce = (fn, delay = 500) => {
             let timer;
             return function(...args) {
@@ -86,14 +87,14 @@
             };
         };
 
-        $("#category").on("input", debounce(function(e) {
-            const category = $("#category").val();
-            console.log(category);
+        $("#tag_name").on("input", debounce(function(e) {
+            const tag = $("#tag_name").val();
+
             $.ajax({
                 type: "post",
-                url: `{{ route("admin.categories.generateSlug") }}`,
+                url: `{{ route("admin.tags.generateSlug") }}`,
                 data: {
-                    category,
+                    tag,
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: "json",
@@ -108,12 +109,13 @@
 
         $(document).ready(function() {
             let formChanged = false;
-            document.getElementById('form-category').addEventListener('change', () => {
-                formChanged = true;
+            document.getElementById('form-tag').addEventListener('change', () => {
+                if (!formChanged) {
+                    formChanged = true;
+                }
             });
             window.addEventListener('beforeunload', function(e) {
                 if (!formChanged) return undefined;
-
                 // Cancel the event as per the standard.
                 e.preventDefault();
                 // Chrome requires returnValue to be set.
@@ -121,7 +123,7 @@
                 return 'Are you sure you want to leave? Changes you made may not be saved.';
             });
 
-            document.getElementById('form-category').addEventListener('submit', function(event) {
+            document.getElementById('form-tag').addEventListener('submit', function(event) {
                 formChanged = false;
             });
         });

@@ -26,6 +26,13 @@
                     <span>Categories</span>
                 </a>
             </li>
+
+            <li>
+                <a href="{{ route("admin.tags.index") }}" class=" waves-effect">
+                    <i class="ri-price-tag-3-line"></i>
+                    <span>Tags</span>
+                </a>
+            </li>
         @endif
 
         <li>

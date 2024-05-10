@@ -115,6 +115,7 @@
                     <tr>
                         <th scope="col">Title</th>
                         <th scope="col">Category</th>
+                        <th scope="col">Tags</th>
                         <th scope="col">Status</th>
                         <th scope="col">Author</th>
                         <th scope="col">Created</th>
@@ -181,6 +182,7 @@
                 },
                 success: function(response) {
                     const data = response.data;
+                    console.log(data);
                     if (data.length === 0) {
                         $("#myTable tbody").html('<tr><td colspan="5" class="text-center">No Data</td></tr>');
                         return;
@@ -194,6 +196,7 @@
                         $('tbody').append(`
                                 <tr>
                                     <td>${data.title}</td>
+                                    <td>${data.category?.category ?? "Uncategorized"}</td>
                                     <td>${data.category?.category ?? "Uncategorized"}</td>
                                     <td>${data.status === 'published' ? (new Date(data.published_at) < new Date() ? "Published<br>" : "Scheduled<br>") + Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.published_at)) : data.status}</td>
                                     <td>${data.user.username}</td>

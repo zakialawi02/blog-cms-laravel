@@ -9,7 +9,7 @@
 @section("og_image", asset("assets/img/{$article->cover}"))
 
 @push("css")
-    {{-- code here --}}
+    <link rel="stylesheet" href="{{ asset("assets/css/prism.css") }}">
 @endpush
 
 @section("content")
@@ -187,6 +187,8 @@
 @endsection
 
 @push("javascript")
+    <script src="{{ asset("assets/js/prism.js") }}"></script>
+
     <script>
         // code here
     </script>

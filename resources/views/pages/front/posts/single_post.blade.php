@@ -70,9 +70,9 @@
                         <div class="flex items-center justify-between text-secondary">
                             <div class="">
                                 <!-- tags -->
-                                <a href="#" class="px-1 py-[0.1rem] transition-all duration-300 mr-1 border-[1px] rounded-2xl border-secondary hover:border-primary hover:text-primary ">#Trending</a>
-                                <a href="#" class="px-1 py-[0.1rem] transition-all duration-300 mr-1 border-[1px] rounded-2xl border-secondary hover:border-primary hover:text-primary ">#Video</a>
-                                <a href="#" class="px-1 py-[0.1rem] transition-all duration-300 mr-1 border-[1px] rounded-2xl border-secondary hover:border-primary hover:text-primary ">#Featured</a>
+                                @foreach ($article->tags->take(4) as $tag)
+                                    <a href="{{ route("article.tag", $tag->tag_name) }}" class="px-1 py-[0.1rem] transition-all duration-300 mr-1 border-[1px] rounded-2xl border-secondary hover:border-primary hover:text-primary ">#{{ $tag->tag_name }}</a>
+                                @endforeach
                             </div>
                             <div class="text-2xl">
                                 <p class="text-sm">Share:</p>

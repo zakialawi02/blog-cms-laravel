@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Users::class);
         User::factory(200)->create();
         $this->call(Categories::class);
+        $this->call(Tags::class);
         $this->call(Articles::class);
         ArticleView::factory(500)->create();
     }

@@ -197,7 +197,7 @@
                                 <tr>
                                     <td>${data.title}</td>
                                     <td>${data.category?.category ?? "Uncategorized"}</td>
-                                    <td>${data.category?.category ?? "Uncategorized"}</td>
+                                    <td>${data.tags.map(tag => tag.tag_name)}</td>
                                     <td>${data.status === 'published' ? (new Date(data.published_at) < new Date() ? "Published<br>" : "Scheduled<br>") + Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.published_at)) : data.status}</td>
                                     <td>${data.user.username}</td>
                                     <td>${Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.created_at))}</td>

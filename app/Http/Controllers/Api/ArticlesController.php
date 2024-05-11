@@ -37,7 +37,7 @@ class ArticlesController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Article::select('title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')->with('user', 'category');
+        $query = Article::select('id', 'title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')->with('user', 'category', 'tags');
 
         if (auth()->user()->role !== 'admin') {
             $query->where('user_id', auth()->id());
@@ -69,10 +69,10 @@ class ArticlesController extends Controller
             });
         }
 
-        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->orderBy('articles.created_at', 'desc')->paginate(10);
 
         $this->articlesMappingArray($posts);
-
+        unset($posts[0]->id);
         return response()->json($posts);
     }
 

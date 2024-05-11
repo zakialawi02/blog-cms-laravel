@@ -46,22 +46,26 @@ class ArticleController extends Controller
         return $dataV;
     }
 
-    private function fetchArticles($search = null, $categories = null, $year = null, $month = null)
+    private function fetchArticles($search = null, $categories = null, $tag = null)
     {
+        $query = Article::with('user', 'category', 'tags')
+            ->where(['status' => 'published', ['published_at', '<', now()]])
+            ->orderBy('published_at', 'desc');
 
         if ($categories) {
             $query = Category::where('slug', $categories)->firstOrFail();
             $query = $query->articles()
                 ->with('user', 'category')
-                ->where(['status' => 'published', ['published_at', '<', now()]])
-                ->orderBy('published_at', 'desc');
+                ->where(['status' => 'published', ['published_at', '<', now()]]);
             if ($categories == 'uncategorized') {
                 $query->whereNull('category_id');
             }
-        } else {
-            $query = Article::with('user', 'category')
-                ->where(['status' => 'published', ['published_at', '<', now()]])
-                ->orderBy('published_at', 'desc');
+        }
+
+        if ($tag) {
+            $query->whereHas('tags', function ($query) use ($tag) {
+                $query->where('slug', $tag);
+            });
         }
 
         if ($search) {
@@ -88,7 +92,7 @@ class ArticleController extends Controller
         $articles = $this->fetchArticles($search);
 
         $this->articlesMappingArray($articles);
-        $featured = (!empty($articles) && $articles->count() >= 5 ? $articles->random(5) : null);
+        $featured = (!empty($articles) ?  $articles->shuffle()->take(5) : null);
 
         return view('pages.front.posts.posts', compact('articles', 'featured'));
     }
@@ -107,6 +111,16 @@ class ArticleController extends Controller
         $this->articlesMappingArray($articles);
 
         return view('pages.front.posts.byCategories', compact('articles'));
+    }
+
+    public function getArticlesByTag($tag)
+    {
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, "", $tag);
+
+        $this->articlesMappingArray($articles);
+
+        return view('pages.front.posts.byTags', compact('articles'));
     }
 
     /**
@@ -214,7 +228,7 @@ class ArticleController extends Controller
      */
     public function show(Request $request, $year, $slug)
     {
-        $article = Article::with('user', 'category')
+        $article = Article::with('user', 'category', 'tags')
             ->where('slug', $slug)
             ->whereYear('published_at', $year)
             ->where('published_at', '<=', Carbon::now())
@@ -222,7 +236,7 @@ class ArticleController extends Controller
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
         // dd($article->cover);
         $categories = Category::all();
-
+        // return response()->json($article);
         $this->saveVisitor($article->id, request()->ip());
 
         return view('pages.front.posts.single_post', compact('article', 'categories'));

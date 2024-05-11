@@ -27,8 +27,8 @@
                     <div class="flex flex-row flex-wrap">
                         <!--Start left cover-->
                         <div class="flex-shrink w-full max-w-full pb-1 lg:w-1/2 lg:pb-0 lg:pr-1">
-                            @foreach ($articles->take(1) as $article)
-                                <div class="relative overflow-hidden hover-img max-h-[25rem]">
+                            @foreach ($featured->take(1) as $article)
+                                <div class="relative overflow-hidden hover-img h-full max-h-[25rem]">
                                     <a href="{{ route("article.show", ["year" => $article->published_at->format("Y"), "slug" => $article->slug]) }}">
                                         <div class="absolute top-0 left-0 w-full h-full bg-gradient-cover"></div>
                                         <img class="w-full h-auto max-w-full mx-auto" src="{{ asset($article->cover) }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
@@ -51,9 +51,9 @@
                         <!--Start box news-->
                         <div class="flex-shrink w-full max-w-full lg:w-1/2">
                             <div class="flex flex-row flex-wrap">
-                                @foreach ($articles->skip(1)->take(4) as $article)
+                                @foreach ($featured->skip(1)->take(4) as $article)
                                     <article class="flex-shrink w-full max-w-full px-1 pb-1 my-1 sm:w-1/2">
-                                        <div class="relative overflow-hidden hover-img max-h-48">
+                                        <div class="relative h-full overflow-hidden hover-img max-h-48">
                                             <a href="{{ route("article.show", ["year" => $article->published_at->format("Y"), "slug" => $article->slug]) }}">
                                                 <div class="absolute top-0 left-0 w-full h-full bg-gradient-cover"></div>
                                                 <img class="w-full h-auto max-w-full mx-auto" src="{{ asset($article->cover) }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
@@ -91,7 +91,7 @@
                 <p class="my-2 ">No Article Posts Available</p>
             @else
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-                    @foreach ((request()->has("search") && request()->get("search") != "") || (request()->has("page") && request()->get("page") != 1) ? $articles : $articles->skip(5) as $article)
+                    @foreach ($articles as $article)
                         <article>
                             <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80" src="{{ asset($article->cover) }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
 

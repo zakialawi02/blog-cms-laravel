@@ -83,6 +83,7 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
 
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
+Route::get('/blog/tags/{slug}', [ArticleController::class, 'getArticlesByTag'])->name('article.tag');
 Route::get('/blog/categories/{slug}', [ArticleController::class, 'getArticlesByCategory'])->name('article.category');
 Route::get('/blog/users/{username}', [ArticleController::class, 'getArticlesByUser'])->name('article.user');
 Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear'])->name('article.year');

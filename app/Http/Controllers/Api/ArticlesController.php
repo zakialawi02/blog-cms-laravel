@@ -72,7 +72,9 @@ class ArticlesController extends Controller
         $posts = $query->orderBy('articles.created_at', 'desc')->paginate(10);
 
         $this->articlesMappingArray($posts);
-        unset($posts[0]->id);
+        if ($posts->count() > 0) {
+            unset($posts[0]->id);
+        }
         return response()->json($posts);
     }
 

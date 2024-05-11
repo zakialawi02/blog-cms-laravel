@@ -36,23 +36,6 @@
         </div>
 
 
-        @if (session("success"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session("success") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-error alert-dismissible fade show" role="alert">
-                {{ session("error") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-
         <div class="table-responsive">
             <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
@@ -145,6 +128,9 @@
 @endsection
 
 @push("javascript")
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
     <script>
         $(document).ready(function() {
             let table = new DataTable('#myTable', {
@@ -278,25 +264,43 @@
             });
 
             // Delete user
-            $('body').on('click', '.deleteUser', function(e) {
+            $('body').on('click', '.show-confirm-delete', function(e) {
                 e.preventDefault();
                 const userId = $(this).data('id');
                 const url = `{{ route("admin.users.destroy", ":userId") }}`.replace(':userId', userId);
-                console.log(url);
-                console.log(userId);
-                if (confirm("Are you sure you want to delete this user?")) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: `{{ route("admin.users.destroy", ":userId") }}`.replace(':userId', userId),
-                        success: function(response) {
-                            $('#myTable').DataTable().ajax.reload();
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                }
+
+                confirmDelete(deleteUser(userId));
             })
+
+            function confirmDelete() {
+                Swal.fire({
+                    title: "Are you sure you want to delete this record?",
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#74788d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonColor: '#5664d2',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteUser(userId);
+                    }
+                });
+            }
+
+            function deleteUser(userId) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `{{ route("admin.users.destroy", ":userId") }}`.replace(':userId', userId),
+                    success: function(response) {
+                        $('#myTable').DataTable().ajax.reload();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
         });
     </script>
 @endpush

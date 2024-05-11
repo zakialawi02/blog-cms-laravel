@@ -56,6 +56,9 @@
 @endsection
 
 @push("javascript")
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
     <script>
         // code here
     </script>

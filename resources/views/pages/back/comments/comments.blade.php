@@ -33,22 +33,6 @@
 
     <div class="p-3 card">
 
-        @if (session("success"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session("success") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-error alert-dismissible fade show" role="alert">
-                {{ session("error") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
 
         <div class="">
             <table id="myTable" class="table table-hover table-striped" style="width:100%">
@@ -101,5 +85,10 @@
 @endsection
 
 @push("javascript")
-    {{--  --}}
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
+    <script>
+        // code here
+    </script>
 @endpush

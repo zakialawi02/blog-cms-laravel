@@ -47,7 +47,7 @@
 
                         <div class="form-group">
                             <label for="category_id">Categoy</label>
-                            <select class="form-control" id="category_id" name="category_id" required>
+                            <select class="form-control" id="category_id" name="category_id">
                                 <option value="">-- Select Category --</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}" {{ old("category_id", $post->category_id) == $category->id ? "selected" : "" }}>{{ $category->category }}</option>

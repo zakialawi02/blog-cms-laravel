@@ -39,22 +39,6 @@
             </div>
         </div>
 
-        @if (session("success"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session("success") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-error alert-dismissible fade show" role="alert">
-                {{ session("error") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
 
         <div class="">
             <table class="table table-hover table-striped">
@@ -68,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($tags as $tag)
+                    @forelse ($tags as $tag)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $tag->tag_name }}</td>
@@ -79,11 +63,15 @@
                                 <form action="{{ route("admin.tags.destroy", $tag->slug) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No Tags</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -95,5 +83,10 @@
 @endsection
 
 @push("javascript")
-    {{--  --}}
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
+    <script>
+        // code here
+    </script>
 @endpush

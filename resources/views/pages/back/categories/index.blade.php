@@ -36,22 +36,6 @@
             <a href="{{ route("admin.categories.create") }}" class="btn btn-primary"><i class="ri-add-line"></i> Add Categories</a>
         </div>
 
-        @if (session("success"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session("success") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-error alert-dismissible fade show" role="alert">
-                {{ session("error") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
 
         <div class="">
             <table class="table table-hover table-striped" style="width:100%">
@@ -64,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $category)
+                    @forelse ($categories as $category)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $category->category }}</td>
@@ -74,11 +58,14 @@
                                 <form action="{{ route("admin.categories.destroy", $category->slug) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
                                 </form>
                             </td>
+                    </tr>@empty
+                        <tr>
+                            <td colspan="4" class="text-center">No Categories</td>
                         </tr>
-                    @endforeach
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -90,6 +77,9 @@
 @endsection
 
 @push("javascript")
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
     <script>
         // code here
     </script>

@@ -44,23 +44,6 @@
         </div>
 
 
-        @if (session("success"))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session("success") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-error alert-dismissible fade show" role="alert">
-                {{ session("error") }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-
         <div class="">
 
             <div class="px-2 ">
@@ -136,6 +119,9 @@
 @endsection
 
 @push("javascript")
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
+
     <script>
         $(document).ready(function() {
             fetchData(window.location.search);
@@ -178,13 +164,13 @@
                 url: urlAjax,
                 type: "GET",
                 beforeSend: function() {
-                    $("#myTable tbody").html('<tr><td colspan="5" class="text-center"><i class="spinner-border text-primary"></i></td></tr>');
+                    $("#myTable tbody").html('<tr><td colspan="7" class="text-center"><i class="spinner-border text-primary"></i></td></tr>');
                 },
                 success: function(response) {
                     const data = response.data;
                     console.log(data);
                     if (data.length === 0) {
-                        $("#myTable tbody").html('<tr><td colspan="5" class="text-center">No Data</td></tr>');
+                        $("#myTable tbody").html('<tr><td colspan="7" class="text-center">No Data</td></tr>');
                         return;
                     }
                     $('tbody').empty();
@@ -207,7 +193,7 @@
                                         <form action="/admin/posts/${data.slug}", ":slug") }}" method="POST" class="d-inline">
                                             @csrf
                                             @method("DELETE")
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="ri-delete-bin-6-line"></i></button>
+                                            <button type="submit" class="btn btn-danger btn-sm show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
                                         </form>
                                     </td>
                                 </tr>

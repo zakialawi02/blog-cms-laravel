@@ -20,7 +20,7 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
                     return '<a href="#" class="btn btn-sm btn-success editUser" data-id="' . $data->id . ' "><i class="ri-pencil-line"></i></a>
-                    <button type="submit" class="btn btn-sm btn-danger deleteUser" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
+                    <button type="submit" class="btn btn-sm btn-danger show-confirm-delete" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
                 })
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . asset($data->profile_photo_path) . '" width="30">';

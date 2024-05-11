@@ -34,7 +34,7 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|min:5',
             'slug' => 'required|unique:articles,slug,' . $post?->id,
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'tags' => '',
             'status' => '',
             'published_at' => 'nullable|date',

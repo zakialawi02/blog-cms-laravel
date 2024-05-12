@@ -45,30 +45,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
+                    @forelse ($myComments as $myComment)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $myComment->article->title }}</td>
+                            <td>{!! $myComment->content !!}</td>
+                            <td>
+                                <form action="{{ route("admin.comment.destroy", $myComment->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method("DELETE")
+
+                                    <button type="submit" class="btn btn-sm btn-danger show-confirm-delete"><i class="ri-delete-bin-6-line show-confirm-delete"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No Comments</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div id="pagination"></div>

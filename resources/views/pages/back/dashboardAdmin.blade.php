@@ -43,7 +43,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="mb-0 card-title">Total My Posts</h4>
-                        <p class="card-text">44 posts</p>
+                        <p class="card-text">- posts</p>
                     </div>
                     <div>
                         <i class="ri-archive-stack-fill display-1 text-primary" style="font-size: 3rem;"></i>
@@ -56,7 +56,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="mb-0 card-title">My Posts Published</h4>
-                        <p class="card-text">44 Posts</p>
+                        <p class="card-text">- Posts</p>
                     </div>
                     <div>
                         <i class="ri-mac-line display-1 text-success" style="font-size: 3rem;"></i>
@@ -69,7 +69,60 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h4 class="mb-0 card-title">Total My Comments</h4>
-                        <p class="card-text">44 comments</p>
+                        <p class="card-text">- comments</p>
+                    </div>
+                    <div>
+                        <i class="ri-message-2-fill display-1 text-secondary" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 card-title">Visitors</h4>
+                        <p class="card-text">- posts</p>
+                    </div>
+                    <div>
+                        <i class="ri-bar-chart-grouped-fill display-1 text-warning" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 card-title">Total All Posts</h4>
+                        <p class="card-text">- posts</p>
+                    </div>
+                    <div>
+                        <i class="ri-archive-stack-fill display-1 text-secondary" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 card-title">All Posts Published</h4>
+                        <p class="card-text">- Posts</p>
+                    </div>
+                    <div>
+                        <i class="ri-mac-line display-1 text-success" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 card-title">Total All Comments</h4>
+                        <p class="card-text">- comments</p>
                     </div>
                     <div>
                         <i class="ri-message-2-fill display-1 text-info" style="font-size: 3rem;"></i>
@@ -81,11 +134,11 @@
             <div class="card">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="mb-0 card-title">Visitors</h4>
-                        <p class="card-text">44 posts</p>
+                        <h4 class="mb-0 card-title">Total User</h4>
+                        <p class="card-text">- users</p>
                     </div>
                     <div>
-                        <i class="ri-bar-chart-grouped-fill display-1 text-danger" style="font-size: 3rem;"></i>
+                        <i class="ri-group-fill display-1 text-danger" style="font-size: 3rem;"></i>
                     </div>
                 </div>
             </div>

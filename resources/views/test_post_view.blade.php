@@ -100,6 +100,35 @@
 
                         </div>
 
+                        <div class="py-1 my-2 border-b-2 border-dark border-opacity-40"></div>
+
+                        <div id="comment-section">
+                            <div id="" class="mt-4">
+                                <div class="mb-3">
+                                    <h2 class="text-3xl font-bold">Comments</h2>
+                                </div>
+
+                                <div class="flex justify-start mt-4">
+                                    <button type="button" id="show-comments-section" class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-primary hover:bg-secondary focus:outline-none">Show Comments Section</button>
+                                </div>
+
+                                <form action="" method="post" class="space-y-4">
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <img class="w-8 h-8 rounded-full" src="{{ asset("assets/img/profile/user.png") }}" alt="Ahmad Zaki Alawi">
+                                        <span class="text-sm text-gray-700">comment as <b>[Ahmad Zaki Alawi]</b></span>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <textarea name="comment" id="comment" cols="10" rows="5" class="w-full p-2 border-2 rounded-lg border-neutral" placeholder="Write your comment..." required></textarea>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button type="submit" class="px-4 py-2 font-semibold text-white rounded-lg bg-primary hover:bg-secondary">Post Comment</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
                     </div>
 
                     <div id="sidebar" class="w-full md:w-[30%] mt-10 md:mt-0">
@@ -189,6 +218,8 @@
 
         <!-- Footer -->
         @include("components.front.footer")
+
+
 
     </body>
 

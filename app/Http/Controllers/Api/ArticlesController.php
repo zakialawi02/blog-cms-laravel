@@ -47,7 +47,10 @@ class ArticlesController extends Controller
             $query = $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->get("search") . '%')
                     ->orWhere('content', 'like', '%' . $request->get("search") . '%')
-                    ->orWhere('excerpt', 'like', '%' . $request->get("search") . '%');
+                    ->orWhere('excerpt', 'like', '%' . $request->get("search") . '%')
+                    ->orWhereHas('tags', function ($q) use ($request) {
+                        $q->where('tag_name', 'like', '%' . $request->get("search") . '%');
+                    });
             });
         }
 

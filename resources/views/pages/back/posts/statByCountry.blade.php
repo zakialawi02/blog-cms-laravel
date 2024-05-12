@@ -37,7 +37,9 @@
     </div>
 
     <div class="p-2 card">
-        <div id="stats-map"></div>
+        <div id="stats-map">
+            <p class="text-center"><i class="spinner-border text-primary"></i></p>
+        </div>
     </div>
 
     <div class="p-2 card">

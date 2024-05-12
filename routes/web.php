@@ -24,7 +24,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/blog');
 });
 // route auth only admin
 Route::prefix('admin')->as('admin.')->group(function () {
@@ -64,6 +64,9 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::group(['middleware' => ['auth', 'verified', 'role:admin,writer,user']], function () {
         Route::get('/my-comments', [CommentsController::class, 'myindex'])->name('mycomments.index');
         Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
+
+        Route::delete('/comments/{comment:id}', [CommentsController::class, 'destroy'])->name('comment.destroy');
+        Route::post('/comments/{post:slug}', [CommentsController::class, 'store'])->name('comment.store');
     });
 });
 
@@ -75,6 +78,7 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     Route::get('/admin', function () {
         return redirect('/dashboard');
     });
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -90,6 +94,9 @@ Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
+
+Route::post('/show-comment/{post:slug}', [CommentsController::class, 'showArticleComment'])->name('showArticleComment');
+Route::post('/show-comment-section', [ArticleController::class, 'showCommentSection'])->name('showCommentSection');
 
 Route::get('/test', function () {
     return view('test');

@@ -16,6 +16,62 @@
     <!-- NAVBAR -->
     @include("components.front.navbar")
 
+    @guest()
+        <!-- MODAL LOGIN -->
+        <div id="modal-login" class="fixed inset-0 z-50 flex items-center justify-center hidden transition-all duration-500">
+            <div id="modal-login-backdrop" class="absolute inset-0 bg-gray-700 opacity-50"></div>
+            <div class="relative w-[80%] lg:w-[40%] p-4 bg-white rounded-lg shadow-lg">
+                <button id="modal-login-close" class="absolute p-1 text-2xl font-bold bg-gray-100 border border-gray-300 rounded-full -top-2 -right-2">
+                    <i class="ri-close-fill"></i>
+                </button>
+
+                <div class="">
+
+                    <form id="login-form" class="w-full" method="post" action="{{ route("login") }}">
+                        @csrf
+                        @method("POST")
+
+                        <div class="flex flex-col mb-4">
+                            <label for="id_user" class="text-gray-700 select-none">Email/Username</label>
+                            <div class="relative">
+                                <input type="text" class="w-full py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" name="id_user" id="id_user" value="{{ old("id_user") }}" placeholder="Enter email" autofocus>
+                            </div>
+                            @error("id_user")
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="flex flex-col mb-4">
+                            <label for="password" class="text-gray-700 select-none">Password</label>
+                            <div class="relative">
+                                <input type="password" class="w-full py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" name="password" id="password" value="{{ old("password") }}" placeholder="Enter password">
+                            </div>
+                            @error("password")
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 border-gray-300 rounded focus:ring-primary text-primary" id="remember_me" name="remember">
+                            <label for="remember_me" class="block ml-2 text-sm text-gray-900 select-none">Remember me</label>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="w-full px-4 py-2 text-base font-medium tracking-wide text-white rounded-lg bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white" type="submit">Log In</button>
+                        </div>
+
+                        <div id="login-error-messages" class="mx-2 text-center text-red-500"></div>
+
+                        <div class="mt-4 text-center">
+                            <a href="{{ route("password.request") }}" class="text-sm text-gray-500 hover:text-gray-700">Forgot your password?</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endguest
+
     <main class="container w-full p-6 md:p-10">
 
         <div class="mt-14">
@@ -96,6 +152,26 @@
 
                     </div>
 
+                    <div class="py-1 my-2 border-b-2 border-dark border-opacity-40"></div>
+
+                    <div id="comments">
+                        <div id="" class="mt-4">
+                            <div class="mb-3">
+                                <h2 class="text-3xl font-bold">Comments</h2>
+                            </div>
+
+                            <div id="comments-section">
+
+                            </div>
+
+                            <div class="flex justify-start mt-3">
+                                <button type="button" id="btn-show-comments-section" class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-primary hover:bg-secondary focus:outline-none">Show Comments Section</button>
+                            </div>
+
+                            <div id="content-comment-container" class="mt-10"> </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div id="sidebar" class="w-full md:w-[30%] mt-10 md:mt-0">
@@ -190,6 +266,146 @@
     <script src="{{ asset("assets/js/prism.js") }}"></script>
 
     <script>
-        // code here
+        $(document).ready(function() {
+            function showCommentsSection(callback = null) {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route("showCommentSection") }}",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    dataType: "html",
+                    beforeSend: function() {
+                        $("#btn-show-comments-section").empty();
+                        $("#btn-show-comments-section").prepend("<div class='text-center loadspin'></div>");
+                    },
+                    success: function(response) {
+                        $("#btn-show-comments-section").remove();
+                        $("#comments-section").html(response);
+                        $(".loadspin").remove();
+                        const auth = "{{ auth()->check() }}"; // null=not login or 1=login
+                        if (callback) callback();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $("#btn-show-comments-section").empty();
+                        $("#btn-show-comments-section").prepend("Show Comments Section (error)");
+                    }
+                });
+            }
+
+            function loadComments() {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route("showArticleComment", $article->slug) }}",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    dataType: "html",
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        $("#content-comment-container").empty();
+                        $("#content-comment-container").html(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $("#content-comment-container").empty();
+                        $("#content-comment-container").prepend("Load Comments (error)");
+                    }
+                });
+            }
+
+            $("#btn-show-comments-section").click(function(e) {
+                e.preventDefault();
+
+                showCommentsSection(loadComments())
+            });
+
+            $(document).on("submit", "#comment-form", function(e) {
+                e.preventDefault();
+                $("#messages-error").html("");
+                $("#btn-submit-comment").empty();
+                $("#btn-submit-comment").prepend("<div class='text-center loadspin'></div>");
+                $.ajax({
+                    type: "post",
+                    url: "{{ route("admin.comment.store", $article->slug) }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        comment: $("#comment_input").val()
+                    },
+                    dataType: "json",
+                    berforeSend: function() {
+                        $("#btn-submit-comment").empty();
+                        $("#btn-submit-comment").prepend("<div class='text-center loadspin'></div>");
+                    },
+                    success: function(response) {
+                        $("#comment_input").val("");
+                        $("#btn-submit-comment").empty();
+                        $("#btn-submit-comment").prepend("Post Comment");
+                        $("#content-comment-container").empty();
+                        $("#content-comment-container").prepend("<div class='text-center loadspin'></div>");
+                        loadComments();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        $("#btn-submit-comment").empty();
+                        $("#btn-submit-comment").prepend("Post Comment");
+                        const messages = error.responseJSON.errors;
+                        $.each(messages, function(indexInArray, message) {
+                            console.log(message[0]);
+                            $("#messages-error").append('<span>' + message[0] + '</span> <br>');
+                        });
+                    }
+                })
+            });
+
+        });
     </script>
+
+    @guest()
+        // logic modal login and login
+        <script>
+            $(document).on("click", "#btn-submit-comment-need-login", function(e) {
+                $("#modal-login").removeClass("hidden");
+            });
+
+            $(document).on("click", "#modal-login-close", function(e) {
+                $("#modal-login").addClass("hidden");
+            });
+
+            $(document).on("click", "#modal-login-backdrop", function(e) {
+                $("#modal-login").addClass("hidden");
+            });
+
+            $(document).on("submit", "#login-form", function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "post",
+                    url: "{{ route("login") }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id_user: $("#id_user").val(),
+                        password: $("#password").val()
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        if (error.status == 200) {
+                            window.location.reload();
+                        } else {
+                            $("#login-error-messages").html("Login Failed");
+                        }
+                    }
+                });
+            });
+        </script>
+    @endguest
 @endpush

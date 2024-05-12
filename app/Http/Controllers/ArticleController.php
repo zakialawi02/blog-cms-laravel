@@ -7,10 +7,12 @@ use App\Models\Article;
 use App\Models\Category;
 use ipinfo\ipinfo\IPinfo;
 use App\Models\ArticleView;
+use App\Models\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
@@ -115,6 +117,7 @@ class ArticleController extends Controller
 
     public function getArticlesByTag($tag)
     {
+        (Tag::where('slug', $tag)->firstOrFail());
         $search = request()->query('search');
         $articles = $this->fetchArticles($search, "", $tag);
 
@@ -264,5 +267,20 @@ class ArticleController extends Controller
     public function destroy(article $article)
     {
         //
+    }
+
+    /**
+     * Show the comment section.
+     * Show form comments section component view for a single post
+     * Ajax call/request
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function showCommentSection()
+    {
+
+        $user = Auth::user()->username ?? "guest";
+
+        return view('components.front.commentSinglePost', compact('user'));
     }
 }

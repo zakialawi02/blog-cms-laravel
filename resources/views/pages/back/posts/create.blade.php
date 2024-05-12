@@ -7,6 +7,7 @@
 
 @push("css")
     <link rel="stylesheet" href="{{ asset("assets/css/magicsuggest.css") }}">
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 @endpush
 
 @section("content")
@@ -154,6 +155,9 @@
 @push("javascript")
     @vite(["resources/js/wyswyg.js"])
     <script src="{{ asset("assets/js/magicsuggest.js") }}"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 
     <script>
         $(document).ready(function() {

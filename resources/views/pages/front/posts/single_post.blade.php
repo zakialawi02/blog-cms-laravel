@@ -18,14 +18,16 @@
 
     @guest()
         <!-- MODAL LOGIN -->
-        <div id="modal-login" class="fixed inset-0 z-50 flex items-center justify-center hidden transition-all duration-500">
+        <div id="modal-login"class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div id="modal-login-backdrop" class="absolute inset-0 bg-gray-700 opacity-50"></div>
-            <div class="relative w-[80%] lg:w-[40%] p-4 bg-white rounded-lg shadow-lg">
-                <button id="modal-login-close" class="absolute p-1 text-2xl font-bold bg-gray-100 border border-gray-300 rounded-full -top-2 -right-2">
-                    <i class="ri-close-fill"></i>
-                </button>
+            <div class="flex items-end justify-center min-h-screen px-4 pt-4 text-center py-44">
 
-                <div class="">
+                <div class="relative inline-block px-4 w-[80%] pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                    <div class="relative z-10">
+                        <button id="modal-login-close" class="absolute text-2xl font-bold bg-gray-100 border border-gray-300 rounded-lg -top-4 -right-4">
+                            <i class="ri-close-fill"></i>
+                        </button>
+                    </div>
 
                     <form id="login-form" class="w-full" method="post" action="{{ route("login") }}">
                         @csrf
@@ -60,7 +62,7 @@
                             <button class="w-full px-4 py-2 text-base font-medium tracking-wide text-white rounded-lg bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white" type="submit">Log In</button>
                         </div>
 
-                        <div id="login-error-messages" class="mx-2 text-center text-red-500"></div>
+                        <div id="login-error-messages" class="mt-3 text-center text-red-500"></div>
 
                         <div class="mt-4 text-center">
                             <a href="{{ route("password.request") }}" class="text-sm text-gray-500 hover:text-gray-700">Forgot your password?</a>
@@ -319,7 +321,6 @@
 
             $("#btn-show-comments-section").click(function(e) {
                 e.preventDefault();
-
                 showCommentsSection(loadComments())
             });
 
@@ -361,6 +362,29 @@
                 })
             });
 
+            $(document).on("click", ".show-confirm-delete", function(e) {
+                e.preventDefault();
+                const commentId = $(this).closest("form").data("id");
+                const url = "{{ route("admin.comment.destroy", ":commentId") }}".replace(':commentId', commentId);
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        $("#content-comment-container").empty();
+                        $("#content-comment-container").prepend("<div class='text-center loadspin'></div>");
+                    },
+                    success: function(response) {
+                        loadComments();
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    },
+                });
+            });
         });
     </script>
 
@@ -368,15 +392,11 @@
         // logic modal login and login
         <script>
             $(document).on("click", "#btn-submit-comment-need-login", function(e) {
-                $("#modal-login").removeClass("hidden");
+                $("#modal-login").css("display", "block");
             });
 
-            $(document).on("click", "#modal-login-close", function(e) {
-                $("#modal-login").addClass("hidden");
-            });
-
-            $(document).on("click", "#modal-login-backdrop", function(e) {
-                $("#modal-login").addClass("hidden");
+            $(document).on("click", "#modal-login-close, #modal-login-backdrop", function(e) {
+                $("#modal-login").css("display", "none");
             });
 
             $(document).on("submit", "#login-form", function(e) {
@@ -401,7 +421,7 @@
                         if (error.status == 200) {
                             window.location.reload();
                         } else {
-                            $("#login-error-messages").html("Login Failed");
+                            $("#login-error-messages").html("Login Failed. Please check your credentials and try again.");
                         }
                     }
                 });

@@ -240,7 +240,9 @@ class ArticleController extends Controller
         // dd($article->cover);
         $categories = Category::all();
         // return response()->json($article);
-        $this->saveVisitor($article->id, request()->ip());
+        $ipAddress = $request->header('CF-Connecting-IP') ?? $request->header('X-Forwarded-For');
+        // dd($ipAddress);
+        $this->saveVisitor($article->id, $ipAddress);
 
         return view('pages.front.posts.single_post', compact('article', 'categories'));
     }
@@ -279,7 +281,7 @@ class ArticleController extends Controller
     public function showCommentSection()
     {
 
-        $user = Auth::user()->username ?? "guest";
+        $user = Auth::user()->username ?? "Please login to comment";
 
         return view('components.front.commentSinglePost', compact('user'));
     }

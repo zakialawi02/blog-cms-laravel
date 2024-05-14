@@ -10,7 +10,7 @@ export default defineConfig({
                 "resources/js/app.js",
                 "resources/js/wyswyg.js",
             ],
-            refresh: true,
+            refresh: ["resources/**/*"],
         }),
     ],
 });

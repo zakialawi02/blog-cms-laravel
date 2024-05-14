@@ -9,8 +9,26 @@
                         <p class="text-sm">{{ $comment->created_at ? $comment->created_at->diffForHumans() : "" }}</p>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <i class="ri-more-2-fill"></i>
+
+                <div x-data="{ isActive: false }" class="relative">
+                    <div class="flex items-center">
+                        <button x-on:click="isActive = !isActive">
+                            <i class="ri-more-2-fill"></i>
+                        </button>
+                    </div>
+
+                    @if (auth()->check() && auth()->user()->id == $comment->user_id)
+                        <div class="absolute z-10 w-24 mt-2 bg-white border border-gray-100 rounded-md shadow-lg" role="menu" x-cloak x-transition x-show="isActive" x-on:click.away="isActive = false" x-on:keydown.escape.window="isActive = false">
+                            <div class="p-0">
+                                <form method="POST" data-id="{{ $comment->id }}" action="#">
+                                    @csrf
+                                    @method("delete")
+                                    <button type="submit" class="block px-4 py-2 text-sm rounded-lg text-error hover:bg-gray-50 hover:text-gray-700 show-confirm-delete" role="menuitem">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+
                 </div>
             </div>
             <div class="mt-3">

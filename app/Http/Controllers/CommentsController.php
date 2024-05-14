@@ -81,6 +81,12 @@ class CommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        if (request()->ajax()) {
+            Comment::where('id', $comment->id)->delete();
+
+            return response()->json(['success' => 'Comment deleted successfully']);
+        }
+
         Comment::where('id', $comment->id)->delete();
 
         return redirect()->route('admin.mycomments.index')->with('success', 'Comment deleted successfully');

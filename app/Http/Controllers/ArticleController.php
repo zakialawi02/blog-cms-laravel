@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
+    /**
+     * Maps and modifies the provided articles array by updating excerpt, cover image paths, and category ID if necessary.
+     *
+     * @param datatype $articles The array of articles to be mapped and modified.
+     * @throws Some_Exception_Class description of exception
+     * @return Some_Return_Value
+     */
     protected function articlesMappingArray($articles)
     {
         $articles = $articles->map(function ($article) {
@@ -38,6 +45,12 @@ class ArticleController extends Controller
         });
     }
 
+    /**
+     * Get the IP visitor details using IPinfo API.
+     *
+     * @param datatype $ip The IP address of the visitor
+     * @return mixed The details of the visitor based on the IP address
+     */
     protected function getIpVisitor($ip)
     {
         $access_token = 'cdd7aa7e08e80d';
@@ -48,6 +61,14 @@ class ArticleController extends Controller
         return $dataV;
     }
 
+    /**
+     * Fetches articles based on search criteria like search keywords, categories, and tags.
+     *
+     * @param mixed|null $search The search keyword to filter articles.
+     * @param mixed|null $categories The category to filter articles.
+     * @param mixed|null $tag The tag to filter articles.
+     * @return \Illuminate\Pagination\LengthAwarePaginator The paginated list of articles based on the search criteria.
+     */
     private function fetchArticles($search = null, $categories = null, $tag = null)
     {
         $query = Article::with('user', 'category', 'tags')
@@ -85,6 +106,7 @@ class ArticleController extends Controller
         return $query->paginate(11)->withQueryString();
     }
 
+
     /**
      * Display a listing of the resource.
      */
@@ -115,6 +137,13 @@ class ArticleController extends Controller
         return view('pages.front.posts.byCategories', compact('articles'));
     }
 
+    /**
+     * Retrieves articles by tag.
+     *
+     * @param datatype $tag slug of the tag
+     * @throws Some_Exception_Class description of exception
+     * @return Some_Return_Value
+     */
     public function getArticlesByTag($tag)
     {
         (Tag::where('slug', $tag)->firstOrFail());
@@ -205,6 +234,14 @@ class ArticleController extends Controller
         //
     }
 
+    /**
+     * Store visitor data/Save visitor information if not already cached.
+     *
+     * @param datatype $article_id The ID of the article visited
+     * @param datatype $ip The IP address of the visitor
+     * @throws \Throwable Description of the exception
+     * @return void
+     */
     protected function saveVisitor($article_id, $ip)
     {
         $cacheKey = 'article-view:' . $article_id . ':' . $ip;
@@ -227,7 +264,13 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a specific article based on the year and slug.
+     *
+     * @param Request $request The HTTP request object.
+     * @param int $year The year of the article.
+     * @param string $slug The slug of the article.
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the article is not found.
+     * @return \Illuminate\Contracts\View\View The view for displaying a single post.
      */
     public function show(Request $request, $year, $slug)
     {
@@ -237,14 +280,17 @@ class ArticleController extends Controller
             ->where('published_at', '<=', Carbon::now())
             ->firstOrFail();
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
-        // dd($article->cover);
+
         $categories = Category::all();
-        // return response()->json($article);
+
+        $popularPosts = $this->getPopularPosts();
+        $this->articlesMappingArray($popularPosts);
+
         $ipAddress = $request->header('CF-Connecting-IP') ?? $request->header('X-Forwarded-For');
-        // dd($ipAddress);
+
         $this->saveVisitor($article->id, $ipAddress);
 
-        return view('pages.front.posts.single_post', compact('article', 'categories'));
+        return view('pages.front.posts.single_post', compact('article', 'categories', 'popularPosts'));
     }
 
     /**
@@ -284,5 +330,29 @@ class ArticleController extends Controller
         $user = Auth::user()->username ?? "Please login to comment";
 
         return view('components.front.commentSinglePost', compact('user'));
+    }
+
+    /**
+     * Retrieves popular posts and renders the 'pages.front.posts.popular' view.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function popularPost()
+    {
+        $articles = $this->getPopularPosts();
+        $this->articlesMappingArray($articles);
+        // return response()->json($articles);
+        return view('pages.front.posts.popular', compact('articles'));
+    }
+
+    /**
+     * Retrieves popular posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    protected function getPopularPosts()
+    {
+        return Article::has('articleViews')->withCount(['articleViews as total_views'])
+            ->orderBy('total_views', 'desc')->take(4)->with('user', 'category')->get();
     }
 }

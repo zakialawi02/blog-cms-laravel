@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
+    /**
+     * Display my comments listing of the resource.
+     *
+     * @throws \Exception If there is an issue retrieving the comments
+     * @return \Illuminate\View\View Returns the view with the comments
+     */
     public function myindex()
     {
         $myComments = Comment::with('article', 'user')->where('user_id', auth()->user()->id)->get();
@@ -20,7 +26,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display all listing of the resource.
      */
     public function index()
     {
@@ -76,8 +82,12 @@ class CommentsController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Comment $comment The comment to be deleted
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse Response indicating success or redirect
      */
     public function destroy(Comment $comment)
     {

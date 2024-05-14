@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="@yield("meta_description", "") name="description">
         <meta content="@yield("meta_author", "")" name="author">
+        <meta content="@yield("meta_keywords", "")" name="keywords">
 
         <meta property="og:title" content="@yield("og_title", config("app.name"))" />
         <meta property="og:type" content="@yield("og_type", "website")" />

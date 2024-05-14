@@ -6,7 +6,7 @@
 
 @section("og_title", "{$article->title} | zakialawi.my.id")
 @section("og_description", "$article->excerpt")
-@section("og_image", asset("assets/img/{$article->cover}"))
+@section("og_image", "$article->cover")
 
 @push("css")
     <link rel="stylesheet" href="{{ asset("assets/css/prism.css") }}">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div id="feature-image" class="mb-3">
-                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ asset($article->cover) }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
+                        <img class="max-h-[26rem] w-full rounded-lg object-cover object-center" src="{{ $article->cover }}" alt="{{ $article->title }}" loading="lazy" onerror="this.onerror=null;this.src='http://personal-blog-laravel.test/assets/img/image-placeholder.png';">
                     </div>
                     <div id="post-content" class="text-lg">
 
@@ -181,63 +181,30 @@
                         <div class="text-xl font-bold text-center">
                             <h3>Popular Posts</h3>
                         </div>
+
                         <div class="p-2 mx-auto">
+                            @forelse ($popularPosts as $popular)
+                                <article>
+                                    <div class="flex items-center gap-2 p-2">
+                                        <a href="#" class="block mr-2 shrink-0">
+                                            <img alt="post image" src="{{ $popular->cover }}" class="object-cover rounded-3xl size-14" />
+                                        </a>
 
-                            <article>
-                                <div class="flex items-center gap-2 p-2">
-                                    <a href="#" class="block mr-2 shrink-0">
-                                        <img alt="post image" src="https://source.unsplash.com/random" class="object-cover rounded-3xl size-14" />
-                                    </a>
+                                        <div>
+                                            <h3 class="font-medium sm:text-lg line-clamp-2">
+                                                <a href="#" class="block hover:text-primary">{{ $popular->title }}</a>
+                                            </h3>
 
-                                    <div>
-                                        <h3 class="font-medium sm:text-lg line-clamp-2">
-                                            <a href="#" class="block hover:text-primary">Lorem ipsum dolor sit amet consectetur.</a>
-                                        </h3>
-
-                                        <div class="mt-2 sm:flex sm:items-center sm:gap-2">
-                                            <p class="hidden sm:block sm:text-xs">Posted by <a href="#" class="font-medium hover:text-primary">Alex</a>
-                                            </p>
+                                            <div class="mt-2 sm:flex sm:items-center sm:gap-2">
+                                                <p class="hidden sm:block sm:text-xs">Posted by <a href="#" class="font-medium hover:text-primary">{{ $popular->user->username }}</a>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </article>
-                            <article>
-                                <div class="flex items-center gap-2 p-2">
-                                    <a href="#" class="block mr-2 shrink-0">
-                                        <img alt="post image" src="https://source.unsplash.com/random" class="object-cover rounded-3xl size-14" />
-                                    </a>
-
-                                    <div>
-                                        <h3 class="font-medium sm:text-lg line-clamp-2">
-                                            <a href="#" class="block hover:text-primary">Lorem ipsum dolor sit amet consectetur.</a>
-                                        </h3>
-
-                                        <div class="mt-2 sm:flex sm:items-center sm:gap-2">
-                                            <p class="hidden sm:block sm:text-xs">Posted by <a href="#" class="font-medium hover:text-primary">Alex</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article>
-                                <div class="flex items-center gap-2 p-2">
-                                    <a href="#" class="block mr-2 shrink-0">
-                                        <img alt="post image" src="https://source.unsplash.com/random" class="object-cover rounded-3xl size-14" />
-                                    </a>
-
-                                    <div>
-                                        <h3 class="font-medium sm:text-lg line-clamp-2">
-                                            <a href="#" class="block hover:text-primary">Lorem ipsum dolor sit amet consectetur.</a>
-                                        </h3>
-
-                                        <div class="mt-2 sm:flex sm:items-center sm:gap-2">
-                                            <p class="hidden sm:block sm:text-xs">Posted by <a href="#" class="font-medium hover:text-primary">Alex</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-
+                                </article>
+                            @empty
+                                <p class="my-2 text-center font-regular">No popular posts</p>
+                            @endforelse
                         </div>
                     </div>
                     <div id="categories" class="p-2 mb-3 border-2 rounded-lg border-neutral">
@@ -245,10 +212,12 @@
                             <h3>Categories</h3>
                         </div>
                         <div class="p-2 mx-auto">
-                            <ul class="flex flex-col gap-4 p-2 font-semibold">
-                                @foreach ($categories as $category)
-                                    <li><a href="{{ route("article.category", $category->slug) }}" class="hover:text-primary"><i class="mr-2 text-xl ri-skip-right-line text-info"></i>{{ $category->category }}</a></li>
-                                @endforeach
+                            <ul class="flex flex-col gap-4 p-2">
+                                @forelse ($categories as $category)
+                                    <li><a href="{{ route("article.category", $category->slug) }}" class="font-bold hover:text-primary"><i class="mr-2 text-xl ri-skip-right-line text-info"></i>{{ $category->category }}</a></li>
+                                @empty
+                                    <p class="my-2 text-center font-regular">No Category Available</p>
+                                @endforelse
                             </ul>
                         </div>
                     </div>

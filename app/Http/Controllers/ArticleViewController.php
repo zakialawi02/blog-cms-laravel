@@ -10,8 +10,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ArticleViewController extends Controller
 {
+
     /**
      * Display a listing of the resource.
+     * Ajax call/request
+     *
+     * @return Some_Return_Value
      */
     public function index()
     {
@@ -20,6 +24,12 @@ class ArticleViewController extends Controller
         return response()->json($articles);
     }
 
+    /**
+     * Retrieves the views data for the last 6 months, grouped by 12-hour periods.
+     * Ajax call/request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getViewsLast6Months()
     {
         // Tentukan tanggal mulai 6 bulan yang lalu dari hari ini, dimulai dari hari pertama bulan tersebut
@@ -66,8 +76,10 @@ class ArticleViewController extends Controller
         return response()->json($result);
     }
 
-
-
+    /**
+     * Get the article statistics based on the type (popular or recent).
+     *
+     */
     public function getArticleStats()
     {
         if (request()->ajax()) {
@@ -125,6 +137,12 @@ class ArticleViewController extends Controller
 
         return view('pages.back.posts.statView', compact('data',));
     }
+
+    /**
+     * Retrieves the statistics of articles by location.
+     *
+     * @return Some_Return_Value
+     */
     public function statsByLocation()
     {
         if (auth()->user()->role !== 'admin') {
@@ -156,7 +174,13 @@ class ArticleViewController extends Controller
         return view('pages.back.posts.statByCountry', compact('data', 'views', 'totalViews'));
     }
 
-
+    /**
+     * Retrieves the statistics of an article based on the provided slug.
+     *
+     * @param string $slug The slug of the article to retrieve statistics for.
+     * @throws ModelNotFoundException if the article with the provided slug is not found.
+     * @return \Illuminate\View\View The view displaying the detailed statistics of the article.
+     */
     public function statsPerArticle($slug)
     {
         $article = Article::where('slug', $slug)->firstOrFail();

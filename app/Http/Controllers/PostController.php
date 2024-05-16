@@ -227,4 +227,9 @@ class PostController extends Controller
         Article::where('slug', $post->slug)->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
     }
+
+    public function myFilesManager(Request $request)
+    {
+        return view('pages.back.myFiles.myFiles');
+    }
 }

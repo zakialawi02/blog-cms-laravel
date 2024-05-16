@@ -41,6 +41,8 @@
         <div class="">
             <h4>My Comments</h4>
         </div>
+        <p>Total of my comments : {{ $myComments }}</p>
+        <a href="{{ route("admin.mycomments.index") }}">View My Comments More</a>
     </div>
 
     <div class="p-3 card">
@@ -49,8 +51,20 @@
         </div>
         <p>Want to be a part of our community and contribute as a writer? Click the button below to join our team!</p>
         <div class="d-flex justify-content-center">
-            <a href="#" class="btn btn-primary">Join as Author</a>
+            <form action="{{ route("admin.requestsContributors") }}" method="POST">
+                @csrf
+                @method("POST")
+
+                <button type="submit" class="btn btn-primary">Join as Contributor/Writer</button>
+            </form>
         </div>
+    </div>
+
+    <div class="p-3 card">
+        <div class="">
+            <h4>Coming Soon</h4>
+        </div>
+        <p>Coming Soon new features</p>
     </div>
 
 @endsection

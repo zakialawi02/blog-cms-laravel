@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Mail\requestContributor;
+use App\Models\requestContributor as ModelsRequestContributor;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -121,5 +125,28 @@ class UserController extends Controller
     {
         // dd($user->id);
         User::where('id', $user->id)->delete();
+    }
+
+    public function joinContributor()
+    {
+        $email = Auth::user()->email;
+        $contentMail = [
+            'username' => Auth::user()->username,
+            'body' => 'You have been requested as contributor',
+            'code' => rand(1000, 9999),
+        ];
+        // dd($contentMail);
+        $saved = ModelsRequestContributor::create([
+            'user_id' => Auth::user()->id,
+            'code' => $contentMail['code'],
+            'valid_code_until' => now()->addMinutes(30)->format('Y-m-d H:i:s'),
+        ]);
+        // dd($saved);
+        if ($saved) {
+            Mail::to($email)->send(new requestContributor($contentMail));
+            return redirect()->back()->with('success', 'Request sent successfully, please check your email');
+        } else {
+            return redirect()->back()->with('error', 'Request failed');
+        }
     }
 }

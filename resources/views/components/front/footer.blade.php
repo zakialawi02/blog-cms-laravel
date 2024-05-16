@@ -23,43 +23,43 @@
                     </div>
 
                     <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">About</h5>
+                        <h5 class="text-2xl font-bold ">Menu</h5>
                         <div class="space-y-1 text-dark">
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Home</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 1</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Features</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 2</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Faqs</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 3</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Reviews</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 4</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Stories</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 5</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">Privacy</h5>
+                        <h5 class="text-2xl font-bold ">Menu</h5>
                         <div class="space-y-1 text-dark">
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Privacy</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 1</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Policy</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 2</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Payment</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 3</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Payment</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 4</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Terms</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 5</a>
                             </div>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
                     <div class="md:col-span-2">
                         <div class="flex flex-col">
                             <h5 class="mb-6 text-2xl font-bold">Contact Us</h5>
-                            <p class="text-lg font-semibold text-muted ">+346 932 857</p>
-                            <p class="text-base font-medium text-muted mt-2s">DarrenJRichardson@armyspy.com</p>
+                            {{-- <p class="text-lg font-semibold text-muted ">+346 932 857</p> --}}
+                            <p class="text-base font-medium text-muted mt-2s">hallo@zakialawi.my.id</p>
                             <form class="w-full max-w-lg mt-6 ms-auto">
                                 <div class="relative flex items-center px-1 overflow-hidden bg-white rounded-md shadow">
                                     <input type="email" placeholder="Your Email Address" class="px-3 py-3.5 text-black w-full text-base border-0 ring-0 bg-white outline-none focus:ring-0">

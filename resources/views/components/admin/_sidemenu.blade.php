@@ -50,6 +50,13 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route("admin.myfiles") }}" class="waves-effect">
+                    <i class="ri-folder-open-line"></i>
+                    <span>My Files</span>
+                </a>
+            </li>
+
             <li class="">
                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                     <i class="ri-bar-chart-box-line"></i>

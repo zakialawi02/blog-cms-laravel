@@ -23,13 +23,31 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
+Route::prefix('filemanager')->as('lfm.')->group(function () {
+    Route::get('/', function () {
+        abort(404);
+    });
+    Route::any('/{any?}', function () {
+        abort(404);
+    })->where('any', '.*');
+});
+
+
 Route::get('/', function () {
     return redirect('/blog');
 });
-// route auth only admin
+
+
 Route::prefix('admin')->as('admin.')->group(function () {
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+
     // route auth admin and writer
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
+        Route::get('/my-files', [PostController::class, 'myFilesManager'])->name('myfiles');
+
+
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -83,7 +101,6 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');

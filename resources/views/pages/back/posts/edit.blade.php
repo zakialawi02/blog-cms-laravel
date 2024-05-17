@@ -34,6 +34,10 @@
             @csrf
             @method("PUT")
 
+            <div class="py-3 d-flex justify-content-end">
+                <button type="submit" name="publish" class="mx-2 btn btn-primary">Save and Publish</button>
+                <button type="submit" name="unpublish" class="mx-2 btn btn-secondary">Save Draft</button>
+            </div>
             <div class="row">
                 <div class="col-md-8">
                     <div class="p-3 card">

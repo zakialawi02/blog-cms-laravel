@@ -254,6 +254,7 @@ class ArticleController extends Controller
                     'ip_address' => $ip,
                     'code' => array_key_exists('country', $dataIpVisitor) ? $dataIpVisitor['country'] : NULL,
                     'location' => array_key_exists('country_name', $dataIpVisitor) ? $dataIpVisitor['country_name'] : NULL,
+                    'viewed_at' => Carbon::now(),
                 ]);
 
                 Cache::put($cacheKey, true, $cacheDuration);

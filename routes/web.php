@@ -114,6 +114,13 @@ Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
+Route::get('privacy-policy', function () {
+    return view('pages.front.privacyPolicy');
+})->name('privacyPolicy');
+Route::get('terms-and-conditions', function () {
+    return view('pages.front.termCondition');
+})->name('termsAndConditions');
+
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'showArticleComment'])->name('showArticleComment');
 Route::post('/show-comment-section', [ArticleController::class, 'showCommentSection'])->name('showCommentSection');

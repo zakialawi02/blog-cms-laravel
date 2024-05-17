@@ -1,9 +1,9 @@
 <header>
     <div x-data="{ isOpen: false }" class="z-10 flex items-center justify-between w-full h-20 px-6 md:px-14 bg-base-100">
         <div id="logo-nav" class="max-w-[15rem] text-dark font-semibold uppercase">
-            <a href="#" class="inline-flex items-center text-xl ">
-                <img src="{{ asset("assets/img/thumbs.png") }}" alt="Logo" class="w-8 h-8">
-                <span class="px-2 ">Laravel Blog</span>
+            <a href="{{ route("article.index") }}" class="inline-flex items-center text-xl ">
+                <img src="{{ asset("assets/img/logoo.png") }}" alt="Logo" class="w-8 h-8">
+                <span class="px-2 ">Blog</span>
             </a>
         </div>
 

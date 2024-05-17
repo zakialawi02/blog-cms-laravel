@@ -4,47 +4,47 @@
             <div class="container mx-auto">
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-6 md:grid-cols-4">
                     <div class="md:col-span-2">
-                        <a class="block mb-6 navbar-brand" href="index.html">
-                            <h2 class="text-3xl font-bold text-primary">Logo Here</h2>
+                        <a class="block mb-6 navbar-brand" href="{{ route("article.index") }}">
+                            <h2 class="text-3xl font-bold text-primary">Zakialawi Blog</h2>
                         </a>
-                        <p class="max-w-xs text-base font-medium text-muted">Nor again is there anyone who loves or pursues or desires to obtain pain of itself.</p>
+                        <p class="max-w-xs text-base font-medium text-muted">Personal Blog & platform</p>
 
                         <h3 class="mt-5 text-xl font-bold text-dark">Follow Us:</h3>
                         <div class="flex gap-3 mt-4 font-normal text-dark">
-                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light"><i class="ri-facebook-fill"></i>
+                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light"><i class="ri-facebook-fill" target="_blank"></i>
                             </a>
-                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light"><i class="ri-twitter-x-fill"></i>
+                            <a href="https://twitter.com/zakialawi_" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light" target="_blank"><i
+                                    class="ri-twitter-x-fill"></i>
                             </a>
-                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light"><i class="ri-linkedin-box-fill"></i>
+                            <a href="https://www.linkedin.com/in/ahmad-zaki-alawi/" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light" target="_blank"><i
+                                    class="ri-linkedin-box-fill"></i>
                             </a>
-                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light"><i class="ri-instagram-fill"></i>
+                            <a href="https://www.instagram.com/zakialawi_/" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-primary hover:bg-primary hover:text-light" target="_blank"><i
+                                    class="ri-instagram-fill"></i>
                             </a>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">Menu</h5>
+                        <h5 class="text-2xl font-bold ">About</h5>
                         <div class="space-y-1 text-dark">
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 1</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">About</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 2</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Career</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 3</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">History</a>
                             </div>
                             <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 4</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 5</a>
+                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Team</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">Menu</h5>
+                        <h5 class="text-2xl font-bold ">Blog</h5>
                         <div class="space-y-1 text-dark">
                             <div>
                                 <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 1</a>
@@ -92,7 +92,9 @@
                     </p>
 
                     <div>
-                        <p class="text-base font-semibold text-muted">Terms Conditions &amp; Policy</p>
+                        <a href="{{ route("termsAndConditions") }}" class="text-base font-semibold hover:text-primary text-muted">Terms Conditions</a>
+                        <span class="text-base font-semibold text-muted"> &amp;</span>
+                        <a href="{{ route("privacyPolicy") }}" class="text-base font-semibold text-muted hover:text-primary">Privacy Policy</a>
                     </div>
                 </div>
             </div>

@@ -57,6 +57,7 @@ return [
             'thumb_width' => 80,
             'thumb_height' => 80,
             'valid_mime'   => [
+                'image/webp',
                 'image/jpeg',
                 'image/pjpeg',
                 'image/png',

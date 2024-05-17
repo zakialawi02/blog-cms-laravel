@@ -230,6 +230,11 @@ class PostController extends Controller
 
     public function myFilesManager(Request $request)
     {
-        return view('pages.back.myFiles.myFiles');
+        $data = [
+
+            'title' => 'My File Manager',
+        ];
+
+        return view('pages.back.myFiles.myFiles', compact('data'));
     }
 }

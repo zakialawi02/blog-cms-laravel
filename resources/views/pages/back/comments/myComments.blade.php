@@ -1,11 +1,8 @@
 @extends("layouts.app")
 
 @section("title", ($data["title"] ?? "") . " • Dashboard | zakialawi")
-@section("meta_description", "List of all posts on the zakialawi.my.id website")
+@section("meta_description", "List of my comments on the zakialawi.my.id website")
 @section("meta_author", "zakialawi")
-
-@section("og_title", "All Posts • Dashboard | zakialawi.my.id")
-@section("og_description", "List of all posts on the zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}
@@ -76,9 +73,6 @@
 @endsection
 
 @push("javascript")
-    <!-- Message Alert -->
-    @include("components.admin._messageAlert")
-
     <script>
         // code here
     </script>

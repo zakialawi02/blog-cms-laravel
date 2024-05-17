@@ -119,9 +119,6 @@
 @endsection
 
 @push("javascript")
-    <!-- Message Alert -->
-    @include("components.admin._messageAlert")
-
     <script>
         $(document).ready(function() {
             fetchData(window.location.search);

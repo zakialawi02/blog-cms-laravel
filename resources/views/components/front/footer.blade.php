@@ -71,10 +71,11 @@
                             <p class="text-base font-medium text-muted mt-2s">hallo@zakialawi.my.id</p>
                             <form class="w-full max-w-lg mt-6 ms-auto">
                                 <div class="relative flex items-center px-1 overflow-hidden bg-white rounded-md shadow">
-                                    <input type="email" placeholder="Your Email Address" class="px-3 py-3.5 text-black w-full text-base border-0 ring-0 bg-white outline-none focus:ring-0">
-                                    <button type="button" class="px-3 py-1 font-semibold text-white transition-all duration-500 rounded bg-secondary hover:bg-primary"><i class="ri-send-plane-2-line"></i></button>
+                                    <input type="email" placeholder="Your Email Address" class="px-3 py-3.5 text-black w-full text-base border-0 ring-0 bg-white outline-none focus:ring-0" name="email">
+                                    <button type="button" id="send-email-button" class="px-3 py-1 font-semibold text-white transition-all duration-500 rounded bg-secondary hover:bg-primary"><i class="ri-send-plane-2-line"></i></button>
                                 </div>
                             </form>
+                            <div id="message-newsletter"></div>
                         </div>
                     </div>
                 </div>
@@ -101,3 +102,35 @@
         </div>
     </div>
 </footer>
+
+@push("javascript")
+    <script>
+        $(document).ready(function() {
+            $("#send-email-button").click(function(e) {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route("newsletter.store") }}",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "email": $("input[name=email]").val(),
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        $("#message-newsletter").html(`<div class="text-info" role="alert">Sending...</div>`);
+                    },
+                    success: function(response) {
+                        const html = `<div class="text-success" role="alert">${response.message}</div>`;
+                        $("#message-newsletter").html(html);
+                        if (response.message.success == true) {
+                            $("input[name=email]").val("");
+                        }
+                    },
+                    error: function(error) {
+                        const html = `<div class="text-error" role="alert">${error.responseJSON.message}</div>`;
+                        $("#message-newsletter").html(html);
+                    },
+                });
+            });
+        });
+    </script>
+@endpush

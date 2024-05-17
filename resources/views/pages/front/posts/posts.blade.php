@@ -141,13 +141,6 @@
 
 @push("javascript")
     <script>
-        $(document).ready(function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchParam = urlParams.get('search');
-            console.log(searchParam);
-            if (searchParam) {
-                document.querySelector('#search').value = searchParam;
-            }
-        });
+        // code here
     </script>
 @endpush

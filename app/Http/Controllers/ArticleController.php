@@ -41,7 +41,7 @@ class ArticleController extends Controller
             return $article;
         });
         $articles->map(function ($article) {
-            $article->excerpt = Str::limit($article->excerpt, 300);
+            $article->excerpt = Str::limit($article->excerpt, 200);
         });
     }
 
@@ -69,7 +69,7 @@ class ArticleController extends Controller
      * @param mixed|null $tag The tag to filter articles.
      * @return \Illuminate\Pagination\LengthAwarePaginator The paginated list of articles based on the search criteria.
      */
-    private function fetchArticles($search = null, $categories = null, $tag = null)
+    private function fetchArticles($search = null, $categories = null, $tag = null, $user = null)
     {
         $query = Article::with('user', 'category', 'tags')
             ->where(['status' => 'published', ['published_at', '<', now()]])
@@ -91,6 +91,12 @@ class ArticleController extends Controller
             });
         }
 
+        if ($user) {
+            $query->whereHas('user', function ($query) use ($user) {
+                $query->where('username', $user);
+            });
+        }
+
         if ($search) {
             $query->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
@@ -103,7 +109,7 @@ class ArticleController extends Controller
             });
         }
 
-        return $query->paginate(11)->withQueryString();
+        return $query->paginate(9)->withQueryString();
     }
 
 
@@ -164,11 +170,9 @@ class ArticleController extends Controller
     public function getArticlesByUser($username)
     {
         $user = User::where('username', $username)->firstOrFail();
-        $articles = $user->articles()
-            ->with('user', 'category')
-            ->where(['status' => 'published', ['published_at', '<', now()]])
-            ->orderBy('published_at', 'desc')
-            ->paginate(12)->withQueryString();
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, "", "", $username);
+
         $this->articlesMappingArray($articles);
 
         return view('pages.front.posts.byUsers', compact('articles'));
@@ -281,6 +285,7 @@ class ArticleController extends Controller
             ->where('published_at', '<=', Carbon::now())
             ->firstOrFail();
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
+        $article['excerpt'] = !empty($article->excerpt) ? $article->excerpt : Str::limit(strip_tags($article->content), 200);
 
         $categories = Category::all();
 

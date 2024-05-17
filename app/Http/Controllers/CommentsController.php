@@ -19,7 +19,7 @@ class CommentsController extends Controller
         $myComments = Comment::with('article', 'user')->where('user_id', auth()->user()->id)->get();
 
         $data = [
-            'title' => 'Your Comments',
+            'title' => 'My Comments',
         ];
 
         return view('pages.back.comments.myComments', compact('data', 'myComments'));

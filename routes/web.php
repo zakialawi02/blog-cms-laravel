@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleViewController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\TagController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -76,6 +77,9 @@ Route::prefix('admin')->as('admin.')->group(function () {
         Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
+        Route::delete('/newsletter/{newsletter:email}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
     });
 
     // route auth all
@@ -114,6 +118,9 @@ Route::get('/blog/users/{username}', [ArticleController::class, 'getArticlesByUs
 Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear'])->name('article.year');
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
+
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+
 
 Route::get('privacy-policy', function () {
     return view('pages.front.privacyPolicy');

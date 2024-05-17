@@ -1,11 +1,11 @@
 @extends("layouts.appFront")
 
-@section("title", " Blog | zakialawi")
-@section("meta_description", "Blog of zakialawi.my.id website")
+@section("title", "Posts in " . date("F", strtotime(request()->segment(3) . "-" . request()->segment(4) . "-01")) . " | zakialawi")
+@section("meta_description", "Archive of all posts of " . date("F", strtotime(request()->segment(3) . "-" . request()->segment(4) . "-01")) . " on the zakialawi.my.id website")
 @section("meta_author", "zakialawi")
 
-@section("og_title", "Blog | zakialawi.my.id")
-@section("og_description", "Blog of zakialawi.my.id website")
+@section("og_title", "Posts in " . date("F", strtotime(request()->segment(3) . "-" . request()->segment(4) . "-01")) . " | zakialawi.my.id")
+@section("og_description", "Archive of all posts of " . date("F", strtotime(request()->segment(3) . "-" . request()->segment(4) . "-01")) . " on the zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}
@@ -80,13 +80,6 @@
 
 @push("javascript")
     <script>
-        $(document).ready(function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchParam = urlParams.get('search');
-            console.log(searchParam);
-            if (searchParam) {
-                document.querySelector('#search').value = searchParam;
-            }
-        });
+        // code here
     </script>
 @endpush

@@ -1,9 +1,8 @@
 @extends("layouts.app")
 
 @section("title", ($data["title"] ?? "") . " • Dashboard | zakialawi")
-@section("meta_description", "List of all categories on the zakialawi.my.id website")
+@section("meta_description", "News Letters Subscription List")
 @section("meta_author", "zakialawi")
-
 
 @push("css")
     {{-- code here --}}
@@ -31,39 +30,33 @@
 
     <div class="p-3 card">
 
-        <div class="px-2 mb-3 d-flex justify-content-between align-items-center">
-            <h3>{{ __("Categories") }}</h3>
-            <a href="{{ route("admin.categories.create") }}" class="btn btn-primary"><i class="ri-add-line"></i> Add Categories</a>
-        </div>
-
-
         <div class="">
-            <table class="table table-hover table-striped" style="width:100%">
+            <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Slug</th>
-                        <th scope="col">Action</th>
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Subscribed At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($categories as $category)
+                    @forelse ($newsletters as $newsletter)
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $category->category }}</td>
-                            <td><i class="ri-news-line text-primary"></i> <a href="{{ route("article.category", $category->slug) }}">{{ $category->slug }}</a><i class="ri-external-link-line"></i></td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $newsletter->email }}</td>
+                            <td>{{ $newsletter->created_at->diffForHumans() }}</td>
                             <td>
-                                <a href="{{ route("admin.categories.edit", $category->slug) }}" class="btn btn-sm btn-success"><i class="ri-pencil-line"></i></a>
-                                <form action="{{ route("admin.categories.destroy", $category->slug) }}" method="POST" class="d-inline">
+                                <form action="{{ route("admin.newsletter.destroy", $newsletter->email) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")
                                     <button type="submit" class="btn btn-sm btn-danger show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
                                 </form>
                             </td>
-                    </tr>@empty
+                        </tr>
+                    @empty
                         <tr>
-                            <td colspan="4" class="text-center">No Categories</td>
+                            <td colspan="4" class="text-center">No Newsletters</td>
                         </tr>
                     @endforelse
                 </tbody>

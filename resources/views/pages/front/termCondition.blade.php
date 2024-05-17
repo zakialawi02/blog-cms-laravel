@@ -1,7 +1,7 @@
 @extends("layouts.appFront")
 
 @section("title", " Terms and Conditions | zakialawi")
-@section("meta_description", "Blog of zakialawi.my.id website")
+@section("meta_description", "Terms and Conditions of zakialawi.my.id website")
 @section("meta_author", "zakialawi")
 
 @section("og_title", "Terms and Conditions | zakialawi.my.id")

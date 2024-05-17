@@ -78,6 +78,13 @@
                     <span>Users Management</span>
                 </a>
             </li>
+
+            <li>
+                <a href="{{ route("admin.newsletter.index") }}" class=" waves-effect">
+                    <i class="ri-news-line"></i>
+                    <span>Newsletters</span>
+                </a>
+            </li>
         @endif
 
     </ul>

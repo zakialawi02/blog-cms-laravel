@@ -16,3 +16,15 @@
         @endif
     </div>
 </section>
+
+@push("javascript")
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search');
+            if (searchParam) {
+                document.querySelector('#search').value = searchParam;
+            }
+        });
+    </script>
+@endpush

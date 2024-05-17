@@ -1,7 +1,7 @@
 @extends("layouts.appFront")
 
 @section("title", "{$article->title} | zakialawi")
-@section("meta_description", "$article->excerpt ")
+@section("meta_description", "$article->excerpt")
 @section("meta_author", "zakialawi")
 
 @section("og_title", "{$article->title} | zakialawi.my.id")

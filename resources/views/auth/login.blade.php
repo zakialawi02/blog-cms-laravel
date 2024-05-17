@@ -20,7 +20,7 @@
             <div class="col bg-light">
                 <div class="text-center">
                     <div>
-                        <a href="/" class="logo"><img src="assets/img/logo-dark.png" height="20" alt="logo"></a>
+                        <a href="/" class="logo"><img src="{{ asset("/assets/img/logoo.png") }}" height="20" alt="logo"></a>
                     </div>
 
                     <h4 class="mt-3 font-size-18">Welcome Back !</h4>

@@ -88,6 +88,10 @@
         <!-- JAVASCRIPT -->
         @include("components.admin._metaScript")
 
+        <!-- Message Alert -->
+        @include("components.admin._messageAlert")
+
+        <!-- Delete Confirmation -->
         @include("components.admin._deleteConfirmation")
 
         @stack("javascript")

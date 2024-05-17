@@ -49,15 +49,62 @@
         <div class="">
             <h4>Become a Contributor</h4>
         </div>
-        <p>Want to be a part of our community and contribute as a writer? Click the button below to join our team!</p>
-        <div class="d-flex justify-content-center">
-            <form action="{{ route("admin.requestsContributors") }}" method="POST">
-                @csrf
-                @method("POST")
 
-                <button type="submit" class="btn btn-primary">Join as Contributor/Writer</button>
-            </form>
-        </div>
+        @if (session()->has("message"))
+            <div class="alert alert-success">
+                <span>{{ session("message") }}</span>
+            </div>
+        @endif
+
+        @if ($my === null || $my->valid_code_until < now())
+            <div class="">
+                <p>Want to be a part of our community and contribute as a writer? Click the button below to join our team!</p>
+                <div class="d-flex justify-content-center">
+                    <form action="{{ route("admin.requestsContributors") }}" method="POST">
+                        @csrf
+                        @method("POST")
+
+                        <button type="submit" class="btn btn-primary">Join as Contributor/Writer</button>
+                    </form>
+                </div>
+            </div>
+        @elseif ($my !== null && $my->valid_code_until > now())
+            <div class="d-flex justify-content-center">
+                <div class="col ">
+                    <div class="text-center">
+                        <h4 class="mt-3 font-size-18">Enter your code to confirm your request to become a contributor</h4>
+                        <p class="text-muted">We've sent a code to your mail, {{ auth()->user()->email }}</p>
+                    </div>
+
+                    <div class="p-2 mt-4">
+                        @if (session("status"))
+                            <div class="mb-4 alert alert-success" role="alert">
+                                {{ session("status") }}
+                            </div>
+                        @endif
+
+                        <form class="form-horizontal" method="POST" action="{{ route("admin.confirmCodeContributor") }}">
+                            @csrf
+                            @method("POST")
+
+                            <div class="mx-auto mb-4 form-group col-4">
+                                <input type="code" class="form-control" name="code" id="code" value="{{ old("code") }}" placeholder="Enter code">
+                                @error("code")
+                                    <span class="text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Confirm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+
     </div>
 
     <div class="p-3 card">

@@ -1,11 +1,11 @@
 @extends("layouts.appFront")
 
-@section("title", " Privacy Policy | zakialawi")
+@section("title", " Terms and Conditions | zakialawi")
 @section("meta_description", "Blog of zakialawi.my.id website")
 @section("meta_author", "zakialawi")
 
-@section("og_title", "Privacy Policy | zakialawi.my.id")
-@section("og_description", "Privacy Policy of zakialawi.my.id website")
+@section("og_title", "Terms and Conditions | zakialawi.my.id")
+@section("og_description", "Terms and Conditions of zakialawi.my.id website")
 
 @push("css")
     {{-- code here --}}

@@ -80,19 +80,5 @@
             </li>
         @endif
 
-
-        <li class="menu-title">Pages</li>
-
-        <li class="">
-            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                <i class="ri-account-circle-line"></i>
-                <span>Authentication</span>
-            </a>
-            <ul class="sub-menu" aria-expanded="false">
-                <li><a href="auth-login.html">Login</a></li>
-                <li><a href="auth-register.html">Register</a></li>
-            </ul>
-        </li>
-
     </ul>
 </div>

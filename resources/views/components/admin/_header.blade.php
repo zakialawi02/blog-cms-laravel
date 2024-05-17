@@ -5,25 +5,25 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="/assets/img/logo-sm-dark.png" alt="" height="22">
+                        <img src="{{ asset("/assets/img/Logoo.png") }}" alt="Logo" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/assets/img/logo-dark.png" alt="" height="20">
+                        <img src="{{ asset("/assets/img/logo-dark.png") }}" alt="Logo" height="20">
                     </span>
                 </a>
 
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="/assets/img/logo-sm-light.png" alt="" height="22">
+                        <img src="{{ asset("/assets/img/Logoo.png") }}" alt="Logo" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/assets/img/logo-light.png" alt="" height="20">
+                        <img src="{{ asset("/assets/img/logo-light.png") }}" alt="Logo" height="20">
                     </span>
                 </a>
             </div>
 
-            <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                <i class="ri-menu-2-line align-middle"></i>
+            <button type="button" class="px-3 btn btn-sm font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                <i class="align-middle ri-menu-2-line"></i>
             </button>
 
             <!-- App Search-->
@@ -34,7 +34,7 @@
                 </div>
             </form>
 
-            <div class="dropdown dropdown-mega d-none d-lg-block ml-2">
+            <div class="ml-2 dropdown dropdown-mega d-none d-lg-block">
                 <button type="button" class="btn header-item waves-effect" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                     Mega Menu
                     <i class="mdi mdi-chevron-down"></i>
@@ -45,7 +45,7 @@
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <h5 class="font-size-14 mt-0">UI Components</h5>
+                                    <h5 class="mt-0 font-size-14">UI Components</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li>
                                             <a href="javascript:void(0);">Lightbox</a>
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <h5 class="font-size-14 mt-0">Applications</h5>
+                                    <h5 class="mt-0 font-size-14">Applications</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li>
                                             <a href="javascript:void(0);">Ecommerce</a>
@@ -96,7 +96,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <h5 class="font-size-14 mt-0">Extra Pages</h5>
+                                    <h5 class="mt-0 font-size-14">Extra Pages</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li>
                                             <a href="javascript:void(0);">Light Sidebar</a>
@@ -127,7 +127,7 @@
                         <div class="col-sm-4">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h5 class="font-size-14 mt-0">UI Components</h5>
+                                    <h5 class="mt-0 font-size-14">UI Components</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li>
                                             <a href="javascript:void(0);">Lightbox</a>
@@ -166,14 +166,14 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block d-lg-none ml-2">
+            <div class="ml-2 dropdown d-inline-block d-lg-none">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ri-search-line"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-search-dropdown">
+                <div class="p-0 dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="page-header-search-dropdown">
 
                     <form class="p-3">
-                        <div class="form-group m-0">
+                        <div class="m-0 form-group">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search ...">
                                 <div class="input-group-append">
@@ -213,7 +213,7 @@
                 </div>
             </div>
 
-            <div class="dropdown d-none d-lg-inline-block ml-1">
+            <div class="ml-1 dropdown d-none d-lg-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ri-apps-2-line"></i>
                 </button>
@@ -264,7 +264,7 @@
                 </div>
             </div>
 
-            <div class="dropdown d-none d-lg-inline-block ml-1">
+            <div class="ml-1 dropdown d-none d-lg-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="ri-fullscreen-line"></i>
                 </button>
@@ -275,7 +275,7 @@
                     <i class="ri-notification-3-line"></i>
                     <span class="noti-dot"></span>
                 </button>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-notifications-dropdown">
+                <div class="p-0 dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="page-header-notifications-dropdown">
                     <div class="p-3">
                         <div class="row align-items-center">
                             <div class="col">
@@ -289,7 +289,7 @@
                     <div data-simplebar style="max-height: 230px;">
                         <a href="" class="text-reset notification-item">
                             <div class="media">
-                                <div class="avatar-xs mr-3">
+                                <div class="mr-3 avatar-xs">
                                     <span class="avatar-title bg-primary rounded-circle font-size-16">
                                         <i class="ri-shopping-cart-line"></i>
                                     </span>
@@ -317,7 +317,7 @@
                         </a>
                         <a href="" class="text-reset notification-item">
                             <div class="media">
-                                <div class="avatar-xs mr-3">
+                                <div class="mr-3 avatar-xs">
                                     <span class="avatar-title bg-success rounded-circle font-size-16">
                                         <i class="ri-checkbox-circle-line"></i>
                                     </span>
@@ -346,8 +346,8 @@
                         </a>
                     </div>
                     <div class="p-2 border-top">
-                        <a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0)">
-                            <i class="mdi mdi-arrow-right-circle mr-1"></i> View More..
+                        <a class="text-center btn btn-sm btn-link font-size-14 btn-block" href="javascript:void(0)">
+                            <i class="mr-1 mdi mdi-arrow-right-circle"></i> View More..
                         </a>
                     </div>
                 </div>
@@ -356,17 +356,17 @@
             <div class="dropdown d-inline-block user-dropdown">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="/assets/img/profile/admin.png" alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
+                    <span class="ml-1 d-none d-xl-inline-block">{{ Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item" href="{{ route("profile.edit") }}"><i class="ri-user-line align-middle mr-1"></i> Profile</a>
-                    <a class="dropdown-item d-block" href="#"><i class="ri-settings-2-line align-middle mr-1"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle mr-1"></i> Lock screen</a>
+                    <a class="dropdown-item" href="{{ route("profile.edit") }}"><i class="mr-1 align-middle ri-user-line"></i> Profile</a>
+                    <a class="dropdown-item d-block" href="#"><i class="mr-1 align-middle ri-settings-2-line"></i> Settings</a>
+                    <a class="dropdown-item" href="#"><i class="mr-1 align-middle ri-lock-unlock-line"></i> Lock screen</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Logout
+                        <i class="mr-1 align-middle ri-shut-down-line text-danger"></i> Logout
                     </a>
                     <form id="logout-form" action="{{ route("logout") }}" method="POST" style="display: none;">
                         @csrf

@@ -129,24 +129,44 @@ class UserController extends Controller
 
     public function joinContributor()
     {
-        $email = Auth::user()->email;
+        $user = Auth::user();
+        $email = $user->email;
+        $code = rand(1000, 9999);
         $contentMail = [
-            'username' => Auth::user()->username,
+            'username' => $user->username,
             'body' => 'You have been requested as contributor',
-            'code' => rand(1000, 9999),
+            'code' => $code,
         ];
 
-        $saved = ModelsRequestContributor::create([
-            'user_id' => Auth::user()->id,
-            'code' => $contentMail['code'],
+        $requestContributor = ModelsRequestContributor::firstOrNew([
+            'user_id' => $user->id,
+        ])->fill([
+            'code' => $code,
             'valid_code_until' => now()->addMinutes(30)->format('Y-m-d H:i:s'),
-        ]);
+            'is_confirmed' => 0
+        ])->save();
+
+        if ($requestContributor) {
+            Mail::to($email)->send(new requestContributor($contentMail));
+            return redirect()->back()->with(['success' => 'Request sent successfully, please check your email', 'message' => 'Request sent successfully, please check your email']);
+        }
+
+        return redirect()->back()->with('error', 'Request failed');
+    }
+
+    public function confirmCodeContributor(Request $request)
+    {
+        $code = $request->code;
+        $saved = ModelsRequestContributor::where(['user_id' => Auth::user()->id, 'code' => $code])
+            ->where('valid_code_until', '>', now()->format('Y-m-d H:i:s'))
+            ->update(['is_confirmed' => 1]);
 
         if ($saved) {
-            Mail::to($email)->send(new requestContributor($contentMail));
-            return redirect()->back()->with('success', 'Request sent successfully, please check your email');
-        } else {
-            return redirect()->back()->with('error', 'Request failed');
+            User::where('id', Auth::user()->id)->update(['role' => 'writer']);
+
+            return redirect()->back()->with(['success' => 'Code confirmed successfully', 'message' => 'You can now start contributing and can write articles']);
         }
+
+        return redirect()->back()->with('error', 'Code not match, please try again');
     }
 }

@@ -31,6 +31,12 @@
         <!-- end page title -->
     </div>
 
+    @if (session()->has("message"))
+        <div class="alert alert-success">
+            <span>{{ session("message") }}</span>
+        </div>
+    @endif
+
     <div class="mb-3">
         <h2>
             Welcome {{ Auth::user()->name }}, {{ "@" . Auth::user()->username }}
@@ -103,6 +109,8 @@
 @endsection
 
 @push("javascript")
+    <!-- Message Alert -->
+    @include("components.admin._messageAlert")
     <script>
         // code here
     </script>

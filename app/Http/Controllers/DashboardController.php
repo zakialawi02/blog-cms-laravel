@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\ArticleView;
+use App\Models\requestContributor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,9 +39,10 @@ class DashboardController extends Controller
 
             return view('pages.back.dashboardWriter', compact('myPosts', 'myPostsPublished', 'myComments', 'visitors'));
         } else {
+            $my = requestContributor::where('user_id', Auth::id())->latest('created_at')->first();
             $myComments = Comment::where('user_id', Auth::id())->count();
-
-            return view('pages.back.dashboardUser', compact('myComments'));
+            // return response()->json($my);
+            return view('pages.back.dashboardUser', compact('my', 'myComments'));
         }
     }
 }

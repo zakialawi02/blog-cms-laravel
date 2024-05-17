@@ -81,6 +81,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
     // route auth all
     Route::group(['middleware' => ['auth', 'verified', 'role:admin,writer,user']], function () {
         Route::post('/requests-contributors', [UserController::class, 'joinContributor'])->name('requestsContributors');
+        Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
 
         Route::get('/my-comments', [CommentsController::class, 'myindex'])->name('mycomments.index');
         Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');

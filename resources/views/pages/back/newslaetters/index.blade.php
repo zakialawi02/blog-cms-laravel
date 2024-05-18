@@ -31,7 +31,7 @@
     <div class="p-3 card">
 
         <div class="">
-            <table class="table table-hover table-striped">
+            <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>

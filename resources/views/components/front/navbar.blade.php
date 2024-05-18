@@ -19,7 +19,7 @@
             <a class="p-2 duration-300 hover:text-accent" href="/">Home</a>
             <a class="p-2 duration-300 hover:text-accent" href="{{ route("article.index") }}">Blog</a>
             <a class="p-2 duration-300 hover:text-accent" href="#">About</a>
-            <a class="p-2 duration-300 hover:text-accent" href="#">Contact</a>
+            <a class="p-2 duration-300 hover:text-accent" href="{{ route("contactMe") }}">Contact</a>
             <div class="flex flex-col items-start gap-2 ml-2 md:items-center md:flex-row">
                 <a class="p-1 px-4 duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary bg-secondary text-light" href="#">Gallery</a>
 

@@ -15,9 +15,9 @@
     <!-- NAVBAR -->
     @include("components.front.navbar")
 
-    <main class="w-full">
+    <main id="post-content" class="w-full">
 
-        <section id="post-content" class="container px-20 mt-10">
+        <section class="container px-20 mt-10">
 
             <h1>Privacy Policy</h1>
             <p>Last updated: May 17, 2024</p>

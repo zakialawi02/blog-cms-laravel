@@ -5,7 +5,7 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset("/assets/img/Logoo.png") }}" alt="Logo" height="22">
+                        <img src="{{ asset("/assets/img/logoo.png") }}" alt="Logo" height="22">
                     </span>
                     <span class="logo-lg">
                         <img src="{{ asset("/assets/img/logo-dark.png") }}" alt="Logo" height="20">
@@ -14,7 +14,7 @@
 
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset("/assets/img/Logoo.png") }}" alt="Logo" height="22">
+                        <img src="{{ asset("/assets/img/logoo.png") }}" alt="Logo" height="22">
                     </span>
                     <span class="logo-lg">
                         <img src="{{ asset("/assets/img/logo-light.png") }}" alt="Logo" height="20">

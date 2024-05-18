@@ -261,15 +261,15 @@
             });
 
             // Delete user
-            $('body').on('click', '.show-confirm-delete', function(e) {
+            $('body').on('click', '.deleteUser', function(e) {
                 e.preventDefault();
                 const userId = $(this).data('id');
                 const url = `{{ route("admin.users.destroy", ":userId") }}`.replace(':userId', userId);
 
-                confirmDelete(deleteUser(userId));
+                confirmDelete(userId);
             })
 
-            function confirmDelete() {
+            function confirmDelete(userId) {
                 Swal.fire({
                     title: "Are you sure you want to delete this record?",
                     text: 'You won\'t be able to revert this!',

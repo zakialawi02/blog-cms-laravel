@@ -26,7 +26,7 @@ class DashboardController extends Controller
             $myPosts = $posts->count();
             $myPostsPublished = $posts->where(['status' => 'published', ['published_at', '<', now()]])->count();
             $myComments = $allComments->where('user_id', Auth::id())->count();
-            $visitors = ArticleView::whereIn('article_id', $articleIds)->count();
+            $visitors = ArticleView::all()->count();
 
             return view('pages.back.dashboardAdmin', compact('myPosts', 'myPostsPublished', 'myComments', 'visitors', 'allPostsCount', 'allPostsPublished', 'allCommentsCount', 'totalUsers'));
         } elseif (Auth::user()->role == 'writer') {

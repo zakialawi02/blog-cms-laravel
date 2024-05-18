@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use App\Models\Article;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -54,6 +56,15 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
+
+        $articles = Article::where('user_id', $user->id)->get();
+
+        $admin = User::where('username', 'admin')->first();
+        $adminId = $admin->id;
+        foreach ($articles as $article) {
+            $article->user_id = $adminId;
+            $article->save();
+        }
 
         $user->delete();
 

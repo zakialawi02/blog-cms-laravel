@@ -41,7 +41,7 @@
 
     <div class="p-2 card">
         <div class="">
-            <table id="myTable" class="table table-hover table-striped">
+            <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Country</th>

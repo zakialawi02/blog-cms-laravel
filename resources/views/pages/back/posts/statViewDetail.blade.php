@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="p-2 card">
-                <table class="table table-hover table-striped">
+                <table id="myTable" class="table table-hover table-striped" style="width:100%">
                     <tr>
                         <td>{{ __("Title") }}</td>
                         <td width:3px>:</td>
@@ -87,7 +87,7 @@
                 <div class="col-md-12">
                     <div class="p-2 card">
                         <h4>{{ __("Visitors") }}</h4>
-                        <table id="myTable" class="table table-hover table-striped">
+                        <table id="myTable" class="table table-hover table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Country</th>

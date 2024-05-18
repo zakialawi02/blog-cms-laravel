@@ -29,6 +29,18 @@
                     overflow-x: auto;
                     white-space: nowrap;
                 }
+
+                #myTable1 {
+                    display: block;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                }
+
+                #myTable2 {
+                    display: block;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                }
             }
         </style>
 

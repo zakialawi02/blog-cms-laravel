@@ -1,7 +1,7 @@
 <script>
     $(".show-confirm-delete").click(function(e) {
         e.preventDefault();
-        let deleteForm = e.target.closest("form");;
+        let deleteForm = e.target.closest("form");
 
         Swal.fire({
             title: "Are you sure you want to delete this record?",

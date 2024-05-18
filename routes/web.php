@@ -128,6 +128,9 @@ Route::get('privacy-policy', function () {
 Route::get('terms-and-conditions', function () {
     return view('pages.front.termCondition');
 })->name('termsAndConditions');
+Route::get('contact-me', function () {
+    return view('pages.front.contact');
+})->name('contactMe');
 
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'showArticleComment'])->name('showArticleComment');

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\requestContributor;
-use App\Models\requestContributor as ModelsRequestContributor;
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Mail\requestContributor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\requestContributor as ModelsRequestContributor;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
                     return '<a href="#" class="btn btn-sm btn-success editUser" data-id="' . $data->id . ' "><i class="ri-pencil-line"></i></a>
-                    <button type="submit" class="btn btn-sm btn-danger show-confirm-delete" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
+                    <button type="submit" class="btn btn-sm btn-danger deleteUser" data-id="' . $data->id . ' "><i class="ri-delete-bin-6-line"></i></button>';
                 })
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . asset($data->profile_photo_path) . '" width="30">';
@@ -123,8 +124,18 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // dd($user->id);
+        $articles = Article::where('user_id', $user->id)->get();
+
+        $admin = User::where('username', 'admin')->first();
+        $adminId = $admin->id;
+        foreach ($articles as $article) {
+            $article->user_id = $adminId;
+            $article->save();
+        }
+
         User::where('id', $user->id)->delete();
+
+        return response()->json(['message' => 'User deleted successfully']);
     }
 
     public function joinContributor()

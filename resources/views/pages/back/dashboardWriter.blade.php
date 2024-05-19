@@ -19,12 +19,9 @@
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="mb-0">{{ __($data["title"] ?? "Dashboard") }}</h4>
 
-                    <div class="page-title-right">
-                        <ol class="m-0 breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Utility</a></li>
-                            <li class="breadcrumb-item active">Starter page</li>
-                        </ol>
-                    </div>
+                    <!-- Breadcrumb -->
+                    @include("components.admin.breadcrumb")
+
                 </div>
             </div>
         </div>

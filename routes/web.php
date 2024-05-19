@@ -11,7 +11,6 @@ use App\Http\Controllers\ArticleViewController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\TagController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------

@@ -29,13 +29,13 @@ class SitemapController extends Controller
         $sitemap .= '<url>';
         $sitemap .= '<loc>' . url('/') . '</loc>';
         $sitemap .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-        $sitemap .= '<priority>1.00</priority>';
+        $sitemap .= '<priority>0.80</priority>';
         $sitemap .= '</url>';
 
         $sitemap .= '<url>';
-        $sitemap .= '<loc>' . url('/') . '</loc>';
+        $sitemap .= '<loc>' . url('/blog') . '</loc>';
         $sitemap .= '<lastmod>' . now()->toAtomString() . '</lastmod>';
-        $sitemap .= '<priority>0.80</priority>';
+        $sitemap .= '<priority>1.00</priority>';
         $sitemap .= '</url>';
 
         $sitemap .= '<url>';

@@ -79,9 +79,11 @@ class ArticleController extends Controller
             $query = Category::where('slug', $categories)->firstOrFail();
             $query = $query->articles()
                 ->with('user', 'category')
-                ->where(['status' => 'published', ['published_at', '<', now()]]);
+                ->where(['status' => 'published', ['published_at', '<', now()]])
+                ->orderBy('published_at', 'desc');
             if ($categories == 'uncategorized') {
-                $query->whereNull('category_id');
+                $query->whereNull('category_id')
+                ->orderBy('published_at', 'desc');
             }
         }
 

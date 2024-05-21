@@ -37,7 +37,9 @@ class ArticlesController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Article::select('id', 'title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')->with('user', 'category', 'tags');
+        $query = Article::select('id', 'title', 'slug', 'excerpt', 'cover', 'category_id', 'published_at', 'status', 'created_at', 'updated_at', 'user_id')
+            ->with(['user', 'category', 'tags'])
+            ->withCount('articleViews as total_views');
 
         if (auth()->user()->role !== 'admin') {
             $query->where('user_id', auth()->id());

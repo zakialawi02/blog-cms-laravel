@@ -34,40 +34,29 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">In Article</th>
-                        <th scope="col">Comment</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" width="480rem">Comment</th>
+                        <th scope="col" width="10%">User</th>
+                        <th scope="col" width="40%">Article</th>
+                        <th scope="col" width="10px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>si.datok</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>si.datok</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</td>
-                        <td>si.datok</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="ri-delete-bin-6-line"></i></a>
-                        </td>
-                    </tr>
+                    @forelse ($comments as $comment)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $comment->content }}</td>
+                            <td>{{ $comment->user->username }}</td>
+                            <td>{{ $comment->article->title }}</td>
+                            <td>
+                                <a type="button" href="{{ route("article.show", ["year" => $comment->article->published_at->format("Y"), "slug" => $comment->article->slug]) . "?source=comments&commentId=comment_0212" . $comment->id }}" class="btn btn-sm btn-primary"
+                                    data-target="comment_{{ $comment->id }}" target="_blank"><i class="ri-eye-fill"></i></a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">No Comments</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div id="pagination"></div>

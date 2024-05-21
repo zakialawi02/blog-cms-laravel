@@ -16,7 +16,9 @@ class CommentsController extends Controller
      */
     public function myindex()
     {
-        $myComments = Comment::with('article', 'user')->where('user_id', auth()->user()->id)->get();
+        $myComments = Comment::with('article', 'user')
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
         $data = [
             'title' => 'My Comments',
@@ -30,7 +32,12 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        $comments = "";
+        $comments = Comment::with('article', 'user')
+            ->whereHas('article', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $data = [
             'title' => 'Comments',

@@ -32,10 +32,10 @@
             <table id="myTable" class="table table-hover table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Destination</th>
-                        <th scope="col">Comment</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" width="10px">#</th>
+                        <th scope="col" width="40%">Article</th>
+                        <th scope="col" width="50%">Comment</th>
+                        <th scope="col" width="90px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +45,8 @@
                             <td>{{ $myComment->article->title }}</td>
                             <td>{!! $myComment->content !!}</td>
                             <td>
+                                <a type="button" href="{{ route("article.show", ["year" => $myComment->article->published_at->format("Y"), "slug" => $myComment->article->slug]) . "?source=comments&commentId=comment_0212" . $myComment->id }}" class="btn btn-sm btn-primary"
+                                    data-target="comment_{{ $myComment->id }}" target="_blank"><i class="ri-eye-fill"></i></a>
                                 <form action="{{ route("admin.comment.destroy", $myComment->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method("DELETE")

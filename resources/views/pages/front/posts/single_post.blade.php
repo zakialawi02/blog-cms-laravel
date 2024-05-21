@@ -76,7 +76,7 @@
 
     <main class="container w-full p-6 md:p-10">
 
-        <div class="mt-14">
+        <div class="mt-8">
 
             <div id="breadcrumb" class="">
                 <nav aria-label="breadcrumb">
@@ -238,6 +238,21 @@
 
     <script>
         $(document).ready(function() {
+            const query = new URLSearchParams(window.location.search);
+            const source = query.get('source');
+            const commentId = query.get('commentId');
+            if (source == "comments") {
+                showCommentsSection();
+                loadComments();
+                const target = `#${commentId}`;
+                setTimeout(function() {
+                    window.scrollTo({
+                        top: document.querySelector(target).offsetTop - 50,
+                        behavior: 'smooth'
+                    });
+                }, 500);
+            }
+
             function showCommentsSection(callback = null) {
                 $.ajax({
                     type: "post",

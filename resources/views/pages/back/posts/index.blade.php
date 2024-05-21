@@ -8,7 +8,13 @@
 @section("og_description", "List of all posts on the zakialawi.my.id website")
 
 @push("css")
-    {{-- code here --}}
+    <style>
+        #filter select,
+        #filter input {
+            min-width: 10rem;
+            max-width: 100%;
+        }
+    </style>
 @endpush
 
 @section("content")
@@ -46,7 +52,7 @@
             <div class="px-2 ">
                 <label>Filter</label>
             </div>
-            <div class="px-2 mb-3 d-flex justify-content-between align-items-center">
+            <div id="filter" class="px-2 mb-3 d-block d-md-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="mr-2 form-group">
                         <label for="status">Status</label>
@@ -96,10 +102,11 @@
                         <th scope="col">Title</th>
                         <th scope="col">Category</th>
                         <th scope="col">Tags</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" width="110px">Status</th>
+                        <th scope="col" width="60px"></th>
                         <th scope="col">Author</th>
                         <th scope="col">Created</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" width="125rem">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,17 +184,18 @@
                                 <tr>
                                     <td>${data.title}</td>
                                     <td>${data.category?.category ?? "Uncategorized"}</td>
-                                    <td>${data.tags.map(tag => tag.tag_name)}</td>
+                                    <td style="word-break: break-word;">${data.tags.map(tag => tag.tag_name)}</td>
                                     <td>${data.status === 'published' ? (new Date(data.published_at) < new Date() ? "Published<br>" : "Scheduled<br>") + Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.published_at)) : data.status}</td>
+                                    <td><i class="ri-eye-fill"></i> ${data.total_views}</td>
                                     <td>${data.user.username}</td>
                                     <td>${Intl.DateTimeFormat('id-ID', {dateStyle: 'medium'}).format(new Date(data.created_at))}</td>
                                     <td>
-                                        <a href="${articleUrlShow}" class="btn btn-secondary btn-sm" target="_blank"><i class="ri-computer-fill"></i></a>
-                                        <a href="${articleUrlEdit}" class="btn btn-primary btn-sm""><i class="ri-edit-line"></i></a>
+                                        <a href="${articleUrlShow}" class="mt-1 btn btn-secondary btn-sm" target="_blank"><i class="ri-computer-fill"></i></a>
+                                        <a href="${articleUrlEdit}" class="mt-1 btn btn-primary btn-sm"><i class="ri-edit-line"></i></a>
                                         <form action="/admin/posts/${data.slug}", ":slug") }}" method="POST" class="d-inline">
                                             @csrf
                                             @method("DELETE")
-                                            <button type="submit" class="btn btn-danger btn-sm show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
+                                            <button type="submit" class="mt-1 btn btn-danger btn-sm show-confirm-delete"><i class="ri-delete-bin-6-line"></i></button>
                                         </form>
                                     </td>
                                 </tr>

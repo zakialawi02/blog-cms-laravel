@@ -163,7 +163,7 @@
 
     <script>
         $(document).ready(function() {
-            let isSlugEdited = false;
+            let isSlugEdited = true;
             $("#edit-slug").click(function(e) {
                 const slug = document.getElementById("slug");
                 slug.readOnly = !slug.readOnly;

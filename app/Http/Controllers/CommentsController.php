@@ -62,15 +62,19 @@ class CommentsController extends Controller
         ]);
 
         $article_id = $post->id;
+        $parent_id = request('parent_id');
+        $parent_id = $parent_id === null ? null : explode('comment_0212', $parent_id)[1];
+
         $user_id = auth()->user()->id;
 
-        Comment::create([
+        $comment = Comment::create([
             'article_id' => $article_id,
+            'parent_id' => $parent_id,
             'user_id' => $user_id,
             'content' => request('comment'),
         ]);
 
-        return response()->json(['success' => 'Comment created successfully'], 201);
+        return response()->json(['success' => 'Comment created successfully', 'commentId' => "comment_0212" . $comment->id], 201);
     }
 
     /**
@@ -119,11 +123,16 @@ class CommentsController extends Controller
      */
     public function showArticleComment(Article $post)
     {
-        $comments = Comment::with('user', 'article')
+        $allComments = Comment::with('user', 'article')
             ->where('article_id', $post->id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
-        return view('components.front.commentsShowArticle', compact('comments'));
+        $comments = $allComments->where('parent_id', NULL);
+        $replies = $allComments->filter(function ($comment) use ($allComments) {
+            return $comment->parent_id != NULL && $allComments->contains('id', $comment->parent_id);
+        });
+
+        return view('components.front.commentsShowArticle', compact('comments', 'replies'));
     }
 }

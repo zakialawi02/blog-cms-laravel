@@ -76,7 +76,7 @@
 
     <main class="container w-full p-6 md:p-10">
 
-        <div class="mt-8">
+        <div class="mt-6">
 
             <div id="breadcrumb" class="">
                 <nav aria-label="breadcrumb">
@@ -162,9 +162,7 @@
                                 <h2 class="text-3xl font-bold">Comments</h2>
                             </div>
 
-                            <div id="comments-section">
-
-                            </div>
+                            <div id="comments-section"></div>
 
                             <div class="flex justify-start mt-3">
                                 <button type="button" id="btn-show-comments-section" class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-primary hover:bg-secondary focus:outline-none">Show Comments Section</button>
@@ -176,7 +174,7 @@
                     </div>
                 </div>
 
-                <div id="sidebar" class="w-full md:w-[30%] mt-10 md:mt-0">
+                <div id="sidebar" class="w-full md:w-[30%] mt-10 md:mt-8">
                     <div id="popular-posts" class="p-2 mb-3 border-2 rounded-lg border-neutral">
                         <div class="text-xl font-bold text-center">
                             <h3>Popular Posts</h3>
@@ -244,13 +242,9 @@
             if (source == "comments") {
                 showCommentsSection();
                 loadComments();
-                const target = `#${commentId}`;
-                setTimeout(function() {
-                    window.scrollTo({
-                        top: document.querySelector(target).offsetTop - 50,
-                        behavior: 'smooth'
-                    });
-                }, 500);
+                if (commentId) {
+                    scrollToElement(`#${commentId}`, 50, 500);
+                }
             }
 
             function showCommentsSection(callback = null) {
@@ -273,7 +267,7 @@
                         if (callback) callback();
                     },
                     error: function(error) {
-                        console.error(error);
+                        // console.error(error);
                         $("#btn-show-comments-section").empty();
                         $("#btn-show-comments-section").prepend("Show Comments Section (error)");
                     }
@@ -296,7 +290,7 @@
                         $("#content-comment-container").html(response);
                     },
                     error: function(error) {
-                        console.error(error);
+                        // console.error(error);
                         $("#content-comment-container").empty();
                         $("#content-comment-container").prepend("Load Comments (error)");
                     }
@@ -305,7 +299,7 @@
 
             $("#btn-show-comments-section").click(function(e) {
                 e.preventDefault();
-                showCommentsSection(loadComments())
+                showCommentsSection(() => loadComments());
             });
 
             $(document).on("submit", "#comment-form", function(e) {
@@ -318,7 +312,8 @@
                     url: "{{ route("admin.comment.store", $article->slug) }}",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        comment: $("#comment_input").val()
+                        comment: $("#comment_input").val(),
+                        parent_id: $("#parentTarget").val(),
                     },
                     dataType: "json",
                     berforeSend: function() {
@@ -326,22 +321,28 @@
                         $("#btn-submit-comment").prepend("<div class='text-center loadspin'></div>");
                     },
                     success: function(response) {
+                        closeReply();
                         $("#comment_input").val("");
                         $("#btn-submit-comment").empty();
                         $("#btn-submit-comment").prepend("Post Comment");
                         $("#content-comment-container").empty();
                         $("#content-comment-container").prepend("<div class='text-center loadspin'></div>");
                         loadComments();
+                        const target = `#${response.commentId}`;
+                        if (target) {
+                            scrollToElement(`${target}`, 200, 300);
+                        }
                     },
                     error: function(error) {
-                        console.error(error);
+                        // console.error(error);
                         $("#btn-submit-comment").empty();
                         $("#btn-submit-comment").prepend("Post Comment");
-                        const messages = error.responseJSON.errors;
-                        $.each(messages, function(indexInArray, message) {
-                            console.log(message[0]);
-                            $("#messages-error").append('<span>' + message[0] + '</span> <br>');
-                        });
+                        if (error.status == 419) {
+                            $("#messages-error").append('<span>Error: Please refresh the page and try again</span> <br>');
+                        } else {
+                            $("#messages-error").append(`<span>${error.responseJSON.message}</span> <br>`);
+                        }
+
                     }
                 })
             });
@@ -365,10 +366,44 @@
                         loadComments();
                     },
                     error: function(error) {
-                        console.error(error);
+                        // console.error(error);
                     },
                 });
             });
+
+            $(document).on("click", ".reply_comment", function(e) {
+                $("#replyToTarget").removeClass("hidden");
+                const sectionId = $(this).closest('div[id^="comment_"]');
+                const commentId = $(this).closest('div[id^="comment_"]').attr('id');
+                const snapComment = sectionId.data('comment');
+                const userComment = sectionId.data('user');
+                const userIdComment = sectionId.data('userId');
+                $("#replyToName").text(`${userComment}`);
+                $("#snapshotComment").text(`${snapComment}`);
+                $("#parentTarget").val(`${commentId}`);
+                scrollToElement("#comment-form", 60);
+            });
+
+            function closeReply() {
+                $("#replyToTarget").addClass("hidden");
+                $("#replyToName").text(``);
+                $("#snapshotComment").text(``);
+                $("#parentTarget").val(``);
+            }
+
+            function scrollToElement(selector, offset = 0, delay = 0) {
+                setTimeout(function() {
+                    window.scrollTo({
+                        top: document.querySelector(selector).offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                }, delay);
+            }
+
+            $(document).on("click", "#cancel_reply", function(e) {
+                closeReply();
+            })
+
         });
     </script>
 
@@ -401,7 +436,7 @@
                         window.location.reload();
                     },
                     error: function(error) {
-                        console.error(error);
+                        // console.error(error);
                         if (error.status == 200) {
                             window.location.reload();
                         } else {

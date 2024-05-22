@@ -34,8 +34,8 @@
                     <tr>
                         <th scope="col" width="10px">#</th>
                         <th scope="col" width="40%">Article</th>
-                        <th scope="col" width="50%">Comment</th>
-                        <th scope="col" width="90px">Action</th>
+                        <th scope="col" width="45%">Comment</th>
+                        <th scope="col" width="50px">Action</th>
                     </tr>
                 </thead>
                 <tbody>

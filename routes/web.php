@@ -137,23 +137,5 @@ Route::get('contact-me', function () {
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'showArticleComment'])->name('showArticleComment');
 Route::post('/show-comment-section', [ArticleController::class, 'showCommentSection'])->name('showCommentSection');
 
-Route::get('/test', function () {
-    return view('test');
-});
-
-Route::get('/postview', function () {
-    return view('test_post_view');
-});
-Route::get('/blogview', function () {
-    return view('test_blog_view3');
-});
-
-
-Route::prefix('me')->as('me')->group(function () {
-    Route::get('/', function () {
-        return view('me');
-    });
-});
-
 
 require_once __DIR__ . '/auth.php';

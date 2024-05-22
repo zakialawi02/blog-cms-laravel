@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\MentionNotification;
 use Illuminate\Http\Request;
 
 class CommentsController extends Controller
@@ -62,9 +63,9 @@ class CommentsController extends Controller
         ]);
 
         $article_id = $post->id;
+        $author_id = $post->user_id;
         $parent_id = request('parent_id');
         $parent_id = $parent_id === null ? null : explode('comment_0212', $parent_id)[1];
-
         $user_id = auth()->user()->id;
 
         $comment = Comment::create([
@@ -74,7 +75,22 @@ class CommentsController extends Controller
             'content' => request('comment'),
         ]);
 
-        return response()->json(['success' => 'Comment created successfully', 'commentId' => "comment_0212" . $comment->id], 201);
+        if ($comment) {
+            // kirim notifikasi ke pemilik/author penulis artikel yang dituliskan
+            if (!$parent_id) {
+                MentionNotification::create([
+                    'user_id' => $author_id,
+                    'type' => 'comment', // "like", "comment", "follow", dll
+                    'data' => json_encode([
+                        'comment' => substr(request('comment'), 0, 25),
+                        'user_id' => $user_id,
+                        'article_id' => $article_id
+                    ]),
+                ]);
+            }
+            return response()->json(['success' => 'Comment created successfully', 'commentId' => "comment_0212" . $comment->id], 201);
+        }
+        return response()->json(['error' => 'Something went wrong'], 500);
     }
 
     /**

@@ -106,6 +106,10 @@
         <!-- Delete Confirmation -->
         @include("components.admin._deleteConfirmation")
 
+        <!-- Notification Alert Action-->
+        @include("components.admin.notification.notificationAlertAction")
+
+
         @stack("javascript")
     </body>
 

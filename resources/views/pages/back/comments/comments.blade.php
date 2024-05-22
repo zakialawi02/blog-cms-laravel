@@ -45,7 +45,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $comment->content }}</td>
-                            <td>{{ $comment->user->username }}</td>
+                            <td>{{ $comment->user->username }} {{ $comment->user->id == auth()->user()->id ? "(You)" : "" }}</td>
                             <td>{{ $comment->article->title }}</td>
                             <td>
                                 <a type="button" href="{{ route("article.show", ["year" => $comment->article->published_at->format("Y"), "slug" => $comment->article->slug]) . "?source=comments&commentId=comment_0212" . $comment->id }}" class="btn btn-sm btn-primary"

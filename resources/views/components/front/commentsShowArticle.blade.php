@@ -3,9 +3,14 @@
         <div id="comment_0212{{ $comment->id }}" data-userId="{{ $comment->user->id }}" data-user="{{ $comment->user->username }}" data-comment="{{ Str::limit($comment->content, 15) }}" class="p-3 mt-3 rounded-lg bg-opacity-40 bg-neutral">
             <div class="flex justify-between">
                 <div class="flex items-center">
-                    <img class="w-10 h-10 rounded-full" src="{{ asset("/assets/img/profile/user.png") }}" alt="">
+                    <img class="w-10 h-10 rounded-full" src="{{ asset($comment->user->profile_photo_path) }}" alt="">
                     <div class="flex flex-col ml-4">
-                        <h3 class="font-bold">{{ $comment->user->username }}</h3>
+                        <div class="flex items-center">
+                            <h3 class="font-bold">{{ $comment->user->username }}
+                                <span class="text-sm"[11px] {{ $comment->user->id == $comment->article->user_id ? " (Author)" : "" }} </span>
+                                    <span class="px-1 text-[11px] font-semibold {{ $comment->user->role == "admin" ? "bg-red-500" : "" }}  rounded">{{ $comment->user->role == "admin" ? " Admin" : "" }}</span>
+                            </h3>
+                        </div>
                         <p class="text-sm">{{ $comment->created_at ? $comment->created_at->diffForHumans() : "" }}</p>
                     </div>
                 </div>
@@ -52,9 +57,14 @@
                 <div id="comment_0212{{ $reply->id }}" data-userId="{{ $reply->user->id }}" data-user="{{ $reply->user->username }}" data-comment="{{ Str::limit($reply->content, 15) }}" class="p-3 rounded-lg bg-opacity-40 bg-neutral">
                     <div class="flex justify-between">
                         <div class="flex items-center">
-                            <img class="w-10 h-10 rounded-full" src="{{ asset("/assets/img/profile/user.png") }}" alt="">
+                            <img class="w-10 h-10 rounded-full" src="{{ asset($reply->user->profile_photo_path) }}" alt="">
                             <div class="flex flex-col ml-4">
-                                <h3 class="font-bold">{{ $reply->user->username }}</h3>
+                                <h3 class="font-bold">{{ $reply->user->username }}
+                                    <span class="text-[11px]">
+                                        {{ $reply->user->id == $reply->article->user_id ? " (Author)" : "" }}
+                                    </span>
+                                    <span class="px-1 text-[11px] font-semibold {{ $reply->user->role == "admin" ? "bg-red-500" : "" }}  rounded">{{ $reply->user->role == "admin" ? " Admin" : "" }}</span>
+                                </h3>
                                 <p class="text-sm">{{ $reply->created_at ? $reply->created_at->diffForHumans() : "" }}</p>
                             </div>
                         </div>
@@ -100,9 +110,15 @@
                         <div id="comment_0212{{ $reply2->id }}" data-userId="{{ $reply2->user->id }}" data-user="{{ $reply2->user->username }}" data-comment="{{ Str::limit($reply2->content, 15) }}" class="p-3 rounded-lg bg-opacity-40 bg-neutral">
                             <div class="flex justify-between">
                                 <div class="flex items-center">
-                                    <img class="w-10 h-10 rounded-full" src="{{ asset("/assets/img/profile/user.png") }}" alt="">
+                                    <img class="w-10 h-10 rounded-full" src="{{ asset($reply2->user->profile_photo_path) }}" alt="">
                                     <div class="flex flex-col ml-4">
-                                        <h3 class="font-bold">{{ $reply2->user->username }}</h3>
+                                        <h3 class="font-bold">{{ $reply2->user->username }}
+                                            <span class="text-[11px]">
+                                                {{ $reply2->user->id == $reply2->article->user_id ? " (Author)" : "" }}
+                                            </span>
+                                            <span class="px-1
+                                                text-[11px] font-semibold {{ $reply2->user->role == "admin" ? "bg-red-500" : "" }} rounded">{{ $reply2->user->role == "admin" ? " Admin" : "" }}</span>
+                                        </h3>
                                         <p class="text-sm">{{ $reply2->created_at ? $reply2->created_at->diffForHumans() : "" }}</p>
                                     </div>
                                 </div>

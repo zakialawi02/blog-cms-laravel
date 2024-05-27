@@ -184,17 +184,17 @@
                             @forelse ($popularPosts as $popular)
                                 <article>
                                     <div class="flex items-center gap-2 p-2">
-                                        <a href="#" class="block mr-2 shrink-0">
+                                        <a href="{{ route("article.show", ["year" => $popular->published_at->format("Y"), "slug" => $popular->slug]) }}" class="block mr-2 shrink-0">
                                             <img alt="post image" src="{{ $popular->cover }}" class="object-cover rounded-3xl size-14" />
                                         </a>
 
                                         <div>
                                             <h3 class="font-medium sm:text-lg line-clamp-2">
-                                                <a href="#" class="block hover:text-primary">{{ $popular->title }}</a>
+                                                <a href="{{ route("article.show", ["year" => $popular->published_at->format("Y"), "slug" => $popular->slug]) }}" class="block hover:text-primary">{{ $popular->title }}</a>
                                             </h3>
 
                                             <div class="mt-2 sm:flex sm:items-center sm:gap-2">
-                                                <p class="hidden sm:block sm:text-xs">Posted by <a href="#" class="font-medium hover:text-primary">{{ $popular->user->username }}</a>
+                                                <p class="hidden sm:block sm:text-xs">Posted by <a href="{{ route("article.user", $popular->user->username) }}" class="font-medium hover:text-primary">{{ $popular->user->username }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -408,7 +408,6 @@
     </script>
 
     @guest()
-        // logic modal login and login
         <script>
             $(document).on("click", "#btn-submit-comment-need-login", function(e) {
                 $("#modal-login").css("display", "block");

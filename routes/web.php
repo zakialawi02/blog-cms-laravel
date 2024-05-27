@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ArticleViewController;
 use App\Http\Controllers\MentionNotificationController;
+use App\Http\Controllers\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +49,17 @@ Route::prefix('admin')->as('admin.')->group(function () {
     // route auth admin and writer
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
         Route::get('/my-files', [PostController::class, 'myFilesManager'])->name('myfiles');
+
+
+        Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
+        Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
+        Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
+        Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
+        Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
+        Route::get('/pages/{page:id}/edit', [PageController::class, 'edit'])->name('pages.edit');
+        Route::get('/pages/{page:id}/builder', [PageController::class, 'builder'])->name('pages.builder');
+        Route::put('/pages/{page:id}', [PageController::class, 'update'])->name('pages.update');
+        Route::delete('/pages/{page:id}', [PageController::class, 'destroy'])->name('pages.destroy');
 
 
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
@@ -124,6 +137,8 @@ Route::get('/blog/users/{username}', [ArticleController::class, 'getArticlesByUs
 Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear'])->name('article.year');
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
+
+Route::get('/p/{page:slug}', [PageController::class, 'show'])->name('page.show');
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 

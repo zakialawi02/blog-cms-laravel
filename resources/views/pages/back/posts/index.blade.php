@@ -11,7 +11,7 @@
     <style>
         #filter select,
         #filter input {
-            min-width: 10rem;
+            min-width: 4rem;
             max-width: 100%;
         }
     </style>

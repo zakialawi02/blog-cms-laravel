@@ -21,6 +21,13 @@
 
         @if (Auth::user()->role == "admin")
             <li>
+                <a href="{{ route("admin.pages.index") }}" class=" waves-effect">
+                    <i class="ri-pages-line"></i>
+                    <span>Pages</span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route("admin.categories.index") }}" class=" waves-effect">
                     <i class="ri-folder-reduce-line"></i>
                     <span>Categories</span>

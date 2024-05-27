@@ -5,6 +5,8 @@
 @section("meta_author", "zakialawi")
 
 
+@section("meta_robots", "noindex, follow")
+
 @push("css")
     {{-- code here --}}
 @endpush

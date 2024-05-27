@@ -8,6 +8,8 @@
 @section("og_description", "$page->description")
 {{-- @section("og_image", "") --}}
 
+@section("meta_robots", "noindex, follow")
+
 @push("css")
     <link rel="stylesheet" href="{{ asset("assets/css/prism.css") }}">
 @endpush
@@ -16,6 +18,7 @@
     <main class="@if ($page->isFullWidth == 1) container w-full p-6 md:p-10 @endif">
 
         <div id="gjs"></div>
+        <div id="gjscss"></div>
 
     </main>
 @endsection

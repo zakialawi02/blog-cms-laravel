@@ -25,8 +25,27 @@
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        <link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
-        <script src="//unpkg.com/grapesjs"></script>
+        <!-- grapesjs -->
+        <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/grapesjs"></script>
+        <script src="https://unpkg.com/grapesjs-blocks-basic"></script>
+        <script src="https://unpkg.com/grapesjs-blocks-flexbox"></script>
+        <script src="https://unpkg.com/grapesjs-navbar"></script>
+        <script src="https://unpkg.com/grapesjs-style-gradient"></script>
+        <script src="https://unpkg.com/grapesjs-component-countdown"></script>
+        <script src="https://unpkg.com/grapesjs-plugin-forms"></script>
+        <script src="https://unpkg.com/grapesjs-style-filter"></script>
+        <script src="https://unpkg.com/grapesjs-tabs"></script>
+        <script src="https://unpkg.com/grapesjs-tooltip"></script>
+        <script src="https://unpkg.com/grapesjs-custom-code"></script>
+        <script src="https://unpkg.com/grapesjs-touch"></script>
+        <script src="https://unpkg.com/grapesjs-parser-postcss"></script>
+        <script src="https://unpkg.com/grapesjs-typed"></script>
+        <script src="https://unpkg.com/grapesjs-style-bg"></script>
+        <script src="https://unpkg.com/grapesjs-tui-image-editor"></script>
+        <script src="https://unpkg.com/grapesjs-ui-suggest-classes"></script>
+        <script src="https://unpkg.com/grapesjs-tailwind"></script>
+        <script src="https://unpkg.com/grapesjs-preset-webpage@1.0.2"></script>
 
         @stack("css")
 
@@ -94,8 +113,10 @@
         @endif
 
         <script>
+            const escapeName = (name) => `${name}`.trim().replace(/([^a-z0-9\w-:/]+)/gi, '-');
             const projectId = '{{ $page->id }}';
             const loadProjectEndpoint = `{{ url('/admin/pages/${projectId}/load-project') }}`;
+            const storeProjectEndpoint = `{{ url('/admin/pages/${projectId}/store-project') }}`;
         </script>
         <script>
             $.ajax({
@@ -104,16 +125,38 @@
                 dataType: "json",
                 success: function(response) {
                     const projectData = response.data;
-                    console.log(projectData);
+                    // console.log(projectData);
 
-                    const PAGE_CONTENTS = projectData.pages[0].frames[0].component;
                     const editor = grapesjs.init({
                         headless: true,
+                        plugins: [
+                            'gjs-blocks-basic',
+                            'grapesjs-plugin-forms',
+                            'grapesjs-component-countdown',
+                            'grapesjs-tabs',
+                            'grapesjs-custom-code',
+                            'grapesjs-touch',
+                            'grapesjs-navbar',
+                            'grapesjs-style-gradient',
+                            'grapesjs-parser-postcss',
+                            'grapesjs-tooltip',
+                            'grapesjs-tui-image-editor',
+                            'grapesjs-typed',
+                            'grapesjs-style-bg',
+                            'grapesjs-ui-suggest-classes',
+                            'grapesjs-style-filter',
+                            'grapesjs-tailwind',
+                            'grapesjs-preset-webpage',
+                        ],
                     })
-                    const components = editor.addComponents(PAGE_CONTENTS);
-                    const html = components.map(cmp => cmp.toHTML()).join('');
-                    console.log('Rendered HTML is ', html);
+                    editor.loadProjectData(projectData);
+                    const html = editor.getHtml();
+                    const css = editor.getCss();
+
+                    console.log('html:', html);
+                    console.log('css:', css);
                     $("#gjs").append(html);
+                    // $("#gjscss").append(css);
                 },
                 error: function(error) {
                     console.error(error);

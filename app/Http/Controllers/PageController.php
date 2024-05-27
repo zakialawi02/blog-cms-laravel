@@ -45,7 +45,7 @@ class PageController extends Controller
             'template_id' => 'required',
         ]);
 
-        $jsonFilePath = storage_path('app/public/grapesjs/template-default.json');
+        $jsonFilePath = asset('storage/grapesjs/template-default.json');
         $jsonContent = file_get_contents($jsonFilePath);
 
         $requestData = $request->all();

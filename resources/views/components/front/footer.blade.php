@@ -25,44 +25,31 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">About</h5>
-                        <div class="space-y-1 text-dark">
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">About</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Career</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">History</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Team</a>
+                    @if (\App\Models\MenuItem::where("class", "footer-a")->exists())
+                        <div class="flex flex-col gap-5">
+                            <h5 class="text-2xl font-bold ">About</h5>
+                            <div class="space-y-1 text-dark">
+                                @foreach (\App\Models\MenuItem::where("class", "footer-a")->orderBy("order")->get() as $menuItem)
+                                    <div>
+                                        <a href="{{ $menuItem->url }}" class="text-lg transition-all duration-300 hover:text-primary">{{ $menuItem->name }}</a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @endif
 
-                    <div class="flex flex-col gap-5">
-                        <h5 class="text-2xl font-bold ">Blog</h5>
-                        <div class="space-y-1 text-dark">
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 1</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 2</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 3</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 4</a>
-                            </div>
-                            <div>
-                                <a href="#" class="text-lg transition-all duration-300 hover:text-primary">Menu 5</a>
+                    @if (\App\Models\MenuItem::where("class", "footer-b")->exists())
+                        <div class="flex flex-col gap-5">
+                            <h5 class="text-2xl font-bold ">Blog</h5>
+                            <div class="space-y-1 text-dark">
+                                @foreach (\App\Models\MenuItem::where("class", "footer-b")->orderBy("order")->get() as $menuItem)
+                                    <div>
+                                        <a href="{{ $menuItem->url }}" class="text-lg transition-all duration-300 hover:text-primary">{{ $menuItem->name }}</a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="md:col-span-2">
                         <div class="flex flex-col">

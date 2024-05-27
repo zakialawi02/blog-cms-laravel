@@ -85,6 +85,13 @@
         </li>
         @if (Auth::user()->role == "admin")
             <li>
+                <a href="{{ route("admin.menu-items.index") }}" class=" waves-effect">
+                    <i class="ri-menu-2-line"></i>
+                    <span>Menu</span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route("admin.users.index") }}" class=" waves-effect">
                     <i class="ri-folder-user-line"></i>
                     <span>Users Management</span>

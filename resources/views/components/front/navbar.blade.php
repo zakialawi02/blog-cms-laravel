@@ -15,11 +15,22 @@
         </div>
 
 
-        <nav :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu" class="absolute left-0 right-0 flex flex-col p-3 text-[1.1rem] font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-dark uppercase bg-base-100 md:bg-transparent z-10">
-            <a class="p-2 duration-300 hover:text-accent" href="/">Home</a>
-            <a class="p-2 duration-300 hover:text-accent" href="{{ route("article.index") }}">Blog</a>
-            <a class="p-2 duration-300 hover:text-accent" href="#">About</a>
-            <a class="p-2 duration-300 hover:text-accent" href="{{ route("contactMe") }}">Contact</a>
+        <nav :class="[isOpen ? 'block' : 'hidden md:flex']" id="nav-menu" class="absolute items-start md:items-center left-0 right-0 flex flex-col p-3 text-[1.1rem] font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-dark uppercase bg-base-100 md:bg-transparent z-10">
+            @foreach (\App\Models\MenuItem::whereNull("parent_id")->with("children")->where("class", "header")->orderBy("order")->get() as $menuItem)
+                @if ($menuItem->children->isNotEmpty())
+                    <div class="relative py-2 group">
+                        <a class="p-2 duration-300 cursor-pointer hover:text-accent">{{ $menuItem->name }}</a>
+                        <div class="absolute hidden py-1 mt-2 bg-white rounded shadow-lg min-w-48 left-4 group-hover:block">
+                            @foreach ($menuItem->children as $child)
+                                <a class="block px-4 py-2 text-gray-800 hover:bg-base-100 hover:text-accent" href="{{ $child->url }}">{{ $child->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <a class="p-2 duration-300 hover:text-accent" href="{{ $menuItem->url }}">{{ $menuItem->name }}</a>
+                @endif
+            @endforeach
+
             <div class="flex flex-col items-start gap-2 ml-2 md:items-center md:flex-row">
                 <a class="p-1 px-4 duration-300 border-2 border-secondary rounded-xl hover:bg-light hover:text-secondary bg-secondary text-light" href="#">Gallery</a>
 

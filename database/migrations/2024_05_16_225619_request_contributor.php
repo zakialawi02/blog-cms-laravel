@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('code');
             $table->timestamp('valid_code_until');
             $table->string('is_confirmed')->default(0);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

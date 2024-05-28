@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('category');
             $table->string('slug')->unique();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

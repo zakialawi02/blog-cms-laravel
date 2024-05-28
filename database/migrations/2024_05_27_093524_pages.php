@@ -18,7 +18,8 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->string('slug')->unique();
             $table->string('isFullWidth')->default(1); // 0 = no(canvas), 1 = yes
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
             $table->softDeletes();
         });
     }

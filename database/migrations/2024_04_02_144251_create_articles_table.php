@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('cover')->nullable();
             $table->enum('status', ['published', 'draft'])->default('draft');
             $table->timestamp('published_at')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

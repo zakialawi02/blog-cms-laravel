@@ -21,7 +21,8 @@ return new class extends Migration
             $table->boolean('isFavorite')->default(false);
             $table->boolean('isArchived')->default(false);
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

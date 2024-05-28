@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('article_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('tag_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

@@ -26,6 +26,12 @@ class Tags extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'tag_name' => "Tips",
+                'slug' => "tips",
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         Tag::insert($tags);

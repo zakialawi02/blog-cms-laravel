@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('article_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade')->onUpdate('cascade');
             $table->text('content');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

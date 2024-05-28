@@ -37,10 +37,6 @@ Route::prefix('filemanager')->as('lfm.')->group(function () {
 });
 
 
-Route::get('/', function () {
-    return redirect('/blog');
-});
-
 
 Route::prefix('admin')->as('admin.')->group(function () {
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
@@ -130,7 +126,7 @@ Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(functio
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
-Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
+Route::get('/', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/blog/popular', [ArticleController::class, 'popularPost'])->name('article.popular');
 Route::get('/blog/tags/{slug}', [ArticleController::class, 'getArticlesByTag'])->name('article.tag');
 Route::get('/blog/categories/{slug}', [ArticleController::class, 'getArticlesByCategory'])->name('article.category');

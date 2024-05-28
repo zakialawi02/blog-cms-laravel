@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('link_twitter')->nullable();
             $table->string('link_linkedin')->nullable();
             $table->string('link_github')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

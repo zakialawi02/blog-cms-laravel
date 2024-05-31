@@ -5,7 +5,8 @@
 
         <li>
             <a href="{{ route("dashboard") }}" class="waves-effect">
-                <i class="ri-dashboard-line"></i><span class="float-right badge badge-pill badge-success">3</span>
+                <i class="ri-dashboard-line"></i>
+                {{-- <span class="float-right badge badge-pill badge-success">3</span> --}}
                 <span>Dashboard</span>
             </a>
         </li>

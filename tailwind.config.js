@@ -23,6 +23,11 @@ export default {
                 center: true,
                 padding: "2rem",
             },
+
+            fontFamily: {
+                Poppins: ["Poppins", "sans-serif"],
+                Lato: ["Lato", "sans-serif"],
+            },
             colors: {
                 primary: "#2e62af",
                 secondary: "#162f55",

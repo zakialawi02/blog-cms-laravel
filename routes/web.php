@@ -36,6 +36,9 @@ Route::prefix('filemanager')->as('lfm.')->group(function () {
     })->where('any', '.*');
 });
 
+Route::get('/log', function () {
+    return view('pages.login');
+});
 
 
 Route::prefix('admin')->as('admin.')->group(function () {

@@ -5,7 +5,7 @@
     </div>
 
     <div class="hidden" id="replyToTarget">
-        <span><i class="ri-reply-fill"></i> Rely to <span id="replyToName"></span> <b>(<span id="snapshotComment"></span>)</b> <button id="cancel_reply" class="ml-2 text-error hover:text-accent" type="button"><i class="ri-close-circle-fill"></i></button></span>
+        <span><i class="ri-reply-fill"></i> Reply to <span id="replyToName"></span> <b>(<span id="snapshotComment"></span>)</b> <button id="cancel_reply" class="ml-2 text-error hover:text-accent" type="button"><i class="ri-close-circle-fill"></i></button></span>
     </div>
 
     <input type="text" name="parent_id" id="parentTarget" class="hidden" value="">

@@ -91,7 +91,7 @@
                             <a class="text-dark hover:text-accent breadcrumb-next" href="{{ route("article.year", request()->segment(2)) }}">{{ request()->segment(2) }}</a>
                         </li>
                         <li class="">
-                            <a class="text-dark hover:text-accent breadcrumb-next" href="{{ route("article.category", $article->category->slug) }}">{{ $article->category->category }}</a>
+                            <a class="text-dark hover:text-accent breadcrumb-next" href="{{ $article->category ? route("article.category", $article->category->slug) : "#" }}">{{ $article->category ? $article->category->category : "Uncategorized" }}</a>
                         </li>
                         <li class="">
                             <a class="text-dark hover:text-accent" aria-current="page" href="{{ route("article.show", ["year" => request()->segment(2), "slug" => $article->slug]) }}">{{ $article->title }}</a>

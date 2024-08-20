@@ -83,7 +83,7 @@ class ArticleController extends Controller
                 ->orderBy('published_at', 'desc');
             if ($categories == 'uncategorized') {
                 $query->whereNull('category_id')
-                ->orderBy('published_at', 'desc');
+                    ->orderBy('published_at', 'desc');
             }
         }
 
@@ -361,6 +361,7 @@ class ArticleController extends Controller
     protected function getPopularPosts()
     {
         return Article::has('articleViews')->withCount(['articleViews as total_views'])
+            ->where(['status' => 'published', ['published_at', '<', now()]])
             ->orderBy('total_views', 'desc')->take(4)->with('user', 'category')->get();
     }
 }

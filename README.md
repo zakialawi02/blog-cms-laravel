@@ -1,6 +1,6 @@
-# personal-blog-laravel
+# blog-cms-laravel
 
-This is a personal blog built using Laravel 10.x, TailwindCSS 3.x, and AlpineJS 3.x.
+This is a blog cms (content management system) built using Laravel 10.x, TailwindCSS 3.x, and AlpineJS 3.x.
 
 You can view a demo here: <#>
 
